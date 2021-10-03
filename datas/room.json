@@ -1,0 +1,20 @@
+[
+    {
+        "title" : "Kost Murah Aesthetic di Jakarta",
+        "imgUrl": "https://pix8.agoda.net/hotelImages/12191524/0/84e8eb6381562e5c8d568e9eb333efd0.jpg",
+        "description" : "Hai, aku ketemu kost bagus dan murah, tp butuh temen sekamar biar bisa sharing pay bill. Ini lokasinya di pusat kota banget, dekat monas, bisa jalan kaki. Kalo minat kontak aja ya",
+        "adress" : "Gambir, Jakarta Pusat",
+        "contactInfo" : "08567xxxxxxx",
+        "CityId" : 1,
+        "CategoryId" : 3
+    },
+    {
+        "title" : "Apartemen Keren Minimalis",
+        "imgUrl": "https://images.squarespace-cdn.com/content/v1/59665998e4fcb5c67f6ab6ac/1553176832781-A8J4VZ2MCNK2C6KB3IY0/image-asset.jpeg",
+        "description" : "Aku baru sewa apartemen tp ada kamar kosong yang gak kepake. Ini lokasinya di kuningan Jaksel. Kalo tertarik dan butuh detail gambar full a Kalo minat kontak aja ya",
+        "adress" : "Kuningan, Jakarta Selatan",
+        "contactInfo" : "081967xxxxxxx",
+        "CityId" : 1,
+        "CategoryId" : 3
+    }
+]

@@ -11,15 +11,41 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Roon.hasMany(models.User, { foreignKey: 'RoomId' })
+      Room.hasMany(models.User, { foreignKey: 'RoomId' })
+      Room.belongsTo(models.City, { foreignKey: 'CityId' })
+      Room.belongsTo(models.Category, { foreignKey: 'CategoryId' })
     }
   };
   Room.init({
-    title: DataTypes.STRING,
-    imgUrl: DataTypes.STRING,
-    description: DataTypes.STRING,
-    adress: DataTypes.STRING,
-    contactInfo: DataTypes.STRING
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: { notEmpty: { msg: 'Title can not be empty' }, notNull: true }
+    },
+    imgUrl: {
+      type: DataTypes.STRING,
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: { notEmpty: { msg: 'Description can not be empty' }, notNull: true }
+    },
+    adress: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: { notEmpty: { msg: 'Adress can not be empty' }, notNull: true }
+    },
+    contactInfo: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: { notEmpty: { msg: 'ContactInfo can not be empty' }, notNull: true }
+    },
+    CityId: {
+      type: DataTypes.STRING,
+    },
+    CategoryId: {
+      type: DataTypes.STRING
+    }
   }, {
     sequelize,
     modelName: 'Room',
