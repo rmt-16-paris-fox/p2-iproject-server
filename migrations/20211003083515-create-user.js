@@ -14,14 +14,23 @@ module.exports = {
       email: {
         type: Sequelize.STRING
       },
+      password: {
+        type: Sequelize.STRING
+      },
       age: {
-        type: Sequelize.NUMBER
+        type: Sequelize.INTEGER
       },
       occupation: {
         type: Sequelize.STRING
       },
       RoomId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+          references: {
+            model: 'Rooms',
+            key: 'id'
+          },
+          onUpdate: 'cascade',
+          onDelete: 'cascade'
       },
       createdAt: {
         allowNull: false,

@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Room extends Model {
+  class City extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,18 +11,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Roon.hasMany(models.User, { foreignKey: 'RoomId' })
     }
   };
-  Room.init({
-    title: DataTypes.STRING,
-    imgUrl: DataTypes.STRING,
-    description: DataTypes.STRING,
-    adress: DataTypes.STRING,
-    contactInfo: DataTypes.STRING
+  City.init({
+    name: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'Room',
+    modelName: 'City',
   });
-  return Room;
+  return City;
 };
