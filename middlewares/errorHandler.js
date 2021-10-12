@@ -15,6 +15,14 @@ const errorHandler = (err, req, res, next) => {
 			res.status(401).json({ message: 'Invalid e-mail / password' });
 			break;
 
+		case 'invalid token':
+			res.status(401).json({ message: 'Invalid access token' });
+			break;
+
+		case 'authErr':
+			res.status(401).json({ message: 'You are not authorized' });
+			break;
+
 		default:
 			console.log(err.name);
 			console.log(err);
