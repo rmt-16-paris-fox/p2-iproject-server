@@ -7,8 +7,6 @@ router.post('/register', PublicController.register);
 router.post('/login', PublicController.login);
 
 router.use(authentication);
-router.get('/', (req, res) => {
-	res.status(200).json(req.user);
-});
+router.post('/keyboard', PublicController.createKeyboard);
 
 module.exports = router;

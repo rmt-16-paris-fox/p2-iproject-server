@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User, Keyboard } = require('../models');
 const { comparePassword } = require('../helpers/passwordGenerator');
 const { createToken } = require('../helpers/tokenGenerator');
 
@@ -44,6 +44,35 @@ class PublicController {
 			const access_token = createToken(payload);
 
 			res.status(200).json({ access_token });
+		} catch (err) {
+			next(err);
+		}
+	}
+
+	static async createKeyboard(req, res, next) {
+		try {
+			const {
+				name,
+				mountingStyle,
+				plateMaterial,
+				keycaps,
+				switches,
+				miscellaneous,
+			} = req.body;
+
+			const UserId = Number(req.user.id);
+
+			const response = await Keyboard.create({
+				name,
+				mountingStyle: mountingStyle || undefined,
+				plateMaterial: plateMaterial || undefined,
+				keycaps,
+				switches,
+				miscellaneous: miscellaneous || '',
+				UserId,
+			});
+
+			res.status(201).json(response);
 		} catch (err) {
 			next(err);
 		}

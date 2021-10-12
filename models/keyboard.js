@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
 				validate: {
 					notNull: { msg: 'Mounting style is required' },
 				},
+				defaultValue: 'Default',
 			},
 			plateMaterial: {
 				type: DataTypes.STRING,
@@ -35,6 +36,7 @@ module.exports = (sequelize, DataTypes) => {
 				validate: {
 					notNull: { msg: 'Plate material is required' },
 				},
+				defaultValue: 'Default',
 			},
 			keycaps: {
 				type: DataTypes.STRING,
