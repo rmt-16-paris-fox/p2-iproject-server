@@ -1,5 +1,6 @@
 'use strict';
 const { Model } = require('sequelize');
+const { hashPassword } = require('../helpers/passwordGenerator');
 module.exports = (sequelize, DataTypes) => {
 	class User extends Model {
 		/**
@@ -9,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			// define association here
+			User.hasMany(models.Keyboard, { foreignKey: 'UserId' });
 		}
 	}
 	User.init(
@@ -54,7 +56,9 @@ module.exports = (sequelize, DataTypes) => {
 		},
 		{
 			hooks: {
-				beforeCreate: (user, options) => {},
+				beforeCreate: (user, options) => {
+					user.password = hashPassword(user.password);
+				},
 			},
 			sequelize,
 			modelName: 'User',
