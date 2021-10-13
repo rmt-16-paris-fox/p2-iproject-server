@@ -1,13 +1,19 @@
-Youtube
+YOUTUBE
+
 axios
 	.get(
-		'https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=UCyQ-bvVWg83Q71A6vsR7h-Q&maxResults=10&order=date&key=AIzaSyC1O1bDxqOC2oFfSZ1Z4JnBNeLm4BK-q20'
+		`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${elvnId}&maxResults=46&order=date&type=video&key=${YOUTUBE_API_KEY}`
 	)
 	.then(({ data }) => {
-		const videoIds = data.items.map((el) => {
-			return el.id.videoId;
+		let videoIds = [];
+
+		data.items.forEach((element) => {
+			if (element.id.kind === 'youtube#video') {
+				videoIds.push(element.id.videoId);
+			}
 		});
-		console.log(videoIds);
+
+		console.log(videoIds, videoIds.length);
 	})
 	.catch((err) => {
 		console.log(err);
