@@ -1,0 +1,14 @@
+Youtube
+axios
+	.get(
+		'https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=UCyQ-bvVWg83Q71A6vsR7h-Q&maxResults=10&order=date&key=AIzaSyC1O1bDxqOC2oFfSZ1Z4JnBNeLm4BK-q20'
+	)
+	.then(({ data }) => {
+		const videoIds = data.items.map((el) => {
+			return el.id.videoId;
+		});
+		console.log(videoIds);
+	})
+	.catch((err) => {
+		console.log(err);
+	});
