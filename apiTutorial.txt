@@ -2,7 +2,7 @@ YOUTUBE
 
 axios
 	.get(
-		`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${elvnId}&maxResults=46&order=date&type=video&key=${YOUTUBE_API_KEY}`
+		`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${elvnId}&maxResults=46&order=date&type=video&key=${process.env.YOUTUBE_API_KEY}`
 	)
 	.then(({ data }) => {
 		let videoIds = [];
