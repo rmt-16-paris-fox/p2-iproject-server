@@ -21,15 +21,6 @@ module.exports = (sequelize, DataTypes) => {
 					notEmpty: { msg: 'Image URL is required' },
 				},
 			},
-			imageUrl2: {
-				type: DataTypes.STRING,
-			},
-			imageUrl3: {
-				type: DataTypes.STRING,
-			},
-			imageUrl4: {
-				type: DataTypes.STRING,
-			},
 			KeyboardId: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
