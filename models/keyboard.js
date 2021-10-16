@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
+					notEmpty: { msg: 'Keyboard name is required' },
 					notNull: { msg: 'Keyboard name is required' },
 				},
 			},
@@ -26,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
+					notEmpty: { msg: 'Mounting style is required' },
 					notNull: { msg: 'Mounting style is required' },
 				},
 				defaultValue: 'Default',
@@ -34,6 +36,7 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
+					notEmpty: { msg: 'Plate material is required' },
 					notNull: { msg: 'Plate material is required' },
 				},
 				defaultValue: 'Default',
@@ -42,6 +45,7 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
+					notEmpty: { msg: 'Keycaps is required' },
 					notNull: { msg: 'Keycaps is required' },
 				},
 			},
@@ -49,12 +53,14 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
+					notEmpty: { msg: 'Switches is required' },
 					notNull: { msg: 'Switches is required' },
 				},
 			},
 			miscellaneous: {
 				type: DataTypes.STRING,
-				allowNull: true,
+				allowNull: false,
+				defaultValue: '',
 			},
 			isDone: {
 				type: DataTypes.BOOLEAN,
