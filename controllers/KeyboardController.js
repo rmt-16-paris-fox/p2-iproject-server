@@ -84,8 +84,12 @@ class KeyboardController {
 	}
 
 	// * Administrator
-	static async showAllKeyboards(req, res, sync) {
+	static async showAllKeyboards(req, res, next) {
 		try {
+			const response = await Keyboard.findAll({
+				order: [['createdAt', 'DESC']],
+			});
+			res.status(200).json(response);
 		} catch (err) {
 			next(err);
 		}
