@@ -15,9 +15,22 @@ Individual Project - Server
 
 ## Public
 
--   get all keyboards where isDone = true
--   post keyboards = name, mountingstyle, platematerial, kecycaps, switches, misc, isDOne = false, isPaid = false
--
+### Done
+
+-   ~~register~~
+-   ~~login~~
+-   ~~get all keyboards where isDone = true~~
+-   ~~post keyboards = name, mountingstyle, platematerial, kecycaps, switches, misc, isDOne = false, isPaid = false~~
+
+### Not yet
+
+-   show keyboard details
+-   login with google
+-   send email (?)
+-   fetch videos from youtube
+-   payment
+-   update profile
+-   show my keyboards
 
 ## Admin
 
