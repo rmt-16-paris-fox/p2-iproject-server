@@ -16,11 +16,15 @@ const errorHandler = (err, req, res, next) => {
 			break;
 
 		case 'invalid token':
-			res.status(401).json({ message: 'Invalid access token' });
+			res.status(401).json({ message: 'You must login first' });
 			break;
 
 		case 'authErr':
 			res.status(401).json({ message: 'You are not authorized' });
+			break;
+
+		case 'JsonWebTokenError':
+			res.status(401).json({ message: 'Invalid token' });
 			break;
 
 		default:
