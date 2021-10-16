@@ -15,6 +15,14 @@ const errorHandler = (err, req, res, next) => {
 			res.status(400).json({ message: 'Invalid req.params' });
 			break;
 
+		case 'MulterError':
+			res.status(400).json({ message: 'Image fetch failed' });
+			break;
+
+		case 'imageKit error':
+			res.status(400).json({ message: 'Image upload failed' });
+			break;
+
 		case 'unauthorized':
 			res.status(401).json({ message: 'Invalid e-mail / password' });
 			break;
