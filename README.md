@@ -39,6 +39,7 @@ Individual Project - Server
 
 ### Not Yet
 
+-   get all user
 -   update keyboards with image
 -   post keyboards with image
 -   patch status isDone

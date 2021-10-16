@@ -1,4 +1,4 @@
-const { Keyboard } = require('../models');
+const { Keyboard, Image } = require('../models');
 
 class KeyboardController {
 	// * Customer
@@ -90,6 +90,67 @@ class KeyboardController {
 				order: [['createdAt', 'DESC']],
 			});
 			res.status(200).json(response);
+		} catch (err) {
+			next(err);
+		}
+	}
+
+	static async addKeyboard(req, res, next) {
+		try {
+			const {
+				name,
+				mountingStyle,
+				plateMaterial,
+				keycaps,
+				switches,
+				miscellaneous,
+				isDone,
+				isPaid,
+				UserId,
+			} = req.body;
+
+			const response = await Keyboard.create({
+				name,
+				mountingStyle: mountingStyle || undefined,
+				plateMaterial: plateMaterial || undefined,
+				keycaps,
+				switches,
+				miscellaneous: miscellaneous || '',
+				isDone,
+				isPaid,
+				UserId,
+			});
+
+			res.status(201).json(response);
+		} catch (err) {
+			next(err);
+		}
+	}
+
+	static async addImages(req, res, next) {
+		try {
+			const KeyboardId = Number(req.params.keyboardId);
+			const { imageUrls } = req.body;
+
+			if (!KeyboardId) {
+				throw { name: 'invalid req.params' };
+			}
+
+			const targetKeyboard = await Keyboard.findOne({
+				where: { id: KeyboardId },
+			});
+
+			if (!targetKeyboard) {
+				throw { name: 'keyboard not found' };
+			}
+
+			const data = imageUrls.map((el) => {
+				return { imageUrl: el, KeyboardId };
+			});
+
+			const response = await Image.bulkCreate(data);
+
+			res.status(201).json(response);
 		} catch (err) {
 			next(err);
 		}

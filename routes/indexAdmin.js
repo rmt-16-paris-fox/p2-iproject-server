@@ -9,11 +9,12 @@ const router = express.Router();
 router.use(authentication);
 router.use(authorization);
 router.get('/keyboards', KeyboardController.showAllKeyboards);
+router.post('/keyboards', KeyboardController.addKeyboard);
 router.post(
-	'/keyboards',
+	'/keyboards/images/:keyboardId/',
 	upload.array('images', 4),
 	uploadImages,
-	KeyboardController.addKeyboard
+	KeyboardController.addImages
 );
 
 module.exports = router;
