@@ -6,6 +6,8 @@ class KeyboardController {
 		try {
 			const response = await Keyboard.findAll({
 				where: { isDone: true, isPaid: true },
+				include: [Image],
+				order: [['createdAt', 'DESC']],
 			});
 
 			res.status(200).json(response);
@@ -24,6 +26,7 @@ class KeyboardController {
 
 			const response = await Keyboard.findOne({
 				where: { id: KeyboardId || null },
+				include: [Image],
 			});
 
 			if (!response) {
@@ -73,9 +76,11 @@ class KeyboardController {
 				throw { name: 'invalid req.params' };
 			}
 
-			console.log(req.user);
-
-			const response = await Keyboard.findAll({ where: { UserId } });
+			const response = await Keyboard.findAll({
+				where: { UserId },
+				include: [Image],
+				order: [['createdAt', 'DESC']],
+			});
 
 			res.status(200).json(response);
 		} catch (err) {
@@ -88,6 +93,7 @@ class KeyboardController {
 		try {
 			const response = await Keyboard.findAll({
 				order: [['createdAt', 'DESC']],
+				include: [Image],
 			});
 			res.status(200).json(response);
 		} catch (err) {
