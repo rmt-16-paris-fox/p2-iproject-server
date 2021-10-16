@@ -1,6 +1,7 @@
 const { Keyboard } = require('../models');
 
 class KeyboardController {
+	// * Customer
 	static async showKeyboardGallery(req, res, next) {
 		try {
 			const response = await Keyboard.findAll({
@@ -77,6 +78,14 @@ class KeyboardController {
 			const response = await Keyboard.findAll({ where: { UserId } });
 
 			res.status(200).json(response);
+		} catch (err) {
+			next(err);
+		}
+	}
+
+	// * Administrator
+	static async showAllKeyboards(req, res, sync) {
+		try {
 		} catch (err) {
 			next(err);
 		}

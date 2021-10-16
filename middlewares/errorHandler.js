@@ -31,6 +31,12 @@ const errorHandler = (err, req, res, next) => {
 			res.status(401).json({ message: 'Invalid token' });
 			break;
 
+		case 'forbidden':
+			res.status(403).json({
+				message: "You don't have permission to access",
+			});
+			break;
+
 		case 'keyboard not found':
 			res.status(404).json({ message: 'Keyboard not found' });
 			break;

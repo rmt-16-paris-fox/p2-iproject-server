@@ -21,26 +21,30 @@ Individual Project - Server
 -   ~~login~~
 -   ~~get all keyboards where isDone = true~~
 -   ~~post keyboards = name, mountingstyle, platematerial, kecycaps, switches, misc, isDOne = false, isPaid = false~~
+-   show keyboard details
+-   show my keyboards
 
 ### Not yet
 
--   show keyboard details
 -   login with google
 -   send email (?)
 -   fetch videos from youtube
 -   payment
--   update profile
--   show my keyboards
 
 ## Admin
 
+### Done
+
+### Not Yet
+
 -   get all keyboards
+-   update keyboards with image
 -   post keyboards with image
--   update keyboards
 -   patch status isDone
 -   ? patch status isPaid?
 
 ## API
 
--   youtube
+-   ~~youtube~~
 -   mailjet
+-   setup google login

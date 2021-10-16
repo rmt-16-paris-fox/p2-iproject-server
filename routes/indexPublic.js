@@ -11,8 +11,7 @@ router.post('/login', UserController.loginCustomer);
 router.get('/keyboards', KeyboardController.showKeyboardGallery);
 router.get('/keyboards/:id', KeyboardController.showKeyboardDetails);
 
-router.use(authentication);
-router.post('/keyboards', KeyboardController.orderKeyboard);
-router.get('/my-keyboards', KeyboardController.showMyKeyboard);
+router.post('/keyboards', authentication, KeyboardController.orderKeyboard);
+router.get('/my-keyboards', authentication, KeyboardController.showMyKeyboard);
 
 module.exports = router;
