@@ -65,11 +65,18 @@ class KeyboardController {
 		}
 	}
 
-	//  TODO
 	static async showMyKeyboard(req, res, next) {
 		try {
 			const UserId = Number(req.user.id);
-			console.log(UserId);
+			if (!UserId) {
+				throw { name: 'invalid req.params' };
+			}
+
+			console.log(req.user);
+
+			const response = await Keyboard.findAll({ where: { UserId } });
+
+			res.status(200).json(response);
 		} catch (err) {
 			next(err);
 		}

@@ -13,7 +13,6 @@ router.get('/keyboards/:id', KeyboardController.showKeyboardDetails);
 
 router.use(authentication);
 router.post('/keyboards', KeyboardController.orderKeyboard);
-// TODO
 router.get('/my-keyboards', KeyboardController.showMyKeyboard);
 
 module.exports = router;
