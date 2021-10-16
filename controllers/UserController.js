@@ -1,4 +1,6 @@
 const { User } = require('../models');
+const { comparePassword } = require('../helpers/passwordGenerator');
+const { createToken } = require('../helpers/tokenGenerator');
 
 class UserController {
 	static async registerCustomer(req, res, next) {
