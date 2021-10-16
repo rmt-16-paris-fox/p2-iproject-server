@@ -13,6 +13,27 @@ class KeyboardController {
 		}
 	}
 
+	static async showKeyboardDetails(req, res, next) {
+		try {
+			const KeyboardId = Number(req.params.id);
+
+			if (!KeyboardId) {
+				throw { name: 'invalid req.params' };
+			}
+
+			const response = await Keyboard.findOne({
+				where: { id: KeyboardId || null },
+			});
+
+			if (!response) {
+				throw { name: 'keyboard not found' };
+			}
+			res.status(200).json(response);
+		} catch (err) {
+			next(err);
+		}
+	}
+
 	static async orderKeyboard(req, res, next) {
 		try {
 			const {
@@ -44,6 +65,7 @@ class KeyboardController {
 		}
 	}
 
+	//  TODO
 	static async showMyKeyboard(req, res, next) {
 		try {
 			const UserId = Number(req.user.id);
