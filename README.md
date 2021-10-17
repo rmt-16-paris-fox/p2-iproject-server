@@ -51,6 +51,6 @@ Individual Project - Server
 -   ~~multer~~
 -   ~~imagekit~~
 -   ~~youtube~~
+-   ~~setup google login~~
 -   mailjet
--   setup google login
 -   payment :c
