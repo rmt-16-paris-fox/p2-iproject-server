@@ -1,6 +1,7 @@
 const express = require('express');
 const ImageController = require('../controllers/ImageController');
 const KeyboardController = require('../controllers/KeyboardController');
+const UserController = require('../controllers/UserController');
 const { upload } = require('../helpers/multer');
 const authentication = require('../middlewares/authentication');
 const authorization = require('../middlewares/authorization');
@@ -9,6 +10,9 @@ const router = express.Router();
 
 router.use(authentication);
 router.use(authorization);
+
+// ? Users
+router.get('/users', UserController.getAllUser);
 
 // ? Keyboards
 router.get('/keyboards', KeyboardController.showAllKeyboards);
