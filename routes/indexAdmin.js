@@ -14,6 +14,7 @@ router.use(authorization);
 router.get('/keyboards', KeyboardController.showAllKeyboards);
 router.post('/keyboards', KeyboardController.addKeyboard);
 router.put('/keyboards/:keyboardId', KeyboardController.editKeyboard);
+router.patch('/keyboards/:keyboardId', KeyboardController.editStatus);
 
 // ? Images
 router.post(

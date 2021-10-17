@@ -143,8 +143,6 @@ class KeyboardController {
 				keycaps,
 				switches,
 				miscellaneous,
-				isDone,
-				isPaid,
 				UserId,
 			} = req.body;
 
@@ -176,8 +174,6 @@ class KeyboardController {
 					keycaps,
 					switches,
 					miscellaneous,
-					isDone,
-					isPaid,
 					UserId,
 				},
 				{ where: { id: KeyboardId } }
@@ -188,6 +184,52 @@ class KeyboardController {
 			res.status(200).json({
 				message: `Keyboard with id ${KeyboardId} has been updated!`,
 			});
+		} catch (err) {
+			next(err);
+		}
+	}
+
+	static async editStatus(req, res, next) {
+		try {
+			const KeyboardId = Number(req.params.keyboardId);
+			const { isDone, isPaid } = req.body;
+			if (!KeyboardId) {
+				throw { name: 'invalid req.params' };
+			}
+
+			const targetKeyboard = await Keyboard.findOne({
+				where: { id: KeyboardId },
+			});
+
+			if (!targetKeyboard) {
+				throw { name: 'keyboard not found' };
+			}
+
+			const response = await Keyboard.update(
+				{
+					isDone,
+					isPaid,
+				},
+				{
+					where: { id: KeyboardId },
+				}
+			);
+
+			let message = [];
+			if (String(targetKeyboard.isDone) !== isDone) {
+				message.push(
+					`Work status updated from ${targetKeyboard.isDone} to ${isDone}`
+				);
+			}
+			if (String(targetKeyboard.isPaid) !== isPaid) {
+				message.push(
+					`Payment status updated from ${targetKeyboard.isPaid} to ${isPaid}`
+				);
+			}
+			if (message.length === 0) {
+				message.push('Status is not changing');
+			}
+			res.status(200).json({ message });
 		} catch (err) {
 			next(err);
 		}
