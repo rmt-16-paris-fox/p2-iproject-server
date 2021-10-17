@@ -31,6 +31,30 @@ class ImageController {
 			next(err);
 		}
 	}
+
+	static async deleteImage(req, res, next) {
+		try {
+			const ImageId = Number(req.body.ImageId);
+
+			if (!ImageId) {
+				throw { name: 'invalid req.params' };
+			}
+
+			const targetImage = await Image.findOne({ where: { id: ImageId } });
+
+			if (!targetImage) {
+				throw { name: 'image not found' };
+			}
+
+			await Image.destroy({ where: { id: ImageId } });
+
+			res.status(204).json({
+				message: `Image with id: ${ImageId} is deleted`,
+			});
+		} catch (err) {
+			next(err);
+		}
+	}
 }
 
 module.exports = ImageController;

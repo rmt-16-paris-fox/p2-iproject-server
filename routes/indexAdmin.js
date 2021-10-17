@@ -10,13 +10,19 @@ const router = express.Router();
 router.use(authentication);
 router.use(authorization);
 
+// ? Keyboards
 router.get('/keyboards', KeyboardController.showAllKeyboards);
 router.post('/keyboards', KeyboardController.addKeyboard);
+// TODO router.put('/keyboards');
+
+// ? Images
 router.post(
 	'/keyboards/:keyboardId/images',
 	upload.array('images', 4),
 	uploadImages,
 	ImageController.addImages
 );
+
+router.delete('/images', ImageController.deleteImage);
 
 module.exports = router;
