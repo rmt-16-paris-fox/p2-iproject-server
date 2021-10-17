@@ -49,6 +49,14 @@ const errorHandler = (err, req, res, next) => {
 			res.status(404).json({ message: 'Keyboard not found' });
 			break;
 
+		case 'image not found':
+			res.status(404).json({ message: 'Image not found' });
+			break;
+
+		case 'user not found':
+			res.status(404).json({ message: 'User not found' });
+			break;
+
 		default:
 			console.log(err.name);
 			console.log(err);

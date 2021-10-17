@@ -1,4 +1,5 @@
 const express = require('express');
+const ImageController = require('../controllers/ImageController');
 const KeyboardController = require('../controllers/KeyboardController');
 const { upload } = require('../helpers/multer');
 const authentication = require('../middlewares/authentication');
@@ -8,13 +9,21 @@ const router = express.Router();
 
 router.use(authentication);
 router.use(authorization);
+
+// ? Keyboards
 router.get('/keyboards', KeyboardController.showAllKeyboards);
 router.post('/keyboards', KeyboardController.addKeyboard);
+router.put('/keyboards/:keyboardId', KeyboardController.editKeyboard);
+router.patch('/keyboards/:keyboardId', KeyboardController.editStatus);
+
+// ? Images
 router.post(
 	'/keyboards/:keyboardId/images',
 	upload.array('images', 4),
 	uploadImages,
-	KeyboardController.addImages
+	ImageController.addImages
 );
+
+router.delete('/images', ImageController.deleteImage);
 
 module.exports = router;
