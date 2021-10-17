@@ -38,13 +38,12 @@ Individual Project - Server
 -   get all keyboards
 -   post keyboard
 -   post images
-
-### Not Yet
-
--   get all user
 -   update keyboards with image
+-   get all user
 -   patch status isDone
 -   ? patch status isPaid?
+
+### Not Yet
 
 ## API
 

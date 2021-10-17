@@ -93,7 +93,7 @@ class KeyboardController {
 		try {
 			const response = await Keyboard.findAll({
 				order: [['createdAt', 'DESC']],
-				include: [Image],
+				include: [Image, User],
 			});
 			res.status(200).json(response);
 		} catch (err) {

@@ -100,6 +100,16 @@ class UserController {
 			next(err);
 		}
 	}
+
+	static async getAllUser(req, res, next) {
+		try {
+			const response = await User.findAll();
+
+			res.status(200).json(response);
+		} catch (err) {
+			next(err);
+		}
+	}
 }
 
 module.exports = UserController;
