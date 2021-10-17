@@ -9,22 +9,40 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Book.hasMany(models.Review, {
+        foreignKey: 'bookId',
+      });
+
+      Book.belongsToMany(models.User, {
+        through: 'Review',
+        foreignKey: 'bookId',
+      });
     }
   }
   Book.init(
     {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
       googleBooksId: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
       },
-      reviewId: {
-        type: DataTypes.INTEGER,
+      title: {
+        type: DataTypes.STRING,
         allowNull: false,
-        references: {
-          model: 'Review',
-          key: 'id',
-        },
+      },
+      imgUrl: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      author: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
     },
     {

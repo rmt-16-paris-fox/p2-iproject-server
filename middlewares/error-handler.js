@@ -17,6 +17,7 @@ const errorHandler = (err, req, res, next) => {
       message = 'please login first';
       break;
 
+    case 'JsonWebTokenError':
     case 'invalidToken':
       code = 401;
       message = 'invalid access token';

@@ -2,16 +2,18 @@ class GoogleBooksController {
   static async fetchBooks(req, res, next) {
     try {
       const { books } = req.body;
-      const booksData = [];
 
-      for (const book of books) {
-        booksData.push({
-          title: book.volumeInfo.title,
-          authors: book.volumeInfo.authors,
-        });
-      }
+      res.status(200).json(books);
+    } catch (err) {
+      next(err);
+    }
+  }
 
-      res.status(200).json(booksData);
+  static async fetchBookByVolumeId(req, res, next) {
+    try {
+      const { book } = req.body;
+
+      res.status(200).json(book);
     } catch (err) {
       next(err);
     }

@@ -9,10 +9,13 @@ const fetchGoogleBooks = async (req, res, next) => {
       url: `${process.env.GOOGLE_BOOKS_BASEURL}/volumes`,
       params: {
         q: `${inTitle}+inauthor:${inAuthor}`,
+        fields:
+          'totalItems,items(id,volumeInfo/description,volumeInfo/title,volumeInfo/authors,volumeInfo/imageLinks/thumbnail)',
+        orderBy: 'relevance',
       },
     });
 
-    req.body.books = data.items;
+    req.body.books = data;
 
     next();
   } catch (err) {

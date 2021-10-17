@@ -12,10 +12,20 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.belongsToMany(models.Book, {
+        through: 'Review',
+        foreignKey: 'userId',
+      });
     }
   }
   User.init(
     {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
       username: {
         type: DataTypes.STRING,
         allowNull: false,

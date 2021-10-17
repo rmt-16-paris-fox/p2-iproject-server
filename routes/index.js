@@ -9,6 +9,8 @@ const authentication = require('../middlewares/authentication');
 const fetchGoogleBooks = require('../middlewares/google-books');
 
 const router = express.Router();
+const books = require('./books-router');
+const reviews = require('./reviews-router');
 
 router.get('/', HomeController.loadHome);
 
@@ -17,6 +19,11 @@ router.post('/register', UsersController.register);
 router.post('/login', UsersController.login);
 
 router.get('/google-books', fetchGoogleBooks, GoogleBooksController.fetchBooks);
+
+router.use(authentication);
+
+router.use('/books', books);
+router.use('/reviews', reviews);
 
 router.use(errorHandler);
 

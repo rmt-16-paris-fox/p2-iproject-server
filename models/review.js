@@ -9,16 +9,31 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Review.belongsTo(models.User, { foreignKey: 'userId' });
+      Review.belongsTo(models.Book, { as: 'reviews', foreignKey: 'bookId' });
     }
   }
   Review.init(
     {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
       rating: { type: DataTypes.INTEGER, allowNull: false },
       content: { type: DataTypes.TEXT, allowNull: false },
       userId: {
         type: DataTypes.INTEGER,
         references: {
           model: 'User',
+          key: 'id',
+        },
+      },
+      bookId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Book',
           key: 'id',
         },
       },
