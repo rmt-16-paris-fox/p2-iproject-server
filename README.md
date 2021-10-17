@@ -23,10 +23,10 @@ Individual Project - Server
 -   ~~post keyboards = name, mountingstyle, platematerial, kecycaps, switches, misc, isDOne = false, isPaid = false~~
 -   show keyboard details
 -   show my keyboards
+-   login with google
 
 ### Not yet
 
--   login with google
 -   send email (?)
 -   fetch videos from youtube
 -   payment
@@ -36,17 +36,21 @@ Individual Project - Server
 ### Done
 
 -   get all keyboards
+-   post keyboard
+-   post images
 
 ### Not Yet
 
 -   get all user
 -   update keyboards with image
--   post keyboards with image
 -   patch status isDone
 -   ? patch status isPaid?
 
 ## API
 
+-   ~~multer~~
+-   ~~imagekit~~
 -   ~~youtube~~
 -   mailjet
 -   setup google login
+-   payment :c
