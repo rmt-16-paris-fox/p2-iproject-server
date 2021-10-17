@@ -1,4 +1,4 @@
-const { Keyboard, Image } = require('../models');
+const { Keyboard, Image, User } = require('../models');
 
 class KeyboardController {
 	// * Customer
@@ -128,6 +128,66 @@ class KeyboardController {
 			});
 
 			res.status(201).json(response);
+		} catch (err) {
+			next(err);
+		}
+	}
+
+	static async editKeyboard(req, res, next) {
+		try {
+			const KeyboardId = Number(req.params.keyboardId);
+			const {
+				name,
+				mountingStyle,
+				plateMaterial,
+				keycaps,
+				switches,
+				miscellaneous,
+				isDone,
+				isPaid,
+				UserId,
+			} = req.body;
+
+			if (!KeyboardId) {
+				throw { name: 'invalid req.params' };
+			}
+
+			const targetKeyboard = await Keyboard.findOne({
+				where: { id: KeyboardId },
+			});
+
+			if (!targetKeyboard) {
+				throw { name: 'keyboard not found' };
+			}
+
+			const targetUser = await User.findOne({
+				where: { id: Number(UserId) || null },
+			});
+
+			if (!targetUser) {
+				throw { name: 'user not found' };
+			}
+
+			const response = await Keyboard.update(
+				{
+					name,
+					mountingStyle: mountingStyle,
+					plateMaterial: plateMaterial,
+					keycaps,
+					switches,
+					miscellaneous,
+					isDone,
+					isPaid,
+					UserId,
+				},
+				{ where: { id: KeyboardId } }
+			);
+
+			console.log(response);
+
+			res.status(200).json({
+				message: `Keyboard with id ${KeyboardId} has been updated!`,
+			});
 		} catch (err) {
 			next(err);
 		}

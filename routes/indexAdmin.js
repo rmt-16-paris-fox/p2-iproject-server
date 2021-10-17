@@ -13,7 +13,7 @@ router.use(authorization);
 // ? Keyboards
 router.get('/keyboards', KeyboardController.showAllKeyboards);
 router.post('/keyboards', KeyboardController.addKeyboard);
-// TODO router.put('/keyboards');
+router.put('/keyboards/:keyboardId', KeyboardController.editKeyboard);
 
 // ? Images
 router.post(
