@@ -24,11 +24,11 @@ Individual Project - Server
 -   show keyboard details
 -   show my keyboards
 -   login with google
+-   fetch videos from youtube
 
 ### Not yet
 
 -   send email (?)
--   fetch videos from youtube
 -   payment
 
 ## Admin
