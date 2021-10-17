@@ -11,7 +11,7 @@ router.use(authorization);
 router.get('/keyboards', KeyboardController.showAllKeyboards);
 router.post('/keyboards', KeyboardController.addKeyboard);
 router.post(
-	'/keyboards/images/:keyboardId/',
+	'/keyboards/:keyboardId/images',
 	upload.array('images', 4),
 	uploadImages,
 	KeyboardController.addImages

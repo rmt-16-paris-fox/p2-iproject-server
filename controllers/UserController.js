@@ -1,6 +1,7 @@
 const { User } = require('../models');
 const { comparePassword } = require('../helpers/passwordGenerator');
 const { createToken } = require('../helpers/tokenGenerator');
+const { OAuth2Client } = require('google-auth-library');
 
 class UserController {
 	static async registerCustomer(req, res, next) {
@@ -49,56 +50,56 @@ class UserController {
 		}
 	}
 
-	// static async loginGoogle(req, res, next) {
-	// 	try {
-	// 		const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-	// 		const { google_token } = req.body;
+	static async loginGoogle(req, res, next) {
+		try {
+			const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+			const { google_token } = req.body;
 
-	// 		const ticket = await client.verifyIdToken({
-	// 			idToken: google_token,
-	// 			audience: process.env.GOOGLE_CLIENT_ID,
-	// 		});
+			const ticket = await client.verifyIdToken({
+				idToken: google_token,
+				audience: process.env.GOOGLE_CLIENT_ID,
+			});
 
-	// 		const payload = ticket.getPayload();
+			const payload = ticket.getPayload();
 
-	// 		const emailFromGoogle = payload.email;
-	// 		const nameFromGoogle = payload.name;
+			const emailFromGoogle = payload.email;
+			const nameFromGoogle = payload.name;
 
-	// 		let role = 'Customer';
-	// 		if (emailFromGoogle === 'samuelmatthew211@gmail.com') {
-	// 			role = 'Administrator';
-	// 		}
+			let role = 'Customer';
+			if (emailFromGoogle === 'samuelmatthew211@gmail.com') {
+				role = 'Administrator';
+			}
 
-	// 		const [user, created] = await User.findOrCreate({
-	// 			where: { email: emailFromGoogle },
-	// 			defaults: {
-	// 				email: emailFromGoogle,
-	// 				password: Math.random().toString(36).slice(-10),
-	// 				role,
-	// 				fullName: nameFromGoogle,
-	// 			},
-	// 		});
+			const [user, created] = await User.findOrCreate({
+				where: { email: emailFromGoogle },
+				defaults: {
+					email: emailFromGoogle,
+					password: Math.random().toString(36).slice(-10),
+					role,
+					fullName: nameFromGoogle,
+				},
+			});
 
-	// 		const tokenPayload = {
-	// 			id: user.id,
-	// 			email: user.email,
-	// 		};
+			const tokenPayload = {
+				id: user.id,
+				email: user.email,
+			};
 
-	// 		const access_token = createToken(tokenPayload);
+			const access_token = createToken(tokenPayload);
 
-	// 		if (created === true) {
-	// 			res.status(201).json({
-	// 				id: user.id,
-	// 				email: user.email,
-	// 				access_token: access_token,
-	// 			});
-	// 		} else {
-	// 			res.status(200).json({ access_token });
-	// 		}
-	// 	} catch (err) {
-	// 		next(err);
-	// 	}
-	// }
+			if (created === true) {
+				res.status(201).json({
+					id: user.id,
+					email: user.email,
+					access_token: access_token,
+				});
+			} else {
+				res.status(200).json({ access_token });
+			}
+		} catch (err) {
+			next(err);
+		}
+	}
 }
 
 module.exports = UserController;
