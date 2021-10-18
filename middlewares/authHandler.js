@@ -32,24 +32,22 @@ const authenticate = async (req,res,next) => {
 }
 
 const authorize = async (req,res,next)=>{
-    const {role,id} = req.user
-    const {postId} = req.params
+    const userId = req.user.id
+    const {id} = req.params
 
     try {
+        // cari di wishlist
+        // const findPost = await Post.findOne({
+        //     where:{
+        //         id: postId
+        //     }
+        // })
 
-        const findPost = await Post.findOne({
-            where:{
-                id: postId
-            }
-        })
+        // if(!findPost){
+        //     throw {name:'postNotFound'}
+        // }
 
-        if(!findPost){
-            throw {name:'postNotFound'}
-        }
-
-        if(role === 'Admin'){
-            next()
-        }else if(role === 'Staff' && id === findPost.authorId){
+        if(userId === Wishlist.UserId){
             next()
         }else{
             throw {name: "forbidden"}

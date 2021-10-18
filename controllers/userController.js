@@ -95,5 +95,29 @@ class UserController{
             next(err)
         }
     }
+
+    static async getSchedule(req,res,next){
+        try {
+            
+        } catch (err) {
+            next(err)
+        }
+    }
+
+    static async getWatchlist(req,res,next){
+        try {
+            const userId = req.user.id
+        } catch (err) {
+            next(err)
+        }
+    }
+
+    static async addWatchlist(req,res,next){
+        try {
+            const userId = req.user.id
+        } catch (err) {
+            next(err)
+        }
+    }
 }
 module.exports = UserController
