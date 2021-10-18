@@ -1,9 +1,12 @@
 const express = require('express');
 const KeyboardController = require('../controllers/KeyboardController');
 const UserController = require('../controllers/UserController');
+const XenditController = require('../controllers/XenditController');
 const fetchYoutubeVideos = require('../helpers/fetchYouTube');
 const authentication = require('../middlewares/authentication');
 const router = express.Router();
+
+router.post('/ovo', XenditController.ovo);
 
 router.post('/register', UserController.registerCustomer);
 router.post('/login', UserController.loginCustomer);
