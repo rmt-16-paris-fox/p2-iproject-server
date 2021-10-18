@@ -11,10 +11,26 @@
     "url": "git+https://github.com/rasyidrmhd/p2-iproject-server.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "rasyidr",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/rasyidrmhd/p2-iproject-server/issues"
   },
-  "homepage": "https://github.com/rasyidrmhd/p2-iproject-server#readme"
+  "homepage": "https://github.com/rasyidrmhd/p2-iproject-server#readme",
+  "dependencies": {
+    "axios": "^0.23.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.7.1",
+    "sequelize": "^6.7.0"
+  },
+  "devDependencies": {
+    "jest": "^27.3.0",
+    "nodemon": "^2.0.13",
+    "sequelize-cli": "^6.2.0",
+    "supertest": "^6.1.6"
+  }
 }
