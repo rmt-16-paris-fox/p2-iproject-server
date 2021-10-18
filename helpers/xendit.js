@@ -1,6 +1,6 @@
 const ovoPay = async (req, res, next) => {
 	try {
-		res.send({ pay: req.body });
+		res.send(req.body);
 	} catch (err) {
 		next(err);
 	}
@@ -8,7 +8,7 @@ const ovoPay = async (req, res, next) => {
 
 const ovoStatus = async (req, res, next) => {
 	try {
-		res.send({ status: req.body });
+		res.send(req.body);
 	} catch (err) {
 		next(err);
 	}
