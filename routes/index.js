@@ -18,11 +18,12 @@ router.post('/register', UsersController.register);
 
 router.post('/login', UsersController.login);
 
-router.get('/google-books', fetchGoogleBooks, GoogleBooksController.fetchBooks);
+router.post('/google-books', fetchGoogleBooks, GoogleBooksController.fetchBooks);
+
+router.use('/books', books);
 
 router.use(authentication);
 
-router.use('/books', books);
 router.use('/reviews', reviews);
 
 router.use(errorHandler);

@@ -4,7 +4,17 @@ class ReviewsController {
   static async addNewReview(req, res, next) {
     try {
       const { rating, content, bookId } = req.body;
-      console.log(req.body);
+
+      const foundReview = await Review.findOne({
+        where: {
+          bookId,
+          userId: req.user.id,
+        },
+      });
+
+      if (foundReview) {
+        throw { name: 'alreadyReviewed' };
+      }
 
       const response = await Review.create({
         rating,

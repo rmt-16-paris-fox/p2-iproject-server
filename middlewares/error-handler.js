@@ -28,6 +28,11 @@ const errorHandler = (err, req, res, next) => {
       message = 'login failed, invalid email or password';
       break;
 
+    case 'alreadyReviewed':
+      code = 403;
+      message = 'you have already reviewed this book';
+      break;
+
     default:
       code = 500;
       message = 'Internal Server Error';

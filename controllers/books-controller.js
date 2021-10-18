@@ -1,4 +1,7 @@
 const { Book, Review, User } = require('../models/index');
+const { Op } = require('sequelize');
+
+const { getPagination, getPagingData } = require('../helpers/pagination');
 
 class BooksController {
   static async addNewBook(req, res, next) {
@@ -47,6 +50,37 @@ class BooksController {
       res
         .status(200)
         .json({ foundBook, description: book.volumeInfo.description });
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
+  }
+
+  static async getAllBooks(req, res, next) {
+    try {
+      const { page, size } = req.query;
+      const { limit, offset } = getPagination(page, size);
+
+      let option = {
+        where: {},
+        include: [{ model: Review }],
+        limit,
+        offset,
+      };
+
+      if (req.query.title) {
+        option.where['title'] = {
+          [Op.iLike]: `%${req.query.title}%`,
+        };
+      }
+
+      console.log(option);
+
+      const books = await Book.findAndCountAll(option);
+
+      const booksWithPagination = getPagingData(books, page, limit);
+
+      res.status(200).json(booksWithPagination);
     } catch (err) {
       console.log(err);
       next(err);
