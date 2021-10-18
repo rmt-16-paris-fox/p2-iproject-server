@@ -1,7 +1,7 @@
 class XenditController {
 	static async ovo(req, res, next) {
 		try {
-			console.log('hi');
+			console.log(req);
 			res.send('hello');
 		} catch (error) {
 			next(err);
