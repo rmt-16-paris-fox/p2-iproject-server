@@ -1,10 +1,9 @@
 'use strict';
-const {hash} = require('../helpers/bcrypt')
 const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class Plant extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -12,47 +11,50 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.hasMany(models.Plant,{foreignKey:'UserId'})
+      Plant.belongsTo(models.User, {foreignKey:'UserId'})
+
     }
   };
-  User.init({
-    username: {
+  Plant.init({
+    name: {
       allowNull:false,
       type:DataTypes.STRING,
       validate:{
-        notEmpty:true
+        notEmpty:false
       }
     },
-    email: {
+    category:{
       allowNull:false,
-      unique:true,
       type:DataTypes.STRING,
       validate:{
-        notEmpty:true
+        notEmpty:false
       }
     },
-    password: {
+    description: {
       allowNull:false,
       type:DataTypes.STRING,
       validate:{
-        notEmpty:true
+        notEmpty:false
       }
     },
-    address: {
+
+    price: {
       allowNull:false,
-      type:DataTypes.STRING,
+      type:DataTypes.INTEGER,
       validate:{
-        notEmpty:true
+        notEmpty:false
+      }
+    },
+    UserId :{
+      allowNull:false,
+      type:DataTypes.INTEGER,
+      validate:{
+        notEmpty:false
       }
     }
   }, {
-    hooks:{
-      beforeCreate: (user)=>{
-        user.password = hash(user.password)
-      }
-    },
     sequelize,
-    modelName: 'User',
+    modelName: 'Plant',
   });
-  return User;
+  return Plant;
 };

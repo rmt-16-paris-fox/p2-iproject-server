@@ -1,10 +1,15 @@
-const {}
+
+const {User} = require('../models')
+const {compare}= require ('../helpers/bcrypt')
+const {createToken} =require ('../helpers/jwt')
+const sendingEmail = require ('../helpers/nodemailer')
 class UserController {
-    static async registration(req, res,) {
+    static async registration(req, res) {
         try {
           
           const { username, email, password, address } = req.body;
           const response = await User.create({ username, email, password, address });
+          // sendingEmail(response.email, response.username)
           res.status(201).json({ username: response.username, email: response.email, address:response.address});
     
           if (!response) {
@@ -30,6 +35,7 @@ class UserController {
           const response = await User.findOne({
             where: { email },
           });
+          
           // console.log(response);
           if (!response) {
             throw { name: "Invalid email or password" };
@@ -38,17 +44,18 @@ class UserController {
             if (!user) {
               throw { name: "invalid email/password" };
             } else {
-              const token = createToken({
+              const access_token = createToken({
                 id: response.id,
                 email: response.email,
                
               });
-              console.log(token);
-              res.status(200).json({ token });
+              // console.log(access_token);
+              sendingEmail(response.email, response.username)
+              res.status(200).json({ access_token });
             }
           }
         } catch (err) {
-          // console.log(err);
+          console.log(err);
           if (err.name== "Invalid email or password" ) {
             res.status(401).json({ message: "email or password invalid" });
           }
