@@ -52,6 +52,58 @@ class RecipeController {
     }
   }
 
+  static async getAllMyRecipes(req, res, next) {
+    try {
+      const UserId = req.user.id;
+      const MyRecipes = [];
+
+      const result = await MyRecipe.findAll({
+        where: { UserId },
+      });
+
+      if (result.length !== 0) {
+        const app_id = process.env.EDAMAM_APP_ID;
+        const app_key = process.env.EDAMAM_APP_KEY;
+
+        for (const recipe of result) {
+          let { RecipeId } = recipe;
+
+          const found = await axios({
+            url: `https://api.edamam.com/api/recipes/v2/${RecipeId}`,
+            params: {
+              app_id,
+              app_key,
+              type: "public",
+            },
+          });
+
+          MyRecipes.push(found.data.recipe);
+        }
+
+        const filtered = MyRecipes.map((recipe) => {
+          return {
+            uri: recipe.uri,
+            label: recipe.label,
+            image: recipe.image,
+            yield: recipe.yield,
+            dietLabels: recipe.dietLabels,
+            ingredientLines: recipe.ingredientLines,
+            calories: recipe.calories,
+            totalWeight: recipe.totalWeight,
+            totalTime: recipe.totalTime,
+            cuisineType: recipe.cuisineType,
+            mealType: recipe.mealType,
+          };
+        });
+        res.status(200).json(filtered);
+      } else {
+        res.status(200).json({ message: "Your recipe is empty" });
+      }
+    } catch (err) {
+      next(err);
+    }
+  }
+
   static async postMyRecipe(req, res, next) {
     try {
       const RecipeId = req.params.recipeId;
@@ -87,6 +139,20 @@ class RecipeController {
       });
 
       res.status(201).json({ id: result.id, recipe: found.data.recipe.label });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async deleteMyRecipeById(req, res, next) {
+    try {
+      const { id } = req.params;
+
+      const result = await MyRecipe.destroy({
+        where: { id },
+      });
+
+      res.status(200).json({ message: "Success delete from your recipe" });
     } catch (err) {
       next(err);
     }

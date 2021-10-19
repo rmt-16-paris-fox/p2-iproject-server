@@ -3,9 +3,9 @@ const { MyRecipe } = require("../models");
 const authZ = async (req, res, next) => {
   try {
     const { id } = req.user;
-    const { recipeId } = req.params;
+    const recipeId = req.params.id;
 
-    const result = await MyRecipe({
+    const result = await MyRecipe.findOne({
       where: { id: Number(recipeId) },
     });
 

@@ -1,4 +1,5 @@
 const errorHandler = (err, req, res, next) => {
+  // console.log(err);
   switch (err.name) {
     case "SequelizeUniqueConstraintError":
       if (err.errors[0].path === "username") {
