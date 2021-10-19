@@ -44,7 +44,7 @@ class UserController {
 
 			const access_token = createToken(payload);
 
-			res.status(200).json({ access_token });
+			res.status(200).json({ access_token, role: response.role });
 		} catch (err) {
 			next(err);
 		}
@@ -91,10 +91,11 @@ class UserController {
 				res.status(201).json({
 					id: user.id,
 					email: user.email,
+          role: user.role,
 					access_token: access_token,
 				});
 			} else {
-				res.status(200).json({ access_token });
+				res.status(200).json({ access_token, role });
 			}
 		} catch (err) {
 			next(err);
@@ -119,7 +120,7 @@ class UserController {
       }
 
       const response = await User.findOne({where: {id}})
-      res.status(200).json({id: response.id, email: response.email, name: response.fullName})
+      res.status(200).json({id: response.id, email: response.email, name: response.fullName, role: response.role})
     } catch (err) {
       next(err)
     }
