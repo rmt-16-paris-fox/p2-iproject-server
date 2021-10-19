@@ -1,7 +1,16 @@
 const imageUpload = require('../helpers/imageUpload')
-const { User, Post } = require('../models/index')
+const { Post } = require('../models/index')
 
 class PostController {
+  static async getAllPost(req, res, next) {
+    try {
+      const response = await Post.findAll()
+      res.status(200).json(response)
+    } catch (err) {
+      next(err)
+    }
+  }
+
   static async createPost(req, res, next) {
     try {
       const { content } = req.body
