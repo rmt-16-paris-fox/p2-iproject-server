@@ -26,7 +26,7 @@ const authentication = async (req, res, next) => {
 			role: response.role,
 		};
 
-		next();
+		// next();
 	} catch (err) {
 		next(err);
 	}
