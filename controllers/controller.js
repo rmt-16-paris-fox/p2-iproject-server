@@ -1,7 +1,7 @@
 const { User, Class, MyClass } = require('../models')
 const { comparePassword } = require('../helpers/bcrypt')
 const { signToken } = require('../helpers/jwt')
-
+const sendingEmail = require('../helpers/nodemailer')
 class Controller {
     static async register (req, res) {
         try {
@@ -62,15 +62,16 @@ class Controller {
         try {
             const {classId} = req.params
             let classAdd = await Class.findByPk(classId)
+            let currentUser = await User.findByPk(req.user.id)
             if(!classAdd) throw ({message:"Class not found"})
             let added = await MyClass.findOne({where: {
                 UserId: req.user.id, ClassId: classId
             }})
             if(added) throw ({message: "Has Been Added"})
             let successAdd = await MyClass.create({UserId: req.user.id, ClassId: classAdd.id, status: "Uncompleted"})
+            await sendingEmail(currentUser.email, currentUser.name, classAdd.title)
             res.status(201).json({id: successAdd.id, ClassId:successAdd.ClassId, UserId: successAdd.UserId, status: successAdd.status})
         } catch (error) {
-            console.log(error);
             if(error.message == "Course not found"){
                 res.status(404).json({message: error.message})
             }else if(error.message == "Has Been Added"){
