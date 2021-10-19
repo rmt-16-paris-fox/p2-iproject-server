@@ -1,21 +1,24 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('FiveDataTables', {
+    await queryInterface.createTable('Watchlists', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      fixture: {
+      fixturesId: {
+        type: Sequelize.STRING
+      },
+      UserId: {
+        type: Sequelize.INTEGER
+      },
+      data: {
         type: Sequelize.TEXT
       },
-      league: {
-        type: Sequelize.TEXT
-      },
-      teams: {
-        type: Sequelize.TEXT
+      playDate: {
+        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,
@@ -28,6 +31,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('FiveDataTables');
+    await queryInterface.dropTable('Watchlists');
   }
 };

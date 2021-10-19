@@ -11,7 +11,8 @@ router.use(authenticate)
 
 router.get('/schedule', UserController.getSchedule)
 router.get('/watchlist', UserController.getWatchlist)
-router.post('/watchlist/:id', UserController.addWatchlist)
+router.post('/watchlist', UserController.addWatchlist)
+router.get('/watchlist/:id', UserController.getWatchlistById)
 
 router.use(errHandle)
 

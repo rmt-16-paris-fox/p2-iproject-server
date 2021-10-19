@@ -5,8 +5,8 @@ const errHandle = (err,req,res,next)=>{
         case "forbidden":
             res.status(403).json({msg: "You are not allowed to access!"})
             break;
-        case 'postNotFound':
-            res.status(404).json({msg: 'Post not found'})
+        case 'watchlistNotFound':
+            res.status(404).json({msg: 'Watchlist not found'})
             break;
         case "UserNotFound":
             res.status(401).json({error: "Unathorized access"})

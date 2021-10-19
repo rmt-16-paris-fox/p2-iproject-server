@@ -14,8 +14,8 @@ function sendEmail(param){
       var mailOptions = {
         from: email,
         to: 'vincentius.donovan.fgo12@gmail.com',
-        subject: 'Sending Email using Node.js',
-        text: `That was easy! ${param}`
+        subject: 'New Footbal Match Watchlist',
+        text: `${param}`
       };
       
       transporter.sendMail(mailOptions, function(error, info){
