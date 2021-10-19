@@ -1,5 +1,7 @@
 var axios = require("axios").default;
 const {FiveDataTable} = require('../models')
+const apiKey = process.env.footbalApi_key;
+console.log(apiKey, 'ini api footbal')
 
 var options = {
   method: 'GET',
@@ -7,7 +9,7 @@ var options = {
   params: {league: '39', season: '2021', next: '5'},
   headers: {
     'x-rapidapi-host': 'api-football-v1.p.rapidapi.com',
-    'x-rapidapi-key': '3738fedad2msh90bc95ac8a5b8e2p101945jsn24189381baaa'
+    'x-rapidapi-key': apiKey
   }
 };
 

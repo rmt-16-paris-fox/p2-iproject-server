@@ -1,16 +1,18 @@
 var nodemailer = require('nodemailer');
+const email = process.env.EMAIL_SENDER;
+const password = process.env.PASSWORD_EMAIL_SENDER;
 
 function sendEmail(param){
     var transporter = nodemailer.createTransport({
         service: 'outlook',
         auth: {
-          user: 'hacktrian@outlook.com',
-          pass: '123456789/*-'
+          user: email,
+          pass: password
         }
       });
       
       var mailOptions = {
-        from: 'hacktrian@outlook.com',
+        from: email,
         to: 'vincentius.donovan.fgo12@gmail.com',
         subject: 'Sending Email using Node.js',
         text: `That was easy! ${param}`

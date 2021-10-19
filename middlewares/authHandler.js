@@ -1,5 +1,5 @@
 const {verifyToken} = require("../helpers/generateToken");
-// const {User, Post} = require("../models");
+const {User, Post} = require("../models");
 
 const authenticate = async (req,res,next) => {
     console.log(req.headers)
@@ -57,4 +57,4 @@ const authorize = async (req,res,next)=>{
     }
 }
 
-module.exports = {authenticate,authorize,authorizeCustomer}
+module.exports = {authenticate,authorize}

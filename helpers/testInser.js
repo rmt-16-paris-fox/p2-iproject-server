@@ -13,16 +13,19 @@ readJson.forEach(el => {
     delete el.league.round
     delete el.goals
     delete el.score
+    // fixture = el.fixture
 });
+console.log(readJson)
+console.log(JSON.stringify(readJson))
 // const data = JSON.stringify(readJson)
 // console.log(data)
-const insertBulk = async () => {
-    try {
-        const insert = await FiveDataTable.bulkCreate(readJson)
-        console.log(insert)
-    } catch (err) {
-        console.log(err,'knp ini')
-    }
-}
+// const insertBulk = async () => {
+//     try {
+//         const insert = await FiveDataTable.bulkCreate(readJson)
+//         console.log(insert)
+//     } catch (err) {
+//         console.log(err,'knp ini')
+//     }
+// }
 
-insertBulk()
+// insertBulk()

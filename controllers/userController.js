@@ -1,6 +1,7 @@
 const {User} = require("../models")
 const {comparePassword} = require("../helpers/bcryptSection")
 const {createToken} = require("../helpers/generateToken")
+const sendEmail = require("../helpers/sendMail")
 
 class UserController{
     static async userRegister(req,res,next){
@@ -97,25 +98,31 @@ class UserController{
     }
 
     static async getSchedule(req,res,next){
-        try {
+        // try {
             
-        } catch (err) {
-            next(err)
-        }
+        // } catch (err) {
+        //     next(err)
+        // }
     }
 
     static async getWatchlist(req,res,next){
-        try {
-            const userId = req.user.id
-        } catch (err) {
-            next(err)
-        }
+        // try {
+        //     const userId = req.user.id
+        // } catch (err) {
+        //     next(err)
+        // }
     }
 
     static async addWatchlist(req,res,next){
         try {
             const userId = req.user.id
+            console.log(userId)
+            let {id} = req.params
+            console.log(id)
+            const email = await sendEmail('sukses tambahin jadwal')
+            console.log(email)
         } catch (err) {
+            console.log(err, 'apa ii')
             next(err)
         }
     }
