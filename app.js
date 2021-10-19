@@ -82,8 +82,9 @@ app.post('/draft', async (req, res) => {
     const direArr = dire.split(',');
 
     const radiantObj = {};
-    let radiantTotalSynergy = 0;
-    let radiantToDireAdvantage = 0;
+    let radiantTotalSynergy = 0; // * if positive, then Radiant synergy is good. If negative, then Radiant synergy is bad
+    let direTotalSynergy = 0; // * if positive, then Dire synergy is good. If negative, then Dire synergy is bad
+    let radiantToDireAdvantage = 0; //* if positive, then Radiant has advantage against Dire. If negative, then Radiant has disadvantage against Dire
 
     for (let i = 0; i < radiantArr.length; i++) {
       radiantObj[i] = heroes[i];
@@ -132,7 +133,30 @@ app.post('/draft', async (req, res) => {
       }
     }
 
+    for (let i = 0; i < direArr.length; i++) {
+      const response = await axios({
+        url: `https://api.stratz.com/api/v1/Hero/${direArr[i]}/matchUp`
+      });
+
+      for (let j = i + 1; j < direArr.length; j++) {
+        console.log(i, j);
+
+        for (let k = 0; k < response.data.advantage[0].with.length; k++) {
+          if (response.data.advantage[0].with[k].heroId2 === +direArr[j]) {
+            direTotalSynergy += response.data.advantage[0].with[i].synergy;
+          }
+        }
+
+        for (let k = 0; k < response.data.disadvantage[0].with.length; k++) {
+          if (response.data.disadvantage[0].with[k].heroId2 === +direArr[j]) {
+            direTotalSynergy += response.data.disadvantage[0].with[i].synergy;
+          }
+        }
+      }
+    }
+
     console.log('Radiant Synergy = ' + radiantTotalSynergy.toFixed(2) + '%');
+    console.log('Dire Synergy = ' + direTotalSynergy.toFixed(2) + '%');
     console.log(radiantToDireAdvantage);
 
     res.status(200).json({ radiantObj });
