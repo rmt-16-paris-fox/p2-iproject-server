@@ -13,6 +13,13 @@ const errorHandler = (err, req, res, next) => {
     case 'invalidUser':
       res.status(400).json({ message: "Invalid Email/Password" })
       break;
+    case 'noContent':
+      res.status(400).json({ message: "Please fill this field" })
+      break;
+    case 'invalidToken':
+    case 'JsonWebTokenError':
+      res.status(401).json({ message: "Invalid Token" })
+      break;
     default:
       break;
   }
