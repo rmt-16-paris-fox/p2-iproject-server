@@ -55,6 +55,8 @@ app.get('/matches/:matchId', async (req, res) => {
   }
 });
 
+app.get('/matches/');
+
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
