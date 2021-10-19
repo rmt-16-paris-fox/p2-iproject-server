@@ -44,20 +44,9 @@ const ovoCharge = async (req, res, next) => {
 
 const ovoStatus = async (req, res, next) => {
 	try {
-		// attach callback verification token in headers
 		const chargeId = req.body.data.id;
 		const referenceId = req.body.data.reference_id.split('-');
 		const status = req.body.data.status;
-
-		// const axiosInstance = axios.create({
-		// 	baseURL: 'https://api.xendit.co/ewallets/charges',
-		// });
-
-		// const response = await axiosInstance({
-		// 	method: 'GET',
-		// 	url: `/${chargeId}`,
-		// 	auth: { username: process.env.XENDIT_API_KEY },
-		// });
 
 		if (status === 'SUCCEEDED') {
 			await Keyboard.update(
@@ -74,7 +63,7 @@ const ovoStatus = async (req, res, next) => {
 			message: `Keyboard with id ${referenceId[1]} is paid! ChargeId = ${chargeId}`,
 		});
 	} catch (err) {
-		next(err.response);
+		next(err);
 	}
 };
 
