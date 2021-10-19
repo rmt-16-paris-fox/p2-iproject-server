@@ -1,4 +1,5 @@
 const axios = require("axios");
+const { User, MyRecipe, RateRecipe } = require("../models");
 
 class RecipeController {
   static async getAllRecipes(req, res, next) {
@@ -53,6 +54,39 @@ class RecipeController {
 
   static async postMyRecipe(req, res, next) {
     try {
+      const RecipeId = req.params.recipeId;
+      const app_id = process.env.EDAMAM_APP_ID;
+      const app_key = process.env.EDAMAM_APP_KEY;
+
+      const found = await axios({
+        url: `https://api.edamam.com/api/recipes/v2/${RecipeId || null}`,
+        params: {
+          app_id,
+          app_key,
+          type: "public",
+        },
+      });
+
+      const foundRecipeId = found.data.recipe.uri.split("#")[1];
+      const UserId = Number(req.user.id);
+
+      const foundMyRecipe = await MyRecipe.findOne({
+        where: {
+          UserId,
+          RecipeId: foundRecipeId,
+        },
+      });
+
+      if (foundMyRecipe) {
+        throw { name: "alreadyMyRecipe" };
+      }
+
+      const result = await MyRecipe.create({
+        UserId,
+        RecipeId: foundRecipeId,
+      });
+
+      res.status(201).json({ id: result.id, recipe: found.data.recipe.label });
     } catch (err) {
       next(err);
     }
