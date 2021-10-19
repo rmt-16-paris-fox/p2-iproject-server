@@ -1,33 +1,33 @@
-const {User} = require('../models')
-const {verifyToken} = require('../helpers/jwt')
+const { User } = require("../models");
+const { verifyToken } = require("../helpers/jwt");
 
 const authentication = async (req, res, next) => {
-    try {
-      if (!req.headers.access_token) {
-        throw { name: "JsonWebTokenError" };
-      } else {
-        const { access_token: accessToken } = req.headers;
-        const payload = verifyToken(accessToken);
-        const userEmail = payload.email;
-        const findUser = await User.findOne({
-          where: {
-            email: userEmail,
-          },
-        });
-        if (!findUser) {
-          throw { name: "Forbidden" };
-        } else {
-          req.user = {
-            id: findUser.id,
-            email: findUser.email,
-          };
-  
-          next();
-        }
-      }
-    } catch (err) {
-      next(err);
+  try {
+    const { acces_token: token } = req.headers;
+    if (!token) {
+      throw { name: "JsonWebTokenError" };
     }
-  };
-  
-  module.exports = authentication;
+    const payload = verifyToken(token);
+    const foundUser = await User.findOne({
+      where: {
+        id: payload.id,
+        email: payload.email,
+      },
+    });
+    if (!foundUser) {
+      throw { name: "Forbidden" };
+    }
+    req.user = {
+      id: foundUser.id,
+      email: foundUser.email,
+      role: foundUser.role,
+    };
+
+    //boleh acces
+    next();
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = authentication;
