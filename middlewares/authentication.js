@@ -3,6 +3,7 @@ const { verifyToken } = require('../helpers/tokenGenerator');
 
 const authentication = async (req, res, next) => {
 	try {
+		console.log(req.headers);
 		res.status(200).json(req.headers);
 		const { access_token } = req.headers;
 		if (!access_token) {
@@ -25,8 +26,6 @@ const authentication = async (req, res, next) => {
 			fullName: response.fullName,
 			role: response.role,
 		};
-
-		// next();
 	} catch (err) {
 		next(err);
 	}
