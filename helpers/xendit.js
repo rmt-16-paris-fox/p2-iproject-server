@@ -44,6 +44,8 @@ const ovoCharge = async (req, res, next) => {
 
 const ovoStatus = async (req, res, next) => {
 	try {
+		console.log(req.headers);
+
 		const chargeId = req.body.data.id;
 		const referenceId = req.body.data.reference_id.split('-');
 		const status = req.body.data.status;
