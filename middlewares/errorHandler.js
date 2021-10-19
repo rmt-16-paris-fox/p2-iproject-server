@@ -1,4 +1,5 @@
 const errorHandler = (err, req, res, next) => {
+  console.log(err.name);
   switch (err.name) {
     case "SequelizeUniqueConstraintError":
       if (err.errors[0].path === "username") {
@@ -43,6 +44,7 @@ const errorHandler = (err, req, res, next) => {
     case "forbidden":
       res.status(403).json({ message: "You have no permission access" });
       break;
+    case "Error":
     case "recipeNotFound":
       res.status(404).json({ message: "Recipe not found" });
       break;
