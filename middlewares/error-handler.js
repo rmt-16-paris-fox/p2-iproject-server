@@ -33,6 +33,16 @@ const errorHandler = (err, req, res, next) => {
       message = 'you have already reviewed this book';
       break;
 
+    case 'notFound':
+      code = 404;
+      message = 'the review that you want to delete does not exist';
+      break;
+
+    case 'deleteUnauthorized':
+      code = 403;
+      message = 'you can only delete your own review';
+      break;
+
     default:
       code = 500;
       message = 'Internal Server Error';

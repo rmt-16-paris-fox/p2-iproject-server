@@ -49,6 +49,25 @@ class ReviewsController {
       next(err);
     }
   }
+
+  static async deleteReview(req, res, next) {
+    try {
+      const {reviewId} = req.body;
+
+      await Review.destroy({
+        where: {
+          id: reviewId
+        }
+      });
+
+      res.status(200).json({
+        message: 'review deleted',
+      });
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
+  }
 }
 
 module.exports = ReviewsController;

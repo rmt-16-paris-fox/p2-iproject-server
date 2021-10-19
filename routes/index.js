@@ -7,6 +7,7 @@ const GoogleBooksController = require('../controllers/google-books-controller');
 const errorHandler = require('../middlewares/error-handler');
 const authentication = require('../middlewares/authentication');
 const fetchGoogleBooks = require('../middlewares/google-books');
+const fetchGoogleBookByVolumeId = require('../middlewares/google-books-byId');
 
 const router = express.Router();
 const books = require('./books-router');
@@ -19,6 +20,8 @@ router.post('/register', UsersController.register);
 router.post('/login', UsersController.login);
 
 router.post('/google-books', fetchGoogleBooks, GoogleBooksController.fetchBooks);
+
+router.post('/google-books-by-id', fetchGoogleBookByVolumeId, GoogleBooksController.fetchBookByVolumeId);
 
 router.use('/books', books);
 

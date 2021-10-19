@@ -7,7 +7,6 @@ class BooksController {
   static async addNewBook(req, res, next) {
     try {
       const { book } = req.body;
-      let bookDescription;
 
       const bookAuthors = book.volumeInfo.authors.join(', ');
 
@@ -27,12 +26,13 @@ class BooksController {
 
   static async getBookById(req, res, next) {
     try {
-      const { id } = req.params;
+      console.log(req.params);
+      const { volumeId } = req.params;
       const { book } = req.body;
 
       const foundBook = await Book.findOne({
         where: {
-          id: id,
+          googleBooksId: volumeId,
         },
         include: [
           {
