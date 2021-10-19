@@ -52,4 +52,9 @@ Individual Project - Server
 -   ~~youtube~~
 -   ~~setup google login~~
 -   mailjet
--   payment :c
+-   payment
+
+# Payment
+
+-   xendit
+-   jokul
