@@ -28,20 +28,37 @@ class PostController {
   static async deletePost(req, res, next) {
     try {
       const id = +req.params.id
-      if (typeof id !== 'number' || Number.isNaN(id)) {
-        throw ({ name: "invalidParams" })
-      }
-      const post = await Post.findByPk(id)
-      if (!post) {
-        throw ({ name: "postNotFound" })
-      }
       await Post.destroy({
         where: {
           id
         }
       })
       res.status(200).json({ message: "Delete post success!" })
-    } catch (err){
+    } catch (err) {
+      next(err)
+    }
+  }
+
+  static async editPost(req, res, next) {
+    try {
+      const postId = +req.params.id
+      const { content } = req.body
+      let imageUrl = req.file
+      const objUpdate = {}
+      if (content) {
+        objUpdate.content = content
+      }
+      if (req.file) {
+        imageUrl = await imageUpload(imageUrl)
+        objUpdate.imageUrl = imageUrl
+      }
+      await Post.update(objUpdate, {
+        where: {
+          id: postId
+        }
+      })
+      res.status(200).json({ message: "Post has been updated" })
+    } catch (err) {
       next(err)
     }
   }
