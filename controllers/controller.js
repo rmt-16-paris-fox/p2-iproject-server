@@ -80,6 +80,44 @@ class Controller {
             }
         }
     }  
+
+    static async getMyClass (req, res) {
+        try {
+            const myClass = await MyClass.findAll({
+                where: {UserId: +req.user.id}, 
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                },
+                include: {
+                    model: Class,
+                    attributes: {
+                        exclude: ['id','createdAt', 'updatedAt']
+                    }
+                } 
+                })
+                res.status(200).json(myClass)
+        } catch (error) {
+            res.status(500).json({message: "Internal server error"})
+        }
+    }
+
+    static async updateStatus (req, res) {
+        try {
+            let classId = req.params.id
+            await MyClass.update({status: "Finished"},
+                { where: 
+                    {
+                        ClassId: classId,
+                        UserId: req.user.id
+                    }
+                }
+            ) 
+            res.status(200).json({message: "Class has been finished"})
+        } catch (error) {
+            console.log(error.name);
+            res.status(500).json({message: "Internal server error"})
+        }
+    }
 }
 
 module.exports = Controller
