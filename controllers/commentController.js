@@ -19,6 +19,20 @@ class CommentController {
       next(err)
     }
   }
+
+  static async getCommentByPost(req, res, next) {
+    try {
+      const postId = +req.params.id
+      const response = await Comment.findAll({
+        where: {
+          PostId: postId
+        }
+      })
+      res.status(200).json({ response })
+    } catch (err) {
+      next(err)
+    }
+  }
 }
 
 
