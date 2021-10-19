@@ -9,10 +9,10 @@ const passGenerator = require("generate-password");
 class UserController {
   static async register(req, res, next) {
     try {
-      const { name, username, email, password, photo, phoneNumber, address } = req.body;
+      const { name, username, email, password, phoneNumber, address } = req.body;
 
-      const result = await User.create({ name, username, email, password, photo, phoneNumber, address });
-      res.status(201).json({ id: result.id, email: result.email });
+      const result = await User.create({ name, username, email, password, phoneNumber, address });
+      res.status(201).json({ id: result.id, username: result.username, email: result.email });
     } catch (err) {
       next(err);
     }
@@ -21,6 +21,14 @@ class UserController {
   static async login(req, res, next) {
     try {
       const { email, password } = req.body;
+
+      if (!email) {
+        throw { name: "emailEmpty" };
+      }
+
+      if (!password) {
+        throw { name: "passwordEmpty" };
+      }
 
       const result = await User.findOne({
         where: {
