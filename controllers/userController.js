@@ -21,11 +21,37 @@ class UserController {
       })
       res.status(201).json({ message: "Your account has been created!" })
     } catch (err) {
-      console.log(err.name);
       next(err)
     }
   }
 
+  static async loginUser(req, res, next) {
+    try {
+      const { email, password } = req.body
+      if (!email) {
+        throw ({ name: "noEmail" })
+      }
+      if (!password) {
+        throw ({ name: "noPassword" })
+      }
+      const user = await User.findOne({
+        where: {
+          email
+        }
+      })
+      if (!user || !verifyPassword(password, user.password)) {
+        throw ({ name: "invalidUser" })
+      }
+      const payload = {
+        id: user.id,
+        email: email
+      }
+      const access_token = createToken(payload)
+      res.status(200).json({ access_token })
+    } catch (err) {
+      next(err)
+    }
+  }
 }
 
 module.exports = UserController
