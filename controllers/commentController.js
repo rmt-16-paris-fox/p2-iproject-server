@@ -33,6 +33,20 @@ class CommentController {
       next(err)
     }
   }
+  
+  static async deleteCommentById(req, res, next) {
+    try {
+      const { commentId: id } = req.params
+      await Comment.destroy({
+        where: {
+          id
+        }
+      })
+      res.status(200).json({ message: "comment has been deleted" })
+    } catch (err) {
+      next(err)
+    }
+  }
 }
 
 
