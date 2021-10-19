@@ -192,7 +192,7 @@ class KeyboardController {
 	static async editStatus(req, res, next) {
 		try {
 			const KeyboardId = Number(req.params.keyboardId);
-			const { isDone, isPaid } = req.body;
+			const { isDone } = req.body;
 			if (!KeyboardId) {
 				throw { name: 'invalid req.params' };
 			}
@@ -208,7 +208,6 @@ class KeyboardController {
 			const response = await Keyboard.update(
 				{
 					isDone,
-					isPaid,
 				},
 				{
 					where: { id: KeyboardId },
@@ -221,11 +220,7 @@ class KeyboardController {
 					`Work status updated from ${targetKeyboard.isDone} to ${isDone}`
 				);
 			}
-			if (String(targetKeyboard.isPaid) !== isPaid) {
-				message.push(
-					`Payment status updated from ${targetKeyboard.isPaid} to ${isPaid}`
-				);
-			}
+      
 			if (message.length === 0) {
 				message.push('Status is not changing');
 			}

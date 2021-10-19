@@ -110,6 +110,20 @@ class UserController {
 			next(err);
 		}
 	}
+
+  static async getUser(req, res, next) {
+    try {
+      const id = Number(req.user.id)
+      if(!id) {
+        throw {name: 'invalid req.params'}
+      }
+
+      const response = await User.findOne({where: {id}})
+      res.status(200).json({id: response.id, email: response.email, name: response.fullName})
+    } catch (err) {
+      next(err)
+    }
+  }
 }
 
 module.exports = UserController;

@@ -23,4 +23,6 @@ router.post('/ovo/status', ovoStatus);
 
 router.get('/my-keyboards', authentication, KeyboardController.showMyKeyboard);
 
+router.get('/user', authentication, UserController.getUser)
+
 module.exports = router;
