@@ -1,5 +1,5 @@
 const {verifyToken} = require("../helpers/generateToken");
-const {User, Post} = require("../models");
+const {User, Watchlist} = require("../models");
 
 const authenticate = async (req,res,next) => {
     console.log(req.headers)
@@ -27,32 +27,38 @@ const authenticate = async (req,res,next) => {
         next()
 
     } catch (err) {
+        console.log(err, 'di auth')
         next(err)
     }
 }
 
 const authorize = async (req,res,next)=>{
-    const userId = req.user.id
-    const {id} = req.params
+    const UserId = req.user.id
 
     try {
         // cari di wishlist
+        const findWatchlist = await Watchlist.findAll({
+            where: {
+                UserId: UserId
+            }
+        })
         // const findPost = await Post.findOne({
         //     where:{
         //         id: postId
         //     }
         // })
 
-        // if(!findPost){
-        //     throw {name:'postNotFound'}
-        // }
-
-        if(userId === Wishlist.UserId){
+        if(!findWatchlist){
+            throw {name:'watchlistNotFound'}
+        }
+        console.log(UserId,findWatchlist.UserId)
+        if(UserId == findWatchlist.UserId){
             next()
         }else{
             throw {name: "forbidden"}
         }
     } catch (err) {
+        console.log(err, 'di authz')
         next(err)
     }
 }
