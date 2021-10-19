@@ -83,29 +83,49 @@ app.post('/draft', async (req, res) => {
 
     const radiantObj = {};
     let radiantTotalSynergy = 0;
+    let radiantToDireAdvantage = 0;
 
     for (let i = 0; i < radiantArr.length; i++) {
       radiantObj[i] = heroes[i];
     }
 
     for (let i = 0; i < radiantArr.length; i++) {
-      for (let j = i + 1; j < radiantArr.length; j++) {
-        const response = await axios({
-          url: `https://api.stratz.com/api/v1/Hero/${radiantArr[i]}/matchUp`
-        });
+      const response = await axios({
+        url: `https://api.stratz.com/api/v1/Hero/${radiantArr[i]}/matchUp`
+      });
 
+      for (let j = i + 1; j < radiantArr.length; j++) {
         console.log(i, j);
 
         for (let k = 0; k < response.data.advantage[0].with.length; k++) {
-          if (response.data.advantage[0].with[k].heroId2 === j) {
+          if (response.data.advantage[0].with[k].heroId2 === +radiantArr[j]) {
             radiantTotalSynergy += response.data.advantage[0].with[i].synergy;
           }
         }
 
         for (let k = 0; k < response.data.disadvantage[0].with.length; k++) {
-          if (response.data.disadvantage[0].with[k].heroId2 === j) {
-            console.log(i, j);
+          if (
+            response.data.disadvantage[0].with[k].heroId2 === +radiantArr[j]
+          ) {
             radiantTotalSynergy +=
+              response.data.disadvantage[0].with[i].synergy;
+          }
+        }
+      }
+
+      for (let j = i + 1; j < direArr.length; j++) {
+        console.log(i, j);
+
+        for (let k = 0; k < response.data.advantage[0].with.length; k++) {
+          if (response.data.advantage[0].with[k].heroId2 === +direArr[j]) {
+            radiantToDireAdvantage +=
+              response.data.advantage[0].with[i].synergy;
+          }
+        }
+
+        for (let k = 0; k < response.data.disadvantage[0].with.length; k++) {
+          if (response.data.disadvantage[0].with[k].heroId2 === +direArr[j]) {
+            radiantToDireAdvantage +=
               response.data.disadvantage[0].with[i].synergy;
           }
         }
@@ -113,10 +133,11 @@ app.post('/draft', async (req, res) => {
     }
 
     console.log('Radiant Synergy = ' + radiantTotalSynergy.toFixed(2) + '%');
+    console.log(radiantToDireAdvantage);
 
     res.status(200).json({ radiantObj });
   } catch (err) {
-    console.log(err);
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
 
