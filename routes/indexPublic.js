@@ -19,8 +19,7 @@ router.post('/keyboards', authentication, KeyboardController.orderKeyboard);
 // ? keyboardId pake req.params?
 // ? ovo/status yang manggil xendit (kayanya)
 router.post('/ovo/charge', authentication, ovoCharge);
-router.post('/ovo/status', authentication);
-// router.post('/ovo/status', authentication, ovoStatus);
+router.post('/ovo/status', ovoStatus);
 
 router.get('/my-keyboards', authentication, KeyboardController.showMyKeyboard);
 
