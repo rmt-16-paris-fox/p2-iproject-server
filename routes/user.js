@@ -7,7 +7,6 @@ router.post("/register", UserController.register);
 router.post("/login", UserController.login);
 router.post("/google-login", UserController.loginByGoogle);
 
-router.use(authN);
-router.get("/user-data", UserController.getUserData);
+router.get("/user-data", authN, UserController.getUserData);
 
 module.exports = router;

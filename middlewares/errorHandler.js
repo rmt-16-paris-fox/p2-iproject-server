@@ -28,6 +28,9 @@ const errorHandler = (err, req, res, next) => {
         res.status(400).json({ message: "Image size limit is 255 KB" });
       }
       break;
+    case "recipeNameEmpty":
+      res.status(400).json({ message: "Recipe name is required" });
+      break;
     case "alreadyMyRecipe":
       res.status(400).json({ message: "This recipe is already in your recipe list" });
       break;
