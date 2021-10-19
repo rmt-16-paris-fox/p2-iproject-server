@@ -1,0 +1,44 @@
+Wardmap
+
+X = 127
+Y = 127
+X = X - 127
+Y = 127 - Y - 64
+127x127 pixel
+
+Performance 
+Taken from current matches and compared with 100 matches
+
+- K/D/A
+- Stuns
+- Team Fight Participations
+- CS Efficiency => lhten / 80, check per minute
+- Lane Efficiency => gold / 10mins, passive + starting + laning
+  Starting Gold = 600g
+  Total passive gold @ 10mns = 1030g
+  Range Creep = avg 47,5 = 950g
+  Melee Creep = avg 36,5 * 60 = 2190g
+  Total Gold from creeps = 3140g @ 80creeps || 39,25g/creep
+  Total Gold = 4770g @ 10 minutes
+  Lane efficiency => Gold @ 10minutes Divided by 4770g
+  e.g. Winter Wyvern in game 6227492909, kill 13 creeps => 510,25g + 600g + 1030g = 
+  Lane Efficiency = 1904,75/4770 = 44,87% from 100%
+- How many observer ward placed
+- How many ward dewarded
+- How many sentry placed
+- Deward efficiency
+  Sentry placed vs dewarded
+- Benchmark all stats based on hero, which percentile he was in
+- Camp stacks
+
+Team Fight Analysis
+
+- Spells used
+- Items used
+- Outgoing damage (Will be compared with total outgoing damage in single fight)
+- XP delta
+- Gold delta
+- Healing
+
+Net Worth Chart
+XP Chart

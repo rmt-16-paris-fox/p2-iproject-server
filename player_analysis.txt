@@ -1,0 +1,16 @@
+Average
+averaging 10 vs averaging 100
+
+KDA
+GPM
+XPM
+Hero damage
+Building damage
+Hero healing
+Last hit
+
+Wardmap Analysis
+
+- Check by data
+
+Wordcloud :)
