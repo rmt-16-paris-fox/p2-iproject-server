@@ -101,6 +101,14 @@ app.post('/draft', async (req, res) => {
             radiantTotalSynergy += response.data.advantage[0].with[i].synergy;
           }
         }
+
+        for (let k = 0; k < response.data.disadvantage[0].with.length; k++) {
+          if (response.data.disadvantage[0].with[k].heroId2 === j) {
+            console.log(i, j);
+            radiantTotalSynergy +=
+              response.data.disadvantage[0].with[i].synergy;
+          }
+        }
       }
     }
 
