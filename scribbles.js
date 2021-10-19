@@ -64,6 +64,9 @@ sequelize seed:generate --name Initial-seed-inventory
 sequelize db:migrate
 sequelize db:seed:all
 
+
+git remote set-url origin git@github.com:Forgotosleep/p2-iproject-server-1.git
+
 */
 
 /* 
