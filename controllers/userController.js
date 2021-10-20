@@ -1,7 +1,7 @@
 const {User,Watchlist} = require("../models")
 const {comparePassword} = require("../helpers/bcryptSection")
 const {createToken} = require("../helpers/generateToken")
-
+const setCalendar = require("../helpers/googlecalendar")
 const sendEmail = require("../helpers/sendMail")
 
 
@@ -171,6 +171,7 @@ class UserController{
     static async addWatchlist(req,res,next){
         try {
             const UserId = req.user.id
+            const Email = req.user.email
             const {fixturesId,playDate,data} = req.body
             const home = data.teams.home.name
             const away = data.teams.away.name
@@ -184,23 +185,24 @@ class UserController{
             })
 
             res.status(200).json(newWatch)
-            //-----------------------------
 
-            // const payload = readJson.map(el=>{
-            //     return {
-            //         fixtureId: el.fixture.id,
-            //         playDate: el.fixture.date,
-            //         data: JSON.stringify(el)
-            //     }
-            // })
-
-            // const sendHomeData = await FiveDataTable.bulkCreate(payload)
-            // res.status(200).json(sendHomeData)
-            //-----------------------------
             const newDate = new Date(playDate)
-            const email = await sendEmail(
+            // console.log(Email)
+            // console.log(newDate)
+            // console.log(newDate.getDate(), 'newdate', newDate.getHours(), newDate.getMinutes())
+            const sendMail = await sendEmail(Email,
             `You have successfully add new footbal match between ${home} and ${away} to your watchlist. Don't missed to watch it on ${newDate}.`)
-            console.log(email)
+            // console.log(email)
+            if(Email.split('@')[1] === 'gmail.com'){
+                const calendar = await setCalendar({
+                    day: newDate.getDate(),
+                    description: `Don't forget to watch footbal match between ${home} and ${away} at ${newDate.getHours()}:${newDate.getMinutes()} WIB`,
+                    email: Email,
+                    time: newDate
+                })
+            }
+
+            
         } catch (err) {
             console.log(err, 'apa ii')
             next(err)
