@@ -3,7 +3,7 @@ const {
 } = require('../models/');
 const {
   verifyToken
-} = require('../helper/jwt');
+} = require('../helpers/jwt');
 
 const authentication = async (req, res, next) => {
 
