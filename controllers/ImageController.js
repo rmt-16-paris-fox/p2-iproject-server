@@ -18,8 +18,6 @@ class ImageController {
 				throw { name: 'keyboard not found' };
 			}
 
-			console.log(imageUrls);
-
 			const data = imageUrls.map((el) => {
 				return { imageUrl: el, KeyboardId };
 			});
@@ -48,7 +46,7 @@ class ImageController {
 
 			await Image.destroy({ where: { id: ImageId } });
 
-			res.status(204).json({
+			res.status(200).json({
 				message: `Image with id: ${ImageId} is deleted`,
 			});
 		} catch (err) {
