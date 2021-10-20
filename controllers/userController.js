@@ -4,8 +4,6 @@ const {createToken} = require("../helpers/generateToken")
 const setCalendar = require("../helpers/googlecalendar")
 const sendEmail = require("../helpers/sendMail")
 
-
-
 class UserController{
     static async userRegister(req,res,next){
         try {
@@ -56,7 +54,6 @@ class UserController{
             const client = new OAuth2Client(process.env.Oauth_clientId);
             const randomPass = Math.random().toString(36).slice(-10);
             const {token} = req.body
-            console.log(token,'****')
             const ticket = await client.verifyIdToken({
                 idToken: token,
                 audience: process.env.Oauth_clientId,  
@@ -82,42 +79,50 @@ class UserController{
         }
     }
 
-    static async getUserCred(req,res,next){
-        const {id,email,role} = req.user
-        try {
-            const findUser = await User.findOne({
-                where: {
-                    id: id
-                }
-            })
-            const userCred = {
-                id: findUser.id,
-                username: findUser.username,
-                email: findUser.email,
-                role: findUser.role
-            }
-            res.status(200).json(userCred)
-        } catch (err) {
-            next(err)
-        }
-    }
-
     static async getSchedule(req,res,next){
         try {
             //-----------------------------
-            const fs = require('fs')
-            const path = require("path");
+            const axios = require("axios").default;
+            const apiKey = process.env.FOOTBAL_APIKEY;
+            
+            var options = {
+              method: 'GET',
+              url: 'https://api-football-v1.p.rapidapi.com/v3/fixtures',
+              params: {league: '39', season: '2021', next: '10'},
+              headers: {
+                'x-rapidapi-host': 'api-football-v1.p.rapidapi.com',
+                'x-rapidapi-key': apiKey
+              }
+            };
 
-            const readJson = JSON.parse(fs.readFileSync(path.resolve('../p2-iproject-server/helpers/test.json'), 'utf-8'))
-            // console.log(readJson, 'iniinini')
-
-            res.status(200).json(readJson)
+            axios.request(options)
+            .then((response) => {
+                let data = response.data.response
+                res.status(200).json(data)
+            })
             //-----------------------------
         } catch (err) {
             console.log(err, 'ini di sini')
             next(err)
         }
     }
+
+    // static async getSchedule(req,res,next){
+    //     try {
+    //         //-----------------------------
+    //         const fs = require('fs')
+    //         const path = require("path");
+
+    //         const readJson = JSON.parse(fs.readFileSync(path.resolve('../p2-iproject-server/helpers/test.json'), 'utf-8'))
+    //         // console.log(readJson, 'iniinini')
+
+    //         res.status(200).json(readJson)
+    //         //-----------------------------
+    //     } catch (err) {
+    //         console.log(err, 'ini di sini')
+    //         next(err)
+    //     }
+    // }
 
     static async getWatchlist(req,res,next){
         try {
@@ -136,7 +141,6 @@ class UserController{
                 data: JSON.parse(el.data)
                }
             })
-            // console.log(newData[0])
             res.status(200).json(newData)
         } catch (err) {
             console.log(err, 'di get watchlist')
@@ -153,7 +157,6 @@ class UserController{
                     id:id
                 }
             })
-            // console.log(findWatchlist, '5464')
             let newData = {
                 UserId: findWatchlist.UserId,
                 fixturesId: findWatchlist.fixturesId,
@@ -162,10 +165,8 @@ class UserController{
                 data: JSON.parse(findWatchlist.data)
                }
             
-            // console.log(newData)
             res.status(200).json(newData)
         } catch (err) {
-            console.log(err, 'di get watchlist by id')
             next(err)
         }
     }
@@ -188,12 +189,8 @@ class UserController{
             res.status(201).json({msg: 'Added to watchlist'})
 
             const newDate = new Date(playDate)
-            // console.log(Email)
-            // console.log(newDate)
-            // console.log(newDate.getDate(), 'newdate', newDate.getHours(), newDate.getMinutes())
             const sendMail = await sendEmail(Email,
             `You have successfully add new footbal match between ${home} and ${away} to your watchlist. Don't missed to watch it on ${newDate}.`)
-            // console.log(email)
             if(Email.split('@')[1] === 'gmail.com'){
                 const calendar = await setCalendar({
                     day: newDate.getDate(),
@@ -202,10 +199,7 @@ class UserController{
                     time: newDate
                 })
             }
-
-            
         } catch (err) {
-            console.log(err, 'apa ii')
             next(err)
         }
     }
