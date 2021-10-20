@@ -35,12 +35,12 @@ const errorHandler = (err, req, res, next) => {
 
     case 'notFound':
       code = 404;
-      message = 'the review that you want to delete does not exist';
+      message = 'the review does not exist';
       break;
 
-    case 'deleteUnauthorized':
+    case 'reviewUnauthorized':
       code = 403;
-      message = 'you can only delete your own review';
+      message = 'you can only delete or edit your own review';
       break;
 
     default:

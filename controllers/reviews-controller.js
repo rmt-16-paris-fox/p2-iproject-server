@@ -50,14 +50,39 @@ class ReviewsController {
     }
   }
 
+  static async updateReview(req, res, next) {
+    try {
+      const { reviewId, rating, content } = req.body;
+
+      const updatedReview = await Review.update(
+        {
+          rating,
+          content,
+        },
+        {
+          where: {
+            id: reviewId,
+          },
+        }
+      );
+
+      res.status(200).json({
+        message: 'review updated',
+      });
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
+  }
+
   static async deleteReview(req, res, next) {
     try {
-      const {reviewId} = req.body;
+      const { reviewId } = req.body;
 
       await Review.destroy({
         where: {
-          id: reviewId
-        }
+          id: reviewId,
+        },
       });
 
       res.status(200).json({
