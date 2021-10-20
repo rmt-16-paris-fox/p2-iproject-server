@@ -38,7 +38,15 @@ module.exports = (sequelize, DataTypes) => {
         notNull: {msg: "Instructor is required."},
         notEmpty: {msg: "Instructor is required."},
       }
-    }
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {msg: "Description is required."},
+        notEmpty: {msg: "Description is required."},
+      }
+    },
   }, {
     sequelize,
     modelName: 'Class',
