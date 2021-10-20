@@ -2,41 +2,49 @@
   {
     "title": "HTML Dasar",
     "instructor": "Rasyid Ridho",
-    "imageUrl": "https://docs.vuejs.id/images/logo.png"
+    "imageUrl": "https://docs.vuejs.id/images/logo.png",
+    "description": "Mempelajari HTML Dasar dengan Instructor berpengalaman"
   },
   {
     "title": "CSS Dasar",
     "instructor": "Agnia Naufal",
-    "imageUrl": "https://billwerk.io/wp-content/uploads/sites/2/2019/05/icons-restapi-350x350.png"
+    "imageUrl": "https://billwerk.io/wp-content/uploads/sites/2/2019/05/icons-restapi-350x350.png",
+    "description": "Mempelajari CSS Dasar dengan Instructor berpengalaman"
   },
   {
     "title": "CSS Layouting",
     "instructor": "Darwin",
-    "imageUrl": "https://www.kindpng.com/picc/m/445-4450455_css-logo-jquery-html-css-and-jquery-hd.png"
+    "imageUrl": "https://www.kindpng.com/picc/m/445-4450455_css-logo-jquery-html-css-and-jquery-hd.png",
+    "description": "Mempelajari CSS Layouting dengan Instructor berpengalaman"
   },
   {
     "title": "PHP Dasar",
     "instructor": "Samuel Matthew",
-    "imageUrl": "https://docs.vuejs.id/images/logo.png"
+    "imageUrl": "https://docs.vuejs.id/images/logo.png",
+    "description": "Mempelajari PHP Dasar dengan Instructor berpengalaman"
   },
   {
     "title": "CSS Grid",
     "instructor": "Vina Eka",
-    "imageUrl": "https://image.freepik.com/free-vector/brain-light-bulb-logo-vector-design_16734-24.jpg"
+    "imageUrl": "https://image.freepik.com/free-vector/brain-light-bulb-logo-vector-design_16734-24.jpg",
+    "description": "Mempelajari CSS Grid dengan Instructor berpengalaman"
   },
   {
     "title": "Javascript Dasar",
     "instructor": "Farandi",
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/480px-Unofficial_JavaScript_logo_2.svg.png"
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/480px-Unofficial_JavaScript_logo_2.svg.png",
+    "description": "Mempelajari Javascript Dasar dengan Instructor berpengalaman"
   },
   {
     "title": "Javascript DOM",
     "instructor": "Mursalin",
-    "imageUrl": "https://e7.pngegg.com/pngimages/395/768/png-clipart-database-administrator-computer-icons-database-symbol-angle-data.png"
+    "imageUrl": "https://e7.pngegg.com/pngimages/395/768/png-clipart-database-administrator-computer-icons-database-symbol-angle-data.png",
+    "description": "Mempelajari Javascript DOM dengan Instructor berpengalaman"
   },
   {
     "title": "Git & Github",
     "instructor": "Arif Rahman",
-    "imageUrl": "https://png.pngitem.com/pimgs/s/326-3264159_let-s-get-small-centro-social-y-recreativo.png"
+    "imageUrl": "https://png.pngitem.com/pimgs/s/326-3264159_let-s-get-small-centro-social-y-recreativo.png",
+    "description": "Mempelajari Git & Github dengan Instructor berpengalaman"
   }
 ]
