@@ -17,19 +17,31 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(router);
 
+let users = [];
+
 io.on("connection", (socket) => {
-  console.log("user connected");
+  console.log("user connected", socket.id);
   socket.on("disconnect", () => {
-    socket.emit("get-rooms", rooms);
+    // socket.emit("get-rooms", rooms);
   });
 
   socket.on("newMessage", (msg) => {
-    io.emit("send message", { message: msg, user: socket.username });
+    // console.log(msg);
+    io.emit("sendMessage", {
+      message: msg,
+      user: socket.username,
+      id: socket.id,
+    });
   });
 
   socket.on("new user", (usr) => {
     socket.username = usr;
     console.log("User connected - Username: " + socket.username);
+  });
+
+  socket.on("loginUser", (user) => {
+    users.push(user);
+    console.log(users);
   });
 });
 
