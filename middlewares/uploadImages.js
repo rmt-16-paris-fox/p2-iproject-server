@@ -3,10 +3,6 @@ const axios = require('axios');
 
 const uploadImages = async (req, res, next) => {
 	try {
-    // console.log('called')
-    // console.log('======================')
-    // console.log(req.file)
-    // console.log(req.files)
 		if (req.files) {
 			const files = req.files;
 
