@@ -16,6 +16,9 @@ const errorHandler = (err, req, res, next) => {
     case 'noContent':
       res.status(400).json({ message: "Please fill this field" })
       break;
+    case 'noText':
+      res.status(400).json({ message: "Please fill this field" })
+      break;
     case 'invalidParams':
       res.status(400).json({ message: "Id must be a number" })
       break;
@@ -27,6 +30,7 @@ const errorHandler = (err, req, res, next) => {
       res.status(403).json({ message: "forbidden access" })
       break;
     case 'postNotFound':
+    case 'SequelizeForeignKeyConstraintError':
       res.status(404).json({ message: "Post not found" })
       break;
     default:

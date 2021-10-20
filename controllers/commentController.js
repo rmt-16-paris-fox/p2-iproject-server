@@ -16,6 +16,7 @@ class CommentController {
       })
       res.status(201).json({ message: "comment has been posted to this post" })
     } catch (err) {
+      console.log(err.name)
       next(err)
     }
   }
@@ -48,6 +49,5 @@ class CommentController {
     }
   }
 }
-
 
 module.exports = CommentController
