@@ -35,6 +35,9 @@ const errorHandler = (err, req, res, next) => {
     case "alreadyMyRecipe":
       res.status(400).json({ message: "This recipe is already in your recipe list" });
       break;
+    case "failedEmail":
+      res.status(400).json({ message: "Failed send to your email, try again later" });
+      break;
     case "Invalid":
       res.status(401).json({ message: "Incorrect email / username or password" });
       break;

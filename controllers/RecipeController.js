@@ -201,8 +201,8 @@ class RecipeController {
       const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-          user: "rasyidrmuhammad@gmail.com ",
-          pass: "rasyidr20",
+          user: process.env.EMAIL,
+          pass: process.env.PASS,
         },
       });
 
@@ -216,12 +216,14 @@ class RecipeController {
       transporter.sendMail(option, (err, info) => {
         if (err) {
           console.log(err);
-          return;
+          throw { name: "failedEmail" };
         }
 
-        console.log(info.response);
+        res.status(200).json({ message: "Email sent, thank you for using our app, please check your email periodically" });
       });
-    } catch (err) {}
+    } catch (err) {
+      next(err);
+    }
   }
 }
 
