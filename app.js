@@ -78,6 +78,8 @@ app.post('/draft', async (req, res) => {
   try {
     const { radiant, dire } = req.body;
 
+    const heroWithRole = {};
+
     const radiantArr = radiant.split(',');
     const direArr = dire.split(',');
 
@@ -85,6 +87,34 @@ app.post('/draft', async (req, res) => {
     let radiantTotalSynergy = 0; // * if positive, then Radiant synergy is good. If negative, then Radiant synergy is bad
     let direTotalSynergy = 0; // * if positive, then Dire synergy is good. If negative, then Dire synergy is bad
     let radiantToDireAdvantage = 0; //* if positive, then Radiant has advantage against Dire. If negative, then Radiant has disadvantage against Dire
+
+    // * Get roles per heroes, get roles name and restructure the hero lists
+
+    const heroesResponse = await axios({
+      url: 'https://api.stratz.com/api/v1/Hero/',
+      method: 'GET'
+    });
+
+    const heroRolesResponse = await axios({
+      url: 'https://api.stratz.com/api/v1/Hero/roles',
+      method: 'GET'
+    });
+
+    for (let hero in heroesResponse.data) {
+      const heroLists = heroesResponse.data;
+      heroWithRole[hero] = [];
+
+      for (let heroRoles of heroLists[hero].roles) {
+        const role = {};
+
+        role.role = heroRolesResponse.data[heroRoles.roleId].name;
+        role.level = heroRoles.level;
+
+        heroWithRole[hero].push(role);
+      }
+    }
+
+    // * Calculating Radiant team synergy and disadvantage
 
     for (let i = 0; i < radiantArr.length; i++) {
       radiantObj[i] = heroes[i];
@@ -96,8 +126,6 @@ app.post('/draft', async (req, res) => {
       });
 
       for (let j = i + 1; j < radiantArr.length; j++) {
-        console.log(i, j);
-
         for (let k = 0; k < response.data.advantage[0].with.length; k++) {
           if (response.data.advantage[0].with[k].heroId2 === +radiantArr[j]) {
             radiantTotalSynergy += response.data.advantage[0].with[i].synergy;
@@ -114,9 +142,9 @@ app.post('/draft', async (req, res) => {
         }
       }
 
-      for (let j = i + 1; j < direArr.length; j++) {
-        console.log(i, j);
+      // * Calculating Dire team synergy and disadvantage
 
+      for (let j = i + 1; j < direArr.length; j++) {
         for (let k = 0; k < response.data.advantage[0].with.length; k++) {
           if (response.data.advantage[0].with[k].heroId2 === +direArr[j]) {
             radiantToDireAdvantage +=
@@ -139,8 +167,6 @@ app.post('/draft', async (req, res) => {
       });
 
       for (let j = i + 1; j < direArr.length; j++) {
-        console.log(i, j);
-
         for (let k = 0; k < response.data.advantage[0].with.length; k++) {
           if (response.data.advantage[0].with[k].heroId2 === +direArr[j]) {
             direTotalSynergy += response.data.advantage[0].with[i].synergy;
@@ -155,12 +181,51 @@ app.post('/draft', async (req, res) => {
       }
     }
 
-    console.log('Radiant Synergy = ' + radiantTotalSynergy.toFixed(2) + '%');
-    console.log('Dire Synergy = ' + direTotalSynergy.toFixed(2) + '%');
-    console.log(radiantToDireAdvantage);
+    // * Calculating Team Composition based on role per heroes in each team
 
-    res.status(200).json({ radiantObj });
+    const teamComposition = {
+      Carry: 0,
+      Escape: 0,
+      Nuker: 0,
+      Initiator: 0,
+      Durable: 0,
+      Disabler: 0,
+      Jungler: 0,
+      Support: 0,
+      Pusher: 0
+    };
+
+    const radiantComposition = {
+      ...teamComposition
+    };
+
+    const direComposition = {
+      ...teamComposition
+    };
+
+    for (let heroId of radiantArr) {
+      for (let heroRole of heroWithRole[heroId]) {
+        radiantComposition[heroRole.role] += heroRole.level;
+      }
+    }
+
+    for (let heroId of direArr) {
+      for (let heroRole of heroWithRole[heroId]) {
+        direComposition[heroRole.role] += heroRole.level;
+      }
+    }
+
+    const payload = {
+      radiantTotalSynergy,
+      direTotalSynergy,
+      radiantToDireAdvantage,
+      radiantComposition,
+      direComposition
+    };
+
+    res.status(200).json(payload);
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
