@@ -11,5 +11,6 @@ router.use(authN);
 router.get("/myRecipes", RecipeController.getAllMyRecipes);
 router.post("/myRecipes/:recipeId", RecipeController.postMyRecipe);
 router.delete("/myRecipes/:id", authZ, RecipeController.deleteMyRecipeById);
+router.post("/sendRecipes", RecipeController.sendEmail);
 
 module.exports = router;

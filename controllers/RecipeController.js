@@ -1,4 +1,5 @@
 const axios = require("axios");
+const nodemailer = require("nodemailer");
 const { User, MyRecipe, RateRecipe } = require("../models");
 
 class RecipeController {
@@ -191,6 +192,36 @@ class RecipeController {
     } catch (err) {
       next(err);
     }
+  }
+
+  static async sendEmail(req, res, next) {
+    try {
+      const { message } = req.body;
+
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: "rasyidrmuhammad@gmail.com ",
+          pass: "rasyidr20",
+        },
+      });
+
+      const option = {
+        from: "rasyidrmuhammad@gmail.com",
+        to: req.user.email,
+        subject: "Testing send email",
+        text: message,
+      };
+
+      transporter.sendMail(option, (err, info) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+
+        console.log(info.response);
+      });
+    } catch (err) {}
   }
 }
 
