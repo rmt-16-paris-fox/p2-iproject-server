@@ -20,7 +20,7 @@ const authorization = async (req, res, next) => {
     }
 
     if (foundReview.userId !== req.user.id) {
-      throw { name: 'deleteUnauthorized' };
+      throw { name: 'reviewUnauthorized' };
     }
 
     next();

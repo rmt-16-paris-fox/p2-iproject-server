@@ -6,7 +6,11 @@ const fetchGoogleBookByVolumeId = require('../middlewares/google-books-byId');
 
 router.get('/', BooksController.getAllBooks);
 
-router.post('/:volumeId', fetchGoogleBookByVolumeId, BooksController.getBookById);
+router.post(
+  '/:volumeId',
+  fetchGoogleBookByVolumeId,
+  BooksController.getBookById
+);
 
 router.post('/', fetchGoogleBookByVolumeId, BooksController.addNewBook);
 

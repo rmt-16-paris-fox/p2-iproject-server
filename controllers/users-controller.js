@@ -57,6 +57,15 @@ class UsersController {
       next(err);
     }
   }
+
+  static async getLoggedInUserData(req, res, next) {
+    try {
+      res.status(200).json(req.user);
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
+  }
 }
 
 module.exports = UsersController;

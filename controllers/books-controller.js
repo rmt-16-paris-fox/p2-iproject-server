@@ -74,13 +74,22 @@ class BooksController {
         };
       }
 
-      console.log(option);
-
       const books = await Book.findAndCountAll(option);
 
       const booksWithPagination = getPagingData(books, page, limit);
 
       res.status(200).json(booksWithPagination);
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
+  }
+
+  static async retrieveShortURL(req, res, next) {
+    try {
+      const { shortenedURL } = req.body;
+
+      res.status(200).json(shortenedURL);
     } catch (err) {
       console.log(err);
       next(err);

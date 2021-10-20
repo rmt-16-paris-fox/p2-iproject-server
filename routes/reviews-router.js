@@ -6,6 +6,8 @@ const authorization = require('../middlewares/authorization');
 
 router.post('/', ReviewsController.addNewReview);
 
+router.put('/', authorization, ReviewsController.updateReview);
+
 router.delete('/', authorization, ReviewsController.deleteReview);
 
 router.get('/:bookId', ReviewsController.getReviewsByBookId);
