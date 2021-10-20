@@ -27,7 +27,8 @@ class Controller {
     }
   }
   static async chat(req, res, next) {
-    res.status(200).json({ message: "connected" });
+    res.send("<h1>hello</h1>");
+    // res.status(200).json({ message: "connected" });
   }
 }
 
