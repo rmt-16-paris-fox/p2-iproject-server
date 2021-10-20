@@ -46,7 +46,7 @@ class ImageController {
 
 			await Image.destroy({ where: { id: ImageId } });
 
-			res.status(204).json({
+			res.status(200).json({
 				message: `Image with id: ${ImageId} is deleted`,
 			});
 		} catch (err) {
