@@ -85,6 +85,20 @@ class PostController {
       next(err)
     }
   }
+
+  static async getOnePost(req, res, next) {
+    try {
+      const id = req.params.id
+      const post = await Post.findByPk(id)
+      if(!post){
+        throw({name:"postNotFound"})
+      }
+      res.status(200).json(post)
+    } catch (err) {
+      console.log(err)
+      next(err)
+    }
+  }
 }
 
 module.exports = PostController
