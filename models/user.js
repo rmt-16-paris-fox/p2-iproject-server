@@ -8,9 +8,9 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
       User.hasMany(models.Post)
-      User.belongsToMany(models.Post, {as: 'User', through: models.Comment, foreignKey:'UserId'})
+      User.hasMany(models.Comment)
+      User.belongsToMany(models.Post, {as: 'User', through: models.Comment, foreignKey:'UserId'})}
     }
-  };
   User.init({
     firstName: {
       type:DataTypes.STRING,
