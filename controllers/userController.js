@@ -59,7 +59,7 @@ class UserController {
     try {
       const id = +req.user.id
       const user = await User.findByPk(id, {
-        attributes: ['id', 'email']
+        attributes: ['id', 'email', 'fakeName']
       })
       res.status(200).json(user)
     } catch (err) {
