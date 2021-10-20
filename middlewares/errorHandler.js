@@ -1,11 +1,11 @@
 const errorHandler = (err, req, res, next) => {
-  // console.log(err);
+  // console.log(err, ">>>>>>>>>> error handler");
   switch (err.name) {
     case "SequelizeUniqueConstraintError":
       if (err.errors[0].path === "username") {
-        res.status(400).json({ message: "Username already registered" });
+        res.status(400).json({ message: ["Username already registered"] });
       } else if (err.errors[0].path === "email") {
-        res.status(400).json({ message: "Email already registered" });
+        res.status(400).json({ message: ["Email already registered"] });
       }
       break;
     case "SequelizeValidationError":

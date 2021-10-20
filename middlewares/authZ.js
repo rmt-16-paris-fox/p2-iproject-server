@@ -4,6 +4,7 @@ const authZ = async (req, res, next) => {
   try {
     const { id } = req.user;
     const recipeId = req.params.id;
+    console.log(recipeId, ">>>>>>>helow");
 
     const result = await MyRecipe.findOne({
       where: { id: Number(recipeId) },

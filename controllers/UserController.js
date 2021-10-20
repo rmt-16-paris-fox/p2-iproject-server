@@ -76,7 +76,10 @@ class UserController {
           email: emailGoogle,
         },
         defaults: {
-          username: emailGoogle,
+          name: payload.given_name,
+          username: payload.email,
+          email: payload.email,
+          photo: payload.picture,
           password: pass,
         },
       });

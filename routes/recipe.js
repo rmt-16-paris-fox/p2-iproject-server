@@ -4,8 +4,9 @@ const RecipeController = require("../controllers/RecipeController");
 const { authN } = require("../middlewares/authN");
 const { authZ } = require("../middlewares/authZ");
 
-router.get("/", RecipeController.getAllRecipes);
+router.post("/", RecipeController.getAllRecipes);
 router.get("/recipeDetail/:recipeId", RecipeController.getRecipeDetail);
+
 router.use(authN);
 router.get("/myRecipes", RecipeController.getAllMyRecipes);
 router.post("/myRecipes/:recipeId", RecipeController.postMyRecipe);

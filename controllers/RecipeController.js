@@ -6,13 +6,47 @@ class RecipeController {
     try {
       const app_id = process.env.EDAMAM_APP_ID;
       const app_key = process.env.EDAMAM_APP_KEY;
-      const { name, calories } = req.body;
+      const { name, minCal, maxCal, diet, mealType, time } = req.body;
 
       if (!name) {
         throw { name: "recipeNameEmpty" };
       }
 
-      const field = "field=uri&field=label&field=image&field=yield&field=dietLabels&field=ingredientLines&field=calories&field=totalWeight&field=totalTime&field=cuisineType&field=mealType";
+      let calories;
+      if (minCal && maxCal) {
+        calories = `${minCal}-${maxCal}`;
+      } else if (minCal) {
+        calories = `${minCal}+`;
+      } else if (maxCal) {
+        calories = maxCal;
+      }
+
+      let field = "field=uri&field=label&field=image&field=yield&field=dietLabels&field=ingredientLines&field=calories&field=totalWeight&field=totalTime&field=cuisineType&field=mealType";
+      let dietType = "";
+      let meal = "";
+      let timeCook = "";
+
+      if (diet) {
+        if (diet.length > 1) {
+          dietType = "&diet=" + diet.join("&diet=");
+        } else if (diet.length > 0) {
+          dietType = "&diet=" + diet[0];
+        }
+        field += dietType;
+      }
+
+      if (mealType) {
+        if (mealType.length > 1) {
+          meal = "&mealType=" + mealType.join("&mealType=");
+        } else if (mealType.length > 0) {
+          meal = "&mealType=" + mealType[0];
+        }
+        field += meal;
+      }
+
+      if (time) {
+        field += "&time=" + time;
+      }
 
       const result = await axios({
         url: `https://api.edamam.com/api/recipes/v2?${field}`,
@@ -21,9 +55,10 @@ class RecipeController {
           app_key,
           type: "public",
           q: name,
-          calories: calories || null,
+          calories,
         },
       });
+
       res.status(200).json(result.data);
     } catch (err) {
       next(err);
@@ -57,7 +92,7 @@ class RecipeController {
       const UserId = req.user.id;
       const MyRecipes = [];
 
-      const result = await MyRecipe.findAll({
+      let result = await MyRecipe.findAll({
         where: { UserId },
       });
 
@@ -66,8 +101,7 @@ class RecipeController {
         const app_key = process.env.EDAMAM_APP_KEY;
 
         for (const recipe of result) {
-          let { RecipeId } = recipe;
-
+          let { RecipeId, id } = recipe;
           const found = await axios({
             url: `https://api.edamam.com/api/recipes/v2/${RecipeId}`,
             params: {
@@ -77,22 +111,23 @@ class RecipeController {
             },
           });
 
-          MyRecipes.push(found.data.recipe);
+          MyRecipes.push({ id, recipe: found.data.recipe });
         }
 
         const filtered = MyRecipes.map((recipe) => {
           return {
-            uri: recipe.uri,
-            label: recipe.label,
-            image: recipe.image,
-            yield: recipe.yield,
-            dietLabels: recipe.dietLabels,
-            ingredientLines: recipe.ingredientLines,
-            calories: recipe.calories,
-            totalWeight: recipe.totalWeight,
-            totalTime: recipe.totalTime,
-            cuisineType: recipe.cuisineType,
-            mealType: recipe.mealType,
+            id: recipe.id,
+            uri: recipe.recipe.uri,
+            label: recipe.recipe.label,
+            image: recipe.recipe.image,
+            yield: recipe.recipe.yield,
+            dietLabels: recipe.recipe.dietLabels,
+            ingredientLines: recipe.recipe.ingredientLines,
+            calories: recipe.recipe.calories,
+            totalWeight: recipe.recipe.totalWeight,
+            totalTime: recipe.recipe.totalTime,
+            cuisineType: recipe.recipe.cuisineType,
+            mealType: recipe.recipe.mealType,
           };
         });
         res.status(200).json(filtered);
@@ -111,7 +146,7 @@ class RecipeController {
       const app_key = process.env.EDAMAM_APP_KEY;
 
       const found = await axios({
-        url: `https://api.edamam.com/api/recipes/v2/${RecipeId || null}`,
+        url: `https://api.edamam.com/api/recipes/v2/${RecipeId}`,
         params: {
           app_id,
           app_key,
@@ -152,7 +187,7 @@ class RecipeController {
         where: { id },
       });
 
-      res.status(200).json({ message: "Success delete from your recipe" });
+      res.status(200).json({ message: "success deleted from your recipes" });
     } catch (err) {
       next(err);
     }
