@@ -5,7 +5,7 @@ const router = require('express').Router()
 
 router.post('/register', UserController.userRegister)
 router.post('/login', UserController.userLogin)
-router.post("/login-google", UserController.googleLogin)
+router.post('/login-google', UserController.googleLogin)
 
 router.use(authenticate)
 
