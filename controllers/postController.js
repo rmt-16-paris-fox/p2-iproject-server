@@ -5,6 +5,7 @@ class PostController {
   static async getAllPost(req, res, next) {
     try {
       const response = await Post.findAll({
+        order:[['createdAt', 'DESC']],
         include: [
           {
             model: User,
@@ -82,6 +83,20 @@ class PostController {
       })
       res.status(200).json({ message: "Post has been updated" })
     } catch (err) {
+      next(err)
+    }
+  }
+
+  static async getOnePost(req, res, next) {
+    try {
+      const id = req.params.id
+      const post = await Post.findByPk(id)
+      if(!post){
+        throw({name:"postNotFound"})
+      }
+      res.status(200).json(post)
+    } catch (err) {
+      console.log(err)
       next(err)
     }
   }
