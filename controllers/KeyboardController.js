@@ -143,6 +143,8 @@ class KeyboardController {
 				keycaps,
 				switches,
 				miscellaneous,
+        isDone,
+        isPaid,
 				UserId,
 			} = req.body;
 
@@ -174,12 +176,12 @@ class KeyboardController {
 					keycaps,
 					switches,
 					miscellaneous,
+          isDone,
+          isPaid,
 					UserId,
 				},
 				{ where: { id: KeyboardId } }
 			);
-
-			console.log(response);
 
 			res.status(200).json({
 				message: `Keyboard with id ${KeyboardId} has been updated!`,
