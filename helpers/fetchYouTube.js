@@ -7,7 +7,7 @@ const youtubeId = 'UCyQ-bvVWg83Q71A6vsR7h-Q';
 const fetchYoutubeVideos = async (req, res, next) => {
 	try {
 		const response = await axios.get(
-			`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${youtubeId}&maxResults=46&order=date&type=video&key=${process.env.YOUTUBE_API_KEY}`
+			`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${youtubeId}&maxResults=10&order=viewCount&type=video&key=${process.env.YOUTUBE_API_KEY}`
 		);
 		let videoEmbeds = response.data.items.map((el) => {
 			if (el.id.kind === 'youtube#video') {
