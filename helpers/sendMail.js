@@ -2,7 +2,7 @@ var nodemailer = require('nodemailer');
 const email = process.env.EMAIL_SENDER;
 const password = process.env.PASSWORD_EMAIL_SENDER;
 
-function sendEmail(param){
+function sendEmail(Email, param){
     var transporter = nodemailer.createTransport({
         service: 'outlook',
         auth: {
@@ -13,7 +13,7 @@ function sendEmail(param){
       
       var mailOptions = {
         from: email,
-        to: 'vincentius.donovan.fgo12@gmail.com',
+        to: `${Email}`,
         subject: 'New Footbal Match Watchlist',
         text: `${param}`
       };
