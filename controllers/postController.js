@@ -5,6 +5,7 @@ class PostController {
   static async getAllPost(req, res, next) {
     try {
       const response = await Post.findAll({
+        order:[['createdAt', 'DESC']],
         include: [
           {
             model: User,
