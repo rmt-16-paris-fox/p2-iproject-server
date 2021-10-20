@@ -7,7 +7,7 @@ const imageUpload = async (file) => {
     form.append('image', image)
     const resp = await axios({
       method: 'post',
-      url: 'https://freeimage.host/api/1/upload?key=6d207e02198a847aa98d0a2a901485a5',
+      url: `https://freeimage.host/api/1/upload?key=${process.env.PRIVATE_KEY}`,
       headers: form.getHeaders(),
       data: form
     })
