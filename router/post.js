@@ -5,6 +5,7 @@ const postRoute = require('express').Router()
 
 postRoute.post('/', upload.single('imageUrl'), PostController.createPost)
 postRoute.get('/', PostController.getAllPost)
+postRoute.get('/:id', PostController.getOnePost)
 postRoute.delete('/:id', authorization, PostController.deletePost)
 postRoute.put('/:id', authorization, upload.single('imageUrl'), PostController.editPost)
 
