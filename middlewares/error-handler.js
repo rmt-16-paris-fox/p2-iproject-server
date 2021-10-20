@@ -28,6 +28,11 @@ const errorHandler = (err, req, res, next) => {
       message = 'login failed, invalid email or password';
       break;
 
+    case 'bookAlreadyAdded':
+      code = 403;
+      message = 'the book is already in the forum';
+      break;
+
     case 'alreadyReviewed':
       code = 403;
       message = 'you have already reviewed this book';

@@ -8,6 +8,16 @@ class BooksController {
     try {
       const { book } = req.body;
 
+      const foundBook = await Book.findOne({
+        where: {
+          googleBooksId: book.id,
+        },
+      });
+
+      if (foundBook) {
+        throw { name: 'bookAlreadyAdded' };
+      }
+
       const bookAuthors = book.volumeInfo.authors.join(', ');
 
       const response = await Book.create({
