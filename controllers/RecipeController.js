@@ -194,6 +194,13 @@ class RecipeController {
     }
   }
 
+  static async rateRecipe(req, res, next) {
+    try {
+      const { recipeId, rate } = req.body;
+      console.log(req.body);
+    } catch (err) {}
+  }
+
   static async sendEmail(req, res, next) {
     try {
       const { message } = req.body;
