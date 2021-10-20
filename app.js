@@ -58,23 +58,7 @@ app.get('/matches/:matchId', async (req, res) => {
   }
 });
 
-/**
- * Monkey King
- * Void Spirit
- * Lina
- * Chaos Knight
- * Ogre Magi
- *
- * vs
- *
- * Puck
- * Razor
- * Winter Wyvern
- * Wraith Knight
- * Jakiro
- */
-
-app.post('/draft', async (req, res) => {
+app.post('/draft/analysis', async (req, res) => {
   try {
     const { radiant, dire } = req.body;
 
@@ -83,7 +67,6 @@ app.post('/draft', async (req, res) => {
     const radiantArr = radiant.split(',');
     const direArr = dire.split(',');
 
-    const radiantObj = {};
     let radiantTotalSynergy = 0; // * if positive, then Radiant synergy is good. If negative, then Radiant synergy is bad
     let direTotalSynergy = 0; // * if positive, then Dire synergy is good. If negative, then Dire synergy is bad
     let radiantToDireAdvantage = 0; //* if positive, then Radiant has advantage against Dire. If negative, then Radiant has disadvantage against Dire
@@ -115,10 +98,6 @@ app.post('/draft', async (req, res) => {
     }
 
     // * Calculating Radiant team synergy and disadvantage
-
-    for (let i = 0; i < radiantArr.length; i++) {
-      radiantObj[i] = heroes[i];
-    }
 
     for (let i = 0; i < radiantArr.length; i++) {
       const response = await axios({
@@ -225,7 +204,225 @@ app.post('/draft', async (req, res) => {
 
     res.status(200).json(payload);
   } catch (err) {
-    console.log(err);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+app.post('/draft/composer', async (req, res) => {
+  try {
+    const { draft } = req.body;
+
+    const heroWithRole = {};
+
+    const teamComposition = {
+      Carry: 0,
+      Escape: 0,
+      Nuker: 0,
+      Initiator: 0,
+      Durable: 0,
+      Disabler: 0,
+      Jungler: 0,
+      Support: 0,
+      Pusher: 0
+    };
+
+    const enemyDraft = draft.split(',');
+
+    let advantage = 0;
+    const allyDraft = {};
+    const allyComposition = { ...teamComposition };
+
+    let safelanes = [];
+    let midlanes = [];
+    let offlanes = [];
+    let softsupports = [];
+    let hardsupports = [];
+
+    // * Convert hero name to id so we can compare the data easily
+
+    const heroRole = JSON.parse(fs.readFileSync('./heroRole.json', 'utf-8'));
+
+    const heroRoleId = {};
+
+    for (let role in heroRole) {
+      heroRoleId[role] = [];
+      for (let hero of heroRole[role]) {
+        for (let heroId in heroes) {
+          if (hero === heroes[heroId].localized_name)
+            heroRoleId[role].push(+heroId);
+        }
+      }
+    }
+
+    // * Pick top 3 from each roles that has big advantage against enemy draft, more negative more effective, and then compare it to the other roles and take the biggest one
+
+    for (let enemy of enemyDraft) {
+      const response = await axios({
+        url: `https://api.stratz.com/api/v1/Hero/${enemy}/matchUp`
+      });
+
+      // * Safelane
+
+      const safelaneFilterAndSort = response.data.disadvantage[0].vs
+        .filter((hero) => {
+          return (
+            heroRoleId.safelane.some((id) => hero.heroId2 === id) &&
+            enemyDraft.some((id) => hero.heroId2 !== id)
+          );
+        })
+        .sort((a, b) => a.synergy - b.synergy);
+
+      safelanes.push(safelaneFilterAndSort.shift());
+
+      // * Midlane
+
+      const midlaneFilterAndSort = response.data.disadvantage[0].vs
+        .filter((hero) => {
+          return (
+            heroRoleId.midlane.some((id) => hero.heroId2 === id) &&
+            enemyDraft.some((id) => hero.heroId2 !== id)
+          );
+        })
+        .sort((a, b) => a.synergy - b.synergy);
+
+      midlanes.push(midlaneFilterAndSort.shift());
+
+      // * Offlane
+
+      const offlaneFilterAndSort = response.data.disadvantage[0].vs
+        .filter((hero) => {
+          return (
+            heroRoleId.offlane.some((id) => hero.heroId2 === id) &&
+            enemyDraft.some((id) => hero.heroId2 !== id)
+          );
+        })
+        .sort((a, b) => a.synergy - b.synergy);
+
+      offlanes.push(offlaneFilterAndSort.shift());
+
+      // * Soft Support
+
+      const softsupportFilterAndSort = response.data.disadvantage[0].vs
+        .filter((hero) => {
+          return (
+            heroRoleId.softsupport.some((id) => hero.heroId2 === id) &&
+            enemyDraft.some((id) => hero.heroId2 !== id)
+          );
+        })
+        .sort((a, b) => a.synergy - b.synergy);
+
+      softsupports.push(softsupportFilterAndSort.shift());
+
+      // * Hard Support
+
+      const hardsupportFilterAndSort = response.data.disadvantage[0].vs
+        .filter((hero) => {
+          return (
+            heroRoleId.hardsupport.some((id) => hero.heroId2 === id) &&
+            enemyDraft.some((id) => hero.heroId2 !== id)
+          );
+        })
+        .sort((a, b) => a.synergy - b.synergy);
+
+      hardsupports.push(hardsupportFilterAndSort.shift());
+    }
+
+    // * Picking one best hero for each role
+
+    allyDraft.safelane = safelanes
+      .sort((a, b) => a.synergy - b.synergy)
+      .shift();
+
+    allyDraft.midlane = midlanes
+      .sort((a, b) => a.synergy - b.synergy)
+      .filter((hero) => {
+        return hero.heroId2 !== allyDraft.safelane.heroId2;
+      })
+      .shift();
+
+    allyDraft.offlane = offlanes
+      .sort((a, b) => a.synergy - b.synergy)
+      .filter((hero) => {
+        return (
+          hero.heroId2 !== allyDraft.safelane.heroId2 &&
+          hero.heroId2 !== allyDraft.midlane.heroId2
+        );
+      })
+      .shift();
+
+    allyDraft.softsupport = softsupports
+      .sort((a, b) => a.synergy - b.synergy)
+      .filter((hero) => {
+        return (
+          hero.heroId2 !== allyDraft.safelane.heroId2 &&
+          hero.heroId2 !== allyDraft.midlane.heroId2 &&
+          hero.heroId2 !== allyDraft.offlane.heroId2
+        );
+      })
+      .shift();
+
+    allyDraft.hardsupport = hardsupports
+      .sort((a, b) => a.synergy - b.synergy)
+      .filter((hero) => {
+        return (
+          hero.heroId2 !== allyDraft.safelane.heroId2 &&
+          hero.heroId2 !== allyDraft.midlane.heroId2 &&
+          hero.heroId2 !== allyDraft.offlane.heroId2 &&
+          hero.heroId2 !== allyDraft.softsupport.heroId2
+        );
+      })
+      .shift();
+
+    // * Calculating the advantage against enemy draft and convert it to positive value
+
+    advantage = -(
+      allyDraft.safelane.synergy +
+      allyDraft.midlane.synergy +
+      allyDraft.offlane.synergy +
+      allyDraft.softsupport.synergy +
+      allyDraft.hardsupport.synergy
+    );
+
+    // * Get roles per heroes, get roles name and restructure the hero lists
+
+    const heroesResponse = await axios({
+      url: 'https://api.stratz.com/api/v1/Hero/',
+      method: 'GET'
+    });
+
+    const heroRolesResponse = await axios({
+      url: 'https://api.stratz.com/api/v1/Hero/roles',
+      method: 'GET'
+    });
+
+    for (let hero in heroesResponse.data) {
+      const heroLists = heroesResponse.data;
+      heroWithRole[hero] = [];
+
+      for (let heroRoles of heroLists[hero].roles) {
+        const role = {};
+
+        role.role = heroRolesResponse.data[heroRoles.roleId].name;
+        role.level = heroRoles.level;
+
+        heroWithRole[hero].push(role);
+      }
+    }
+
+    for (let hero in allyDraft) {
+      for (let heroRole of heroWithRole[allyDraft[hero].heroId2]) {
+        allyComposition[heroRole.role] += heroRole.level;
+      }
+    }
+
+    const payload = {
+      advantage,
+      allyDraft,
+      allyComposition
+    };
+
+    res.status(200).json(payload);
+  } catch (err) {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
