@@ -1,6 +1,7 @@
 const axios = require("axios");
 const nodemailer = require("nodemailer");
 const { User, MyRecipe, RateRecipe } = require("../models");
+const { Op } = require("sequelize");
 
 class RecipeController {
   static async getAllRecipes(req, res, next) {
@@ -83,6 +84,51 @@ class RecipeController {
 
       const recipe = found.data.recipe;
       res.status(200).json(recipe);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async getRecipeMyRate(req, res, next) {
+    try {
+      const RecipeId = req.params.recipeId;
+
+      const found = await RateRecipe.findOne({
+        where: { UserId: req.user.id, RecipeId },
+      });
+
+      if (found) {
+        res.status(200).json(found);
+      } else {
+        res.status(200).json({ rate: 0 });
+      }
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async getRecipeAvgRate(req, res, next) {
+    try {
+      const RecipeId = req.params.recipeId;
+
+      const found = await RateRecipe.findAndCountAll({
+        where: { RecipeId },
+      });
+
+      const count = await RateRecipe.count({
+        where: { RecipeId },
+      });
+
+      let avg = 0;
+      if (count !== 0) {
+        const sum = await RateRecipe.sum("rate", {
+          where: { RecipeId },
+        });
+
+        avg = sum / count;
+      }
+
+      res.status(200).json({ avg, count });
     } catch (err) {
       next(err);
     }
@@ -196,9 +242,53 @@ class RecipeController {
 
   static async rateRecipe(req, res, next) {
     try {
-      const { recipeId, rate } = req.body;
-      console.log(req.body);
-    } catch (err) {}
+      const { recipeId, rating, recipeName } = req.body;
+      const app_id = process.env.EDAMAM_APP_ID;
+      const app_key = process.env.EDAMAM_APP_KEY;
+
+      const foundRecipe = await axios({
+        url: `https://api.edamam.com/api/recipes/v2/${recipeId}`,
+        params: {
+          app_id,
+          app_key,
+          type: "public",
+        },
+      });
+
+      if (!foundRecipe) {
+        throw { name: "recipeNotFound" };
+      }
+
+      const found = await RateRecipe.findOne({
+        where: { UserId: req.user.id, RecipeId: recipeId },
+      });
+
+      if (found) {
+        const result = await RateRecipe.update(
+          {
+            rate: rating,
+          },
+          {
+            where: {
+              UserId: req.user.id,
+              RecipeId: recipeId,
+            },
+          }
+        );
+
+        res.status(200).json({ message: "updated", recipe: recipeName });
+      } else {
+        const result = await RateRecipe.create({
+          UserId: req.user.id,
+          RecipeId: recipeId,
+          rate: rating,
+        });
+
+        res.status(201).json({ message: "added", recipe: recipeName });
+      }
+    } catch (err) {
+      next(err);
+    }
   }
 
   static async sendEmail(req, res, next) {
