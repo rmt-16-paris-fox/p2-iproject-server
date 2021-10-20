@@ -2,6 +2,7 @@ const axios = require("axios");
 const nodemailer = require("nodemailer");
 const { User, MyRecipe, RateRecipe } = require("../models");
 const { Op } = require("sequelize");
+const { htmlMail } = require("../helpers/mailer");
 
 class RecipeController {
   static async getAllRecipes(req, res, next) {
@@ -26,7 +27,6 @@ class RecipeController {
       let field = "field=uri&field=label&field=image&field=yield&field=dietLabels&field=ingredientLines&field=calories&field=totalWeight&field=totalTime&field=cuisineType&field=mealType";
       let dietType = "";
       let meal = "";
-      let timeCook = "";
 
       if (diet) {
         if (diet.length > 1) {
@@ -293,7 +293,67 @@ class RecipeController {
 
   static async sendEmail(req, res, next) {
     try {
-      const { message } = req.body;
+      const app_id = process.env.EDAMAM_APP_ID;
+      const app_key = process.env.EDAMAM_APP_KEY;
+      const { name, minCal, maxCal, diet, mealType, time, amount } = req.body;
+
+      if (!name) {
+        throw { name: "recipeNameEmpty" };
+      }
+
+      let calories;
+      if (minCal && maxCal) {
+        calories = `${minCal}-${maxCal}`;
+      } else if (minCal) {
+        calories = `${minCal}+`;
+      } else if (maxCal) {
+        calories = maxCal;
+      }
+
+      let field = "field=uri&field=label&field=image&field=yield&field=dietLabels&field=ingredientLines&field=calories&field=totalWeight&field=totalTime&field=cuisineType&field=mealType";
+      let dietType = "";
+      let meal = "";
+
+      if (diet) {
+        if (diet.length > 1) {
+          dietType = "&diet=" + diet.join("&diet=");
+        } else if (diet.length > 0) {
+          dietType = "&diet=" + diet[0];
+        }
+        field += dietType;
+      }
+
+      if (mealType) {
+        if (mealType.length > 1) {
+          meal = "&mealType=" + mealType.join("&mealType=");
+        } else if (mealType.length > 0) {
+          meal = "&mealType=" + mealType[0];
+        }
+        field += meal;
+      }
+
+      if (time) {
+        field += "&time=" + time;
+      }
+
+      const result = await axios({
+        url: `https://api.edamam.com/api/recipes/v2?${field}`,
+        params: {
+          app_id,
+          app_key,
+          type: "public",
+          q: name,
+          calories,
+        },
+      });
+
+      // console.log(result.data.hits);
+      let recipeSend = [];
+      for (let i = 0; i < amount; i++) {
+        recipeSend.push(result.data.hits[i]);
+      }
+
+      // console.log(recipeSend);
 
       const transporter = nodemailer.createTransport({
         service: "gmail",
@@ -303,11 +363,14 @@ class RecipeController {
         },
       });
 
+      const html = htmlMail(recipeSend);
+      // console.log(html);
+
       const option = {
-        from: "rasyidrmuhammad@gmail.com",
+        from: process.env.EMAIL,
         to: req.user.email,
-        subject: "Testing send email",
-        text: message,
+        subject: `Here is ${amount} recipe/s that you waiting for`,
+        html,
       };
 
       transporter.sendMail(option, (err, info) => {
