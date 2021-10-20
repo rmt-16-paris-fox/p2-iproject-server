@@ -47,6 +47,63 @@ class ApiController {
       })
   }
 
+  static async celebBirth(req, res, next) {
+    axios({
+        method: "GET",
+        url: "https://celebrity-bucks.p.rapidapi.com/birthdays/JSON",
+        headers: {
+          'x-rapidapi-host': 'celebrity-bucks.p.rapidapi.com',
+          'x-rapidapi-key': 'b9b377e38fmsh272a131ff010704p198a73jsnad7035ccd9d6'
+        }
+      })
+      .then((responseAxios) => {
+        res.status(200).json({
+          data: responseAxios.data
+        })
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+
+  static async celebPrice(req, res, next) {
+    axios({
+        method: "GET",
+        url: "https://celebrity-bucks.p.rapidapi.com/export/JSON",
+        headers: {
+          'x-rapidapi-host': 'celebrity-bucks.p.rapidapi.com',
+          'x-rapidapi-key': 'b9b377e38fmsh272a131ff010704p198a73jsnad7035ccd9d6'
+        }
+      })
+      .then((responseAxios) => {
+        res.status(200).json({
+          data: responseAxios.data
+        })
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+
+  static async memeGenerator(req, res, next) {
+    axios({
+        method: "GET",
+        url: "https://memeados.p.rapidapi.com/petpet",
+        headers: {
+          'x-rapidapi-host': 'memeados.p.rapidapi.com',
+          'x-rapidapi-key': 'b9b377e38fmsh272a131ff010704p198a73jsnad7035ccd9d6'
+        }
+      })
+      .then((responseAxios) => {
+        res.status(200).json({
+          data: responseAxios.data
+        })
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+
 }
 
 module.exports = ApiController
