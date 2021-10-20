@@ -1,12 +1,26 @@
 const imageUpload = require('../helpers/imageUpload')
-const { Post } = require('../models/index')
+const { User, Post, Comment } = require('../models/index')
 
 class PostController {
   static async getAllPost(req, res, next) {
     try {
-      const response = await Post.findAll()
+      const response = await Post.findAll({
+        include: [
+          {
+            model: User,
+            attributes: ['fakeName', 'imageUrl']
+          },
+          {
+            model: Comment,
+            include: {
+              model: User,
+              attributes: ['fakeName', 'imageUrl']
+            }
+          }]
+      })
       res.status(200).json(response)
     } catch (err) {
+      console.log(err)
       next(err)
     }
   }
