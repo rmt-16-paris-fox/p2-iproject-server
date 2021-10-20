@@ -188,47 +188,6 @@ class KeyboardController {
 			next(err);
 		}
 	}
-
-	static async editStatus(req, res, next) {
-		try {
-			const KeyboardId = Number(req.params.keyboardId);
-			const { isDone } = req.body;
-			if (!KeyboardId) {
-				throw { name: 'invalid req.params' };
-			}
-
-			const targetKeyboard = await Keyboard.findOne({
-				where: { id: KeyboardId },
-			});
-
-			if (!targetKeyboard) {
-				throw { name: 'keyboard not found' };
-			}
-
-			const response = await Keyboard.update(
-				{
-					isDone,
-				},
-				{
-					where: { id: KeyboardId },
-				}
-			);
-
-			let message = [];
-			if (String(targetKeyboard.isDone) !== isDone) {
-				message.push(
-					`Work status updated from ${targetKeyboard.isDone} to ${isDone}`
-				);
-			}
-      
-			if (message.length === 0) {
-				message.push('Status is not changing');
-			}
-			res.status(200).json({ message });
-		} catch (err) {
-			next(err);
-		}
-	}
 }
 
 module.exports = KeyboardController;

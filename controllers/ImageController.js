@@ -18,8 +18,6 @@ class ImageController {
 				throw { name: 'keyboard not found' };
 			}
 
-			console.log(imageUrls);
-
 			const data = imageUrls.map((el) => {
 				return { imageUrl: el, KeyboardId };
 			});
