@@ -1,7 +1,9 @@
 'use strict';
+require('dotenv').config()
 const {
   Model
 } = require('sequelize');
+const nodemailer = require('nodemailer');
 module.exports = (sequelize, DataTypes) => {
   class Contact extends Model {
     /**
@@ -72,6 +74,41 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   }, {
+    hooks: {
+      beforeCreate(user) {
+        let transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: process.env.EMAIL,
+            pass: process.env.PASSWORD
+          },
+          tls: {
+            rejectUnauthorized: false
+          }
+        })
+
+        const mailOptions = {
+          from: 'emaildummyaja@gmail.com',
+          to: user.email,
+          subject: `Congrats ${user.name} pesan kamu diterima tim dagelan`,
+          text: `Hai ${user.name}, terima kasih sudah mengirim pesan, tim kami akan membalas pesan kamu kurang dari 1x24 jam. Bila ada pertanyaan atau sesuatu yang kamu ingin ketahui lebih lanjut, jangan sungkan untuk mengirim pesan lagi ya!
+
+Best regrads
+
+Team Dagelan`
+        };
+
+        transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+            console.log(error);
+          } else {
+            res.status(200).json({
+              msg: `Terima kasih ${user.name} sudah mengirim pesan ke pada kami, tunggu sebentar ya tim kami akan membalas pesan kamu!`
+            })
+          }
+        })
+      }
+    },
     sequelize,
     modelName: 'Contact',
   });

@@ -15,15 +15,13 @@ class ContactController {
         pesan
       } = req.body;
 
-      const authorId = req.user.id
-
       const dataContact = await Contact.create({
         name,
         email,
         perusahaan,
         topik,
         pesan,
-        UserId: authorId
+        UserId: 1
       });
 
       if (dataContact) {
