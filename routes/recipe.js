@@ -7,6 +7,7 @@ const { authZ } = require("../middlewares/authZ");
 router.post("/", RecipeController.getAllRecipes);
 router.get("/recipeDetail/:recipeId", RecipeController.getRecipeDetail);
 router.get("/recipeAvgRate/:recipeId", RecipeController.getRecipeAvgRate);
+router.get("/recipeAllRate", RecipeController.getAllRate);
 
 router.use(authN);
 router.get("/myRecipes", RecipeController.getAllMyRecipes);

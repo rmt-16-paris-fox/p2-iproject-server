@@ -1,7 +1,8 @@
 const axios = require("axios");
 const nodemailer = require("nodemailer");
-const { User, MyRecipe, RateRecipe } = require("../models");
+const { User, MyRecipe, RateRecipe, sequelize } = require("../models");
 const { Op } = require("sequelize");
+const { QueryTypes } = require("sequelize");
 const { htmlMail } = require("../helpers/mailer");
 
 class RecipeController {
@@ -286,6 +287,16 @@ class RecipeController {
 
         res.status(201).json({ message: "added", recipe: recipeName });
       }
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async getAllRate(req, res, next) {
+    try {
+      const result = await sequelize.query(`select avg(rate), "RecipeId" from "RateRecipes" rr group by "RecipeId" `, { raw: true, type: QueryTypes.SELECT });
+
+      res.status(200).json(result);
     } catch (err) {
       next(err);
     }
