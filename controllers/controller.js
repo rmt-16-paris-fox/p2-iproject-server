@@ -88,7 +88,7 @@ class Controller {
         throw { name: "ReviewNotFound" };
       }
       if (response) {
-        res.status(201).json({ response });
+        res.status(200).json({ response });
       }
     } catch (err) {
       next(err);
@@ -105,7 +105,7 @@ class Controller {
         throw { name: "FavouriteNotFound" };
       }
       if (response) {
-        res.status(201).json({ response });
+        res.status(200).json({ response });
       }
     } catch (err) {
       next(err);
