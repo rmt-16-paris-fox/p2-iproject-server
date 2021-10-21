@@ -85,6 +85,9 @@ module.exports = (sequelize, DataTypes) => {
 					notNull: { msg: 'User ID is required' },
 				},
 			},
+			ChargeId: {
+				type: DataTypes.STRING,
+			},
 		},
 		{
 			sequelize,

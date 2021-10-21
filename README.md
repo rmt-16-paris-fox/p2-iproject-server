@@ -21,26 +21,40 @@ Individual Project - Server
 -   ~~login~~
 -   ~~get all keyboards where isDone = true~~
 -   ~~post keyboards = name, mountingstyle, platematerial, kecycaps, switches, misc, isDOne = false, isPaid = false~~
+-   show keyboard details
+-   show my keyboards
+-   login with google
+-   fetch videos from youtube
 
 ### Not yet
 
--   show keyboard details
--   login with google
 -   send email (?)
--   fetch videos from youtube
 -   payment
--   update profile
--   show my keyboards
 
 ## Admin
 
+### Done
+
 -   get all keyboards
--   post keyboards with image
--   update keyboards
+-   post keyboard
+-   post images
+-   update keyboards with image
+-   get all user
 -   patch status isDone
 -   ? patch status isPaid?
 
+### Not Yet
+
 ## API
 
--   youtube
+-   ~~multer~~
+-   ~~imagekit~~
+-   ~~youtube~~
+-   ~~setup google login~~
 -   mailjet
+-   payment
+
+# Payment
+
+-   xendit
+-   jokul

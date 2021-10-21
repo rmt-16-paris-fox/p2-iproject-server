@@ -15,6 +15,14 @@ const errorHandler = (err, req, res, next) => {
 			res.status(400).json({ message: 'Invalid req.params' });
 			break;
 
+		case 'MulterError':
+			res.status(400).json({ message: 'Image fetch failed' });
+			break;
+
+		case 'imageKit error':
+			res.status(400).json({ message: 'Image upload failed' });
+			break;
+
 		case 'unauthorized':
 			res.status(401).json({ message: 'Invalid e-mail / password' });
 			break;
@@ -31,12 +39,25 @@ const errorHandler = (err, req, res, next) => {
 			res.status(401).json({ message: 'Invalid token' });
 			break;
 
+		case 'forbidden':
+			res.status(403).json({
+				message: "You don't have permission to access",
+			});
+			break;
+
 		case 'keyboard not found':
 			res.status(404).json({ message: 'Keyboard not found' });
 			break;
 
+		case 'image not found':
+			res.status(404).json({ message: 'Image not found' });
+			break;
+
+		case 'user not found':
+			res.status(404).json({ message: 'User not found' });
+			break;
+
 		default:
-			console.log(err.name);
 			console.log(err);
 			res.status(500).json({ message: 'Internal Server Error' });
 			break;
