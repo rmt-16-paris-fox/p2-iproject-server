@@ -1,0 +1,67 @@
+Guru mengajar di kelas yang banyak
+1 kelas diajar hanya satu guru saja
+Teachers - Classes
+
+Guru memberikan banyak tugas kepada siswanya
+Tugas yang banyak diberikan kepada siswa
+Teachers - Assigntments - Students
+
+Kelas memiliki banyak siswa
+Siswa hanya memiliki satu kelas saja
+
+Siswa hadir di banyak kelas
+Satu kelas dihadiri oleh banyak siswa
+
+TeacherNumber:
+id
+NIP
+
+StudentNumber:
+id
+NIS
+
+Teachers:
+id
+name
+nipId
+password
+
+Courses:
+id
+name
+teacherId
+
+Assignments:
+id
+name
+teacherId
+studentId
+
+Students:
+id
+name
+nisId
+
+Attendances:
+id
+status
+studentId
+courseId
+
+scores:
+id
+score
+studentId
+coursesId
+
+npx sequelize-cli model:generate --name TeacherNumber --attributes NIP:string
+npx sequelize-cli model:generate --name StudentNumber --attributes NIS:string
+
+npx sequelize-cli model:generate --name Teacher --attributes name:string,nipId:integer,password:string
+npx sequelize-cli model:generate --name Student --attributes name:string,nisId:integer
+
+npx sequelize-cli model:generate --name Course --attributes name:string,teacherId:integer
+npx sequelize-cli model:generate --name Assignment --attributes name:string,teacherId:integer,studentId:integer
+npx sequelize-cli model:generate --name Attendance --attributes status:string,teacherId:integer,studentId:integer
+
+npx sequelize-cli model:generate --name Score --attributes score:integer,studentId:integer,courseId:integer
