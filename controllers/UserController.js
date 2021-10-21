@@ -5,9 +5,6 @@ const {
   decode
 } = require('../helpers/bcryptjs');
 const {
-  sign
-} = require('../helpers/jwt');
-const {
   OAuth2Client
 } = require('google-auth-library');
 
