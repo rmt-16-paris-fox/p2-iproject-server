@@ -1,0 +1,42 @@
+{
+  "name": "p2-iproject-server",
+  "version": "1.0.0",
+  "description": "Individual Project - Server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rasyidrmhd/p2-iproject-server.git"
+  },
+  "keywords": [],
+  "author": "rasyidr",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rasyidrmhd/p2-iproject-server/issues"
+  },
+  "homepage": "https://github.com/rasyidrmhd/p2-iproject-server#readme",
+  "dependencies": {
+    "axios": "^0.23.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "generate-password": "^1.6.1",
+    "google-auth-library": "^7.10.1",
+    "jsonwebtoken": "^8.5.1",
+    "nodemailer": "^6.7.0",
+    "pg": "^8.7.1",
+    "sequelize": "^6.7.0",
+    "socket.io": "^4.3.1",
+    "socket.io-client": "^4.3.2"
+  },
+  "devDependencies": {
+    "jest": "^27.3.0",
+    "nodemon": "^2.0.13",
+    "sequelize-cli": "^6.2.0",
+    "supertest": "^6.1.6"
+  }
+}
