@@ -1,0 +1,15 @@
+const express = require("express");
+const router = express.Router();
+const Controller = require("../controllers/controller");
+const Authentication = require("../helpers/auth");
+const errorHandler = require("../middleware/errorHandler");
+router.post("/login", Controller.login);
+router.post("/register", Controller.register);
+router.post("/google-login", Controller.googleLogin);
+router.use(Authentication);
+router.get("/review", Controller.getreview);
+router.post("/review", Controller.newreview);
+router.get("/favourite", Controller.getfavourite);
+router.post("/favourite", Controller.newfavourite);
+router.use(errorHandler);
+module.exports = router;
