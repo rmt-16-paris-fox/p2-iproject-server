@@ -1,1 +1,1 @@
-nodeweb: node bin/www.js
+nodeweb: node app.js

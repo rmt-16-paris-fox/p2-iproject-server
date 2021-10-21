@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node bin/www.js"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
@@ -29,7 +29,9 @@
     "jsonwebtoken": "^8.5.1",
     "nodemailer": "^6.7.0",
     "pg": "^8.7.1",
-    "sequelize": "^6.7.0"
+    "sequelize": "^6.7.0",
+    "socket.io": "^4.3.1",
+    "socket.io-client": "^4.3.2"
   },
   "devDependencies": {
     "jest": "^27.3.0",
