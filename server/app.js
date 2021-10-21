@@ -1,4 +1,4 @@
-require("dotenv").config(); // set environment variable
+// require("dotenv").config(); // set environment variable
 
 const express = require("express");
 const cors = require("cors");
