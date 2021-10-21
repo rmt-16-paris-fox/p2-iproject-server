@@ -20,6 +20,14 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
+      provinsi: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      kabupaten: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

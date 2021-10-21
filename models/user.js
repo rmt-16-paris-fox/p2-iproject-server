@@ -55,6 +55,30 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Password cannot be empty'
         }
       }
+    },
+    provinsi: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Provinsi cannot be null'
+        },
+        notEmpty: {
+          msg: 'Provinsi cannot be empty'
+        }
+      }
+    },
+    kabupaten: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Kabupaten cannot be null'
+        },
+        notEmpty: {
+          msg: 'Kabupaten cannot be empty'
+        }
+      }
     }
   }, {
     hooks: {
