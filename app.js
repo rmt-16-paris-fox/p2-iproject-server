@@ -4,7 +4,7 @@ const axios = require('axios');
 const fs = require('fs');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 const odota = axios.create({
   baseURL: 'https://api.opendota.com/api'
@@ -87,22 +87,20 @@ app.get('/matches/:matchId', async (req, res) => {
       response.data.players[player].last_hit_efficiency = lastHitEfficiency;
     }
 
-    console.log(response.data.players[0]);
-
     res.status(200).json(response.data);
   } catch (err) {
     console.log(err);
   }
 });
 
-app.get('/draft/analysis', async (req, res) => {
+app.get('/draft/analyzer', async (req, res) => {
   try {
     const { radiant, dire } = req.body;
 
     const heroWithRole = {};
 
-    const radiantArr = radiant.split(',');
-    const direArr = dire.split(',');
+    const radiantArr = radiant;
+    const direArr = dire;
 
     let radiantTotalSynergy = 0; // * if positive, then Radiant synergy is good. If negative, then Radiant synergy is bad
     let direTotalSynergy = 0; // * if positive, then Dire synergy is good. If negative, then Dire synergy is bad
@@ -241,13 +239,15 @@ app.get('/draft/analysis', async (req, res) => {
 
     res.status(200).json(payload);
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
 
-app.get('/draft/composer', async (req, res) => {
+app.post('/draft/composer', async (req, res) => {
   try {
     const { draft } = req.body;
+    console.log(draft);
 
     const heroWithRole = {};
 
@@ -263,7 +263,7 @@ app.get('/draft/composer', async (req, res) => {
       Pusher: 0
     };
 
-    const enemyDraft = draft.split(',');
+    const enemyDraft = draft;
 
     let advantage = 0;
     const allyDraft = {};
@@ -462,6 +462,7 @@ app.get('/draft/composer', async (req, res) => {
 
     res.status(200).json(payload);
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
