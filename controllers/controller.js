@@ -80,7 +80,10 @@ class Controller {
     try {
       const userId = req.user.id;
       const { foodCode, productName, image, description, review } = req.body;
-      const response = await Review.findAll({ order: [["createdAt", "DESC"]] });
+      const response = await Review.findAll({
+        where: { userId },
+        order: [["createdAt", "DESC"]],
+      });
       if (!response) {
         throw { name: "ReviewNotFound" };
       }
@@ -95,6 +98,7 @@ class Controller {
     try {
       const userId = req.user.id;
       const response = await Favourite.findAll({
+        where: { userId },
         order: [["createdAt", "DESC"]],
       });
       if (!response) {
