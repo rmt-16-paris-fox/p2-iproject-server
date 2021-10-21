@@ -6,11 +6,16 @@
     "host": "localhost",
     "dialect": "postgres"
   },
-  "test": {
-    "username": "postgres",
-    "password":"postgres",
-    "database": "ChatonyMousDB_test",
-    "host": "localhost",
-    "dialect": "postgres"
+  "production": {
+    "use_env_variable": "DATABASE_URL",
+    "ssl": true,
+    "dialect": "postgres",
+    "protocol": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
   }
 }
