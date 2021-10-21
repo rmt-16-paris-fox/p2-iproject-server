@@ -1,7 +1,6 @@
 "use strict";
 const axios = require ('axios')
 
-
 module.exports = {
 	up: async (queryInterface, Sequelize) => {
 		const games = await axios({
