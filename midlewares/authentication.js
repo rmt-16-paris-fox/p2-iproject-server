@@ -3,6 +3,7 @@ const {User} = require('../models')
 
 const authentication = async (req, res, next) => {
   try {
+    // console.log(req.headers);
     if (!req.headers.access_token) {
       throw {name: 'notAuthenticated'}
     }
@@ -13,25 +14,17 @@ const authentication = async (req, res, next) => {
         email: payload.email,
       },
     })
-    if (!foundUser) {
-      foundUser = await Customer.findOne({
-        where: {
-          id: payload.id,
-          email: payload.email,
-        },
-      })
+   
       if (!foundUser) {
         throw {
           name: `invalid access Token`,
         }
       }
-      foundUser.role = 'customer'
-    }
 
     req.user = {
       id: foundUser.id,
       email: foundUser.email,
-      role: foundUser.role,
+      
     }
 
     next()
