@@ -11,14 +11,12 @@ FoodPedia App is an application to manage your restaurant's food. This app has :
 
 ### GET /
 
-> Get all foods
+> Get all foods from api
 
 _Request Header_
 
 ```
-{
-  "access_token": "<your access token>"
-}
+not needed
 ```
 
 _Request Body_
@@ -27,7 +25,7 @@ _Request Body_
 not needed
 ```
 
-_Response (200)_
+\_Response (200)\_data from the api
 
 ```
 [
@@ -69,15 +67,20 @@ _Response (200)_
 
 _Response Register(200)_
 {
-"id": 3,
-"email": "b@mail.com"
+"id": 6,
+"email": "ab@mail.com"
 }
 
 ---
 
-### POST /add
+_Response Login(200)_
+{
+"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhQG1haWwuY29tIiwiaWF0IjoxNjM0ODE5NjMwfQ.GNNzFHqYZmAQMYliX2V1kS31ejXy-uIyPhDgJwX05mc"
+}
 
-> Create new food
+### POST /review
+
+> Create new review
 
 _Request Header_
 
@@ -91,12 +94,11 @@ _Request Body_
 
 ```
 {
-  "name": "<name to get insert into>",
+  "foodCode": "<foodcode to get insert into>",
+  "productName": "<name to get insert into>",
+  "image": "<imageurl to get insert into>",
   "description": "<description to get insert into>",
-  "price": "<price to get insert into>",
-  "imgUrl": "<imgUrl to get insert into>",
-  "authorId": "<authorId to get insert into>",
-  "categoryId": "<categoryId to get insert into>"
+  "review": "<review to get insert into>",
 }
 ```
 
@@ -104,16 +106,18 @@ _Response (201 - Created)_
 
 ```
 {
-        "id": 3,
-        "name": "Nasi",
-        "description": "Goreng",
-        "price": 12000,
-        "imgUrl": "https://asset.kompas.com/crops/liot8ogozEEYAUXlZNXyGL0pTQc=/3x0:700x465/750x500/data/photo/2021/04/08/606e886b972ac.jpeg",
-        "authorId": 1,
-        "categoryId": 1,
-        "createdAt": "2021-09-27T12:43:30.768Z",
-        "updatedAt": "2021-09-27T12:43:30.768Z"
+    "response": {
+        "id": 1,
+        "userId": 1,
+        "foodCode": "budi",
+        "productName": "b@mail.com",
+        "image": "https://www.seekpng.com/png/full/350-3506540_picture-small-phone-icon-png.png",
+        "description": "asiksekali",
+        "review": "inisangatamatenakdanmurah",
+        "updatedAt": "2021-10-21T01:27:52.814Z",
+        "createdAt": "2021-10-21T01:27:52.814Z"
     }
+}
 ```
 
 _Response (400 - Bad Request)_
@@ -127,9 +131,9 @@ _Response (400 - Bad Request)_
 }
 ```
 
-### POST /edit
+### POST /favourite
 
-> Edit food by id
+> Bookmark food by code
 
 _Request Header_
 
@@ -143,38 +147,34 @@ _Request Body_
 
 ```
 {
-  "name": "<name to get insert into>",
+  "foodCode": "<foodcode to get insert into>",
+  "productName": "<productname to get insert into>",
+  "image": "<imageurl to get insert into>",
   "description": "<description to get insert into>",
-  "price": "<price to get insert into>",
-  "imgUrl": "<imgUrl to get insert into>",
-  "authorId": "<authorId to get insert into>",
-  "categoryId": "<categoryId to get insert into>"
 }
 ```
 
-_Response (201 - Updated)_
+_Response (201 - Created)_
 
 ```
 {
-    "id": 16,
-    "name": "Mie ",
-    "description": "Telor",
-    "price": 12000,
-    "imgUrl": "https://ik.imagekit.io/ljyp1oimzqm/nasi_AMF00jsoz.jpg",
-    "authorId": 1,
-    "categoryId": 1,
-    "status": "active",
-    "createdAt": "2021-10-05T09:37:25.768Z",
-    "updatedAt": "2021-10-05T16:48:59.029Z"
+    "id": 1,
+    "userId": 1,
+    "foodCode": "budi",
+    "productName": "budi12345",
+    "image": "https://www.seekpng.com/png/full/350-3506540_picture-small-phone-icon-png.png",
+    "description": "asiksekali",
+    "updatedAt": "2021-10-21T01:13:00.927Z",
+    "createdAt": "2021-10-21T01:13:00.927Z"
 }
 ```
 
-_Response (404 - Not Found)_
+_Response (404 - Token Not Found)_
 
 ```
 {
     {
-    "message": "Food Not Found"
+    "message": "Token Not Found"
     }
 }
 ```
