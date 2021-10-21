@@ -11,8 +11,6 @@ class DraftController {
     try {
       let { radiant, dire } = req.body;
 
-      console.log(typeof radiant);
-
       if (typeof radiant === 'string') radiant = radiant.split(',');
       if (typeof dire === 'string') dire = dire.split(',');
 
@@ -165,8 +163,6 @@ class DraftController {
   static draftComposer = async (req, res) => {
     try {
       let { draft } = req.body;
-
-      console.log(typeof draft);
 
       if (typeof draft === 'string') draft = draft.split(',');
 
@@ -383,7 +379,6 @@ class DraftController {
 
       res.status(200).json(payload);
     } catch (err) {
-      console.log(err);
       res.status(500).json({ message: 'Internal server error' });
     }
   };
