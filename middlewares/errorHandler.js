@@ -1,39 +1,47 @@
-const handleError = (err, req, res, next) => {
-  let code = 500;
-  let message = err.name;
-
+const errorHandler = (err, req, res, next) => {
   switch (err.name) {
-    case "imageError":
-      code = 400;
-      message = [err.errors];
-      break;
+    case "SequelizeUniqueConstraintError":
     case "SequelizeValidationError":
-      code = 400;
-      message = [err.errors];
+      const dataError = err.errors.map(item => {
+        return item.message
+      })
+      res.status(400).json({
+        message: dataError
+      })
       break;
+    case "InvalidRequest":
+      res.status(400).json({
+        message: err.message
+      })
     case "NotFound":
-      code = 404;
-      message = [err.message];
+      res.status(404).json({
+        message: "Error data not found"
+      })
       break;
-    case "NotAuthorized":
-      code = 401;
-      message = [err.message];
+    case "invalidEmailPass":
+      res.status(401).json({
+        message: "Invalid Email or Password"
+      })
       break;
     case "Forbidden":
-      code = 401;
-      message = [err.message];
+      res.status(403).json({
+        message: "Forbidden dont have access"
+      })
       break;
-    case "InvalidEmailPass":
-      code = 401;
-      message = ["Wrong Email and Password"];
+    case "NotAuthorized":
+      res.status(401).json({
+        message: "Please login first"
+      })
+      break;
+    case "ImageSizeError":
+      res.status(400).json({
+        message: err.message
+      })
       break;
     default:
+      res.status(500).json(err)
       break;
   }
-
-  res.status(code).json({
-    message
-  })
 }
 
-module.exports = handleError
+module.exports = errorHandler
