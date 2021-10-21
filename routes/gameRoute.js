@@ -1,12 +1,12 @@
-const router = require('express').Router()
-const gameController = require('../controllers/gameController')
-const authentication = require('../middlewares/authentication')
+const router = require("express").Router();
+const gameController = require("../controllers/gameController");
+const authentication = require("../middlewares/authentication");
+const authorization = require("../middlewares/authorization");
 
-router.use(authentication)
+router.post("/", gameController.createGame);
+router.get("/paginations", gameController.getPagination);
+router.get("/apis", gameController.findGameDatabase);
+router.get("/apis/:id", gameController.findGameDatabaseyId);
+router.delete("/:id", authorization, gameController.deleteGame);
 
-router.post('/', uploadImage, imageKit, gameController.createGame)
-router.get('/', gameController.findAllGame)
-router.get('/:id', gameController.findGameById)
-router.delete('/:id',  authorization, gameController.deleteGame)
-
-module.exports = router
+module.exports = router;

@@ -15,7 +15,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       short_description: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       game_url: {
         type: Sequelize.STRING
@@ -35,21 +35,8 @@ module.exports = {
       release_date: {
         type: Sequelize.STRING
       },
-      freeToGameUrl: {
+      freetogame_profile_url: {
         type: Sequelize.STRING
-      },
-      UserId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: "Users",
-          key: "id"
-        },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE"
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,
