@@ -768,3 +768,114 @@ _Response (500 - Server Error)_
     "message": "Internal Server Error"
 }
 ```
+
+### GET /api/meme
+
+> GET instagram data
+
+_Request Headers_
+
+```
+not needed
+```
+
+_Request Params_
+
+```
+not needed
+```
+
+_Request Body_
+
+```
+not needed
+```
+
+_Response (200 - Created)_
+
+```
+{
+    "data": {
+        "count": 50,
+        "memes": [
+            {
+                "postLink": "https://redd.it/qbywjc",
+                "subreddit": "memes",
+                "title": "Why are there livestream here in the first place?",
+                "url": "https://i.redd.it/wwxlx2zkelu71.jpg",
+                "nsfw": false,
+                "spoiler": false,
+                "author": "longlive9yearolds",
+                "ups": 4043,
+                "preview": [
+                    "https://preview.redd.it/wwxlx2zkelu71.jpg?width=108&crop=smart&auto=webp&s=4ec40201ceacc275f1314030f020b7c377ed53a7",
+                    "https://preview.redd.it/wwxlx2zkelu71.jpg?width=216&crop=smart&auto=webp&s=bc5732aaaf5f814253910fb72fdcdc138f553854",
+                    "https://preview.redd.it/wwxlx2zkelu71.jpg?width=320&crop=smart&auto=webp&s=f407c9f3bd6302f015323246ad8b767a1e7e3893",
+                    "https://preview.redd.it/wwxlx2zkelu71.jpg?width=640&crop=smart&auto=webp&s=d02cf32742b301a0d56093f227a62005cc525c1c",
+                    "https://preview.redd.it/wwxlx2zkelu71.jpg?width=960&crop=smart&auto=webp&s=0ef6e41e6630afd5c2145c4278d2648e37352e93",
+                    "https://preview.redd.it/wwxlx2zkelu71.jpg?width=1080&crop=smart&auto=webp&s=ead6a1f9f4744668e1a96528a799d032aa14a75c"
+                ]
+            },
+            {
+                "postLink": "https://redd.it/qc1vdw",
+                "subreddit": "memes",
+                "title": "Thought of this during a science assignment",
+                "url": "https://i.redd.it/f65wusox5mu71.jpg",
+                "nsfw": false,
+                "spoiler": false,
+                "author": "WhoAmI_100",
+                "ups": 13070,
+                "preview": [
+                    "https://preview.redd.it/f65wusox5mu71.jpg?width=108&crop=smart&auto=webp&s=b68b4f9239c2542ced400cecd55a949cfee51b5f",
+                    "https://preview.redd.it/f65wusox5mu71.jpg?width=216&crop=smart&auto=webp&s=4a40ca5ede1341ef84c9af4f22f9511b8e7ced8e",
+                    "https://preview.redd.it/f65wusox5mu71.jpg?width=320&crop=smart&auto=webp&s=131f20b9b0f196ae3142cd98abc9ce296493c831",
+                    "https://preview.redd.it/f65wusox5mu71.jpg?width=640&crop=smart&auto=webp&s=c32e6fccdc668388209422c57d50500abcf7d2a1",
+                    "https://preview.redd.it/f65wusox5mu71.jpg?width=960&crop=smart&auto=webp&s=5b8f3967b065f95aad91cf7166a83dbee4b2ca8f",
+                    "https://preview.redd.it/f65wusox5mu71.jpg?width=1080&crop=smart&auto=webp&s=04fc7edb0ec753432afa060b8532350f138baa4b"
+                ]
+            },
+            {
+                "postLink": "https://redd.it/qc6vo6",
+                "subreddit": "memes",
+                "title": "So anyway, I start blasting ...",
+                "url": "https://i.redd.it/lj83wazx9nu71.png",
+                "nsfw": false,
+                "spoiler": false,
+                "author": "agaric",
+                "ups": 1159,
+                "preview": [
+                    "https://preview.redd.it/lj83wazx9nu71.png?width=108&crop=smart&auto=webp&s=5fecfc54938734628563ab3b981ec9594d1d8bb6",
+                    "https://preview.redd.it/lj83wazx9nu71.png?width=216&crop=smart&auto=webp&s=62aa88048881d1c314ed8af01191282e4abf7f80",
+                    "https://preview.redd.it/lj83wazx9nu71.png?width=320&crop=smart&auto=webp&s=441618cd934529456ed11a05f424809e89c643b2",
+                    "https://preview.redd.it/lj83wazx9nu71.png?width=640&crop=smart&auto=webp&s=865b159f1b6806a96d1dfcc5b53e9f67396496d0",
+                    "https://preview.redd.it/lj83wazx9nu71.png?width=960&crop=smart&auto=webp&s=1241cef52cc9f04d21d82ef71805d7490b3c38fd",
+                    "https://preview.redd.it/lj83wazx9nu71.png?width=1080&crop=smart&auto=webp&s=515596cb0c5e31b589930301f3c1d19347812f39"
+                ]
+            },
+            {
+                "postLink": "https://redd.it/qc9h7w",
+                "subreddit": "memes",
+                "title": "the palpable shame",
+                "url": "https://i.redd.it/imcxvodetnu71.png",
+                "nsfw": false,
+                "spoiler": false,
+                "author": "SpiceEggCheese",
+                "ups": 593,
+                "preview": [
+                    "https://preview.redd.it/imcxvodetnu71.png?width=108&crop=smart&auto=webp&s=2dde8bdf0f4b594cf53425a72238bbecea6c2b29",
+                    "https://preview.redd.it/imcxvodetnu71.png?width=216&crop=smart&auto=webp&s=0545b2eacf88d0cd1bb269a2ec16d0d10dfbc28c",
+                    "https://preview.redd.it/imcxvodetnu71.png?width=320&crop=smart&auto=webp&s=9ddc16dff59f5977ece31e6ec9d58cfd7154d444"
+                ]
+            }
+        ]
+    }
+}
+```
+
+_Response (500 - Server Error)_
+
+```
+{
+    "message": "Internal Server Error"
+}
+```

@@ -88,11 +88,7 @@ class ApiController {
   static async memeGenerator(req, res, next) {
     axios({
         method: "GET",
-        url: "https://memeados.p.rapidapi.com/petpet",
-        headers: {
-          'x-rapidapi-host': 'memeados.p.rapidapi.com',
-          'x-rapidapi-key': 'b9b377e38fmsh272a131ff010704p198a73jsnad7035ccd9d6'
-        }
+        url: "https://meme-api.herokuapp.com/gimme/50",
       })
       .then((responseAxios) => {
         res.status(200).json({
