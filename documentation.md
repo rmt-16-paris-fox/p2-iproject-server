@@ -1,5 +1,4 @@
 # RESTful endpoints
-https://restaurant-tiv8.herokuapp.com/
 
 ### POST /user/register
 > CREATE food
