@@ -4,7 +4,7 @@ const {compare}= require ('../helpers/bcrypt')
 const {createToken} =require ('../helpers/jwt')
 const sendingEmail = require ('../helpers/nodemailer')
 class UserController {
-    static async registration(req, res) {
+    static async registration(req, res, next) {
         try {
           
           const { username, email, password, address } = req.body;
@@ -16,18 +16,19 @@ class UserController {
             throw { name: "RegisterNotFound" };
           }
         } catch (err) {
-          if (err.name == "RegisterNotFound") {
-              res.status(400).json({message:'registrasi gagal'})
+          // if (err.name == "RegisterNotFound") {
+          //     res.status(400).json({message:'registrasi gagal'})
     
-          }
-          else{
-              res.status(500).json({
-                message:'internal error'
-              })
-          }
+          // }
+          // else{
+          //     res.status(500).json({
+          //       message:'internal error'
+          //     })
+          // }
+          next(err)
         }
       }
-      static async login(req, res) {
+      static async login(req, res, next) {
         console.log("masuk");
         const { email, password } = req.body;
         // console.log(req.body);
@@ -55,17 +56,17 @@ class UserController {
             }
           }
         } catch (err) {
-          console.log(err);
-          if (err.name== "Invalid email or password" ) {
-            res.status(401).json({ message: "email or password invalid" });
-          }
-          if (err.name== "Invalid email/password" ) {
-            res.status(401).json({ message: "email or password invalid" });
-          }else{
-            res.status(500).json(err);
-          }
+          // console.log(err);
+          // if (err.name== "Invalid email or password" ) {
+          //   res.status(401).json({ message: "email or password invalid" });
+          // }
+          // if (err.name== "Invalid email/password" ) {
+          //   res.status(401).json({ message: "email or password invalid" });
+          // }else{
+          //   res.status(500).json(err);
+          // }
 
-          
+          next(err)
         }
       }
 
