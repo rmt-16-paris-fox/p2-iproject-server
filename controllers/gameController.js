@@ -1,5 +1,7 @@
 const { User, Game } = require("../models");
 const axios = require("axios");
+const { Op } = require("sequelize");
+const API_GAME_KEY = process.env.API_GAME_KEY;
 
 class GameController {
 	static async createGame(req, res, next) {
@@ -24,7 +26,7 @@ class GameController {
 				params: { "sort-by": "id" },
 				headers: {
 					"x-rapidapi-host": "free-to-play-games-database.p.rapidapi.com",
-					"x-rapidapi-key": "51a2719ae4msh8b33cad0050133fp1df56ajsn308e081b9a18",
+					"x-rapidapi-key": API_GAME_KEY,
 				},
 			});
 			res.status(200).json(result.data);
@@ -41,7 +43,7 @@ class GameController {
 				params: { id },
 				headers: {
 					"x-rapidapi-host": "free-to-play-games-database.p.rapidapi.com",
-					"x-rapidapi-key": "51a2719ae4msh8b33cad0050133fp1df56ajsn308e081b9a18",
+					"x-rapidapi-key": API_GAME_KEY,
 				},
 			});
 

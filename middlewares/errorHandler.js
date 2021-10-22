@@ -33,7 +33,7 @@ function errorHandler(err, req, res, next) {
 			break;
 		default:
 			code = 500;
-			message = { message: "Internal server error" };
+			message = { message: "Internal server error" + err.message };
 	}
 
 	res.status(code).json(message);
