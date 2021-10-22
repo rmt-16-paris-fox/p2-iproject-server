@@ -22,6 +22,9 @@ const error_handler = (err, req, res, next) => {
     case "no access":
       res.status(401).json({ error: "Cannot Access" });
       break;
+    case "data sudah ada":
+      res.status(400).json({ error: "Already in class" });
+      break;
     default:
       res.status(500).json({ error: "Server Error" });
       break;
