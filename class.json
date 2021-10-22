@@ -1,0 +1,154 @@
+[
+  {
+    "title": "HTML Dasar",
+    "instructor": "Rasyid Ridho",
+    "imageUrl": "https://docs.vuejs.id/images/logo.png",
+    "description": "Mempelajari HTML Dasar dengan Instructor berpengalaman",
+    "price": 450000,
+    "category": "Front End"
+  },
+  {
+    "title": "React JS",
+    "instructor": "Rasyid Ridho",
+    "imageUrl": "https://docs.vuejs.id/images/logo.png",
+    "description": "Mempelajari React JS dengan Instructor berpengalaman",
+    "price": 550000,
+    "category": "Front End"
+  },
+  {
+    "title": "Java Programming",
+    "instructor": "Rasyid Ridho",
+    "imageUrl": "https://www.kindpng.com/picc/m/445-4450455_css-logo-jquery-html-css-and-jquery-hd.png",
+    "description": "Mempelajari Java Programming dengan Instructor berpengalaman",
+    "price": 550000,
+    "category": "Back End"
+  },
+  {
+    "title": "React Native",
+    "instructor": "Rasyid Ridho",
+    "imageUrl": "https://docs.vuejs.id/images/logo.png",
+    "description": "Mempelajari React Native dengan Instructor berpengalaman",
+    "price": 500000,
+    "category": "Front End"
+  },
+  {
+    "title": "CSS Dasar",
+    "instructor": "Agnia Naufal",
+    "imageUrl": "https://billwerk.io/wp-content/uploads/sites/2/2019/05/icons-restapi-350x350.png",
+    "description": "Mempelajari CSS Dasar dengan Instructor berpengalaman",
+    "price": 250000,
+    "category": "Front End"
+  },
+  {
+    "title": "CSS Layouting",
+    "instructor": "Darwin",
+    "imageUrl": "https://www.kindpng.com/picc/m/445-4450455_css-logo-jquery-html-css-and-jquery-hd.png",
+    "description": "Mempelajari CSS Layouting dengan Instructor berpengalaman",
+    "price": 350000,
+    "category": "Front End"
+  },
+  {
+    "title": "Laravel",
+    "instructor": "Damar",
+    "imageUrl": "https://www.kindpng.com/picc/m/445-4450455_css-logo-jquery-html-css-and-jquery-hd.png",
+    "description": "Mempelajari Laravel dengan Instructor berpengalaman",
+    "price": 350000,
+    "category": "Back End"
+  },
+  {
+    "title": "Code Igniter",
+    "instructor": "Damar",
+    "imageUrl": "https://docs.vuejs.id/images/logo.png",
+    "description": "Mempelajari Code Igniter dengan Instructor berpengalaman",
+    "price": 350000,
+    "category": "Back End"
+  },
+  {
+    "title": "PHP Dasar",
+    "instructor": "Samuel Matthew",
+    "imageUrl": "https://docs.vuejs.id/images/logo.png",
+    "description": "Mempelajari PHP Dasar dengan Instructor berpengalaman",
+    "price": 550000,
+    "category": "Back End"
+  },
+  {
+    "title": "Golang",
+    "instructor": "Samuel Matthew",
+    "imageUrl": "https://docs.vuejs.id/images/logo.png",
+    "description": "Mempelajari Golang dengan Instructor berpengalaman",
+    "price": 550000,
+    "category": "Back End"
+  },
+  {
+    "title": "Phyton",
+    "instructor": "Samuel Matthew",
+    "imageUrl": "https://docs.vuejs.id/images/logo.png",
+    "description": "Mempelajari Phyton dengan Instructor berpengalaman",
+    "price": 550000,
+    "category": "Back End"
+  },
+  {
+    "title": "CSS Grid",
+    "instructor": "Vina Eka",
+    "imageUrl": "https://image.freepik.com/free-vector/brain-light-bulb-logo-vector-design_16734-24.jpg",
+    "description": "Mempelajari CSS Grid dengan Instructor berpengalaman",
+    "price": 700000,
+    "category": "Front End"
+  },
+  {
+    "title": "Javascript Dasar",
+    "instructor": "Farandi",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/480px-Unofficial_JavaScript_logo_2.svg.png",
+    "description": "Mempelajari Javascript Dasar dengan Instructor berpengalaman",
+    "price": 500000,
+    "category": "Front End"
+  },
+  {
+    "title": "Javascript DOM",
+    "instructor": "Mursalin",
+    "imageUrl": "https://e7.pngegg.com/pngimages/395/768/png-clipart-database-administrator-computer-icons-database-symbol-angle-data.png",
+    "description": "Mempelajari Javascript DOM dengan Instructor berpengalaman",
+    "price": 950000,
+    "category": "Front End"
+  },
+  {
+    "title": "Flutter",
+    "instructor": "Mursalin",
+    "imageUrl": "https://e7.pngegg.com/pngimages/395/768/png-clipart-database-administrator-computer-icons-database-symbol-angle-data.png",
+    "description": "Mempelajari Flutter dengan Instructor berpengalaman",
+    "price": 950000,
+    "category": "Front End"
+  },
+  {
+    "title": "Flutter SDK",
+    "instructor": "Mursalin",
+    "imageUrl": "https://e7.pngegg.com/pngimages/395/768/png-clipart-database-administrator-computer-icons-database-symbol-angle-data.png",
+    "description": "Mempelajari Flutter SDK dengan Instructor berpengalaman",
+    "price": 950000,
+    "category": "Front End"
+  },
+  {
+    "title": "Git & Github",
+    "instructor": "Arif Rahman",
+    "imageUrl": "https://png.pngitem.com/pimgs/s/326-3264159_let-s-get-small-centro-social-y-recreativo.png",
+    "description": "Mempelajari Git & Github dengan Instructor berpengalaman",
+    "price": 800000,
+    "category": "Back End"
+  },
+  {
+    "title": "C#",
+    "instructor": "Arif Rahman",
+    "imageUrl": "https://png.pngitem.com/pimgs/s/326-3264159_let-s-get-small-centro-social-y-recreativo.png",
+    "description": "Mempelajari C# dengan Instructor berpengalaman",
+    "price": 800000,
+    "category": "Back End"
+  },
+  {
+    "title": "C++",
+    "instructor": "Arif Rahman",
+    "imageUrl": "https://png.pngitem.com/pimgs/s/326-3264159_let-s-get-small-centro-social-y-recreativo.png",
+    "description": "Mempelajari C++ dengan Instructor berpengalaman",
+    "price": 800000,
+    "category": "Back End"
+  }
+]
