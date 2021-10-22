@@ -1,21 +1,34 @@
-const { Student, Task, Score } = require("../models");
+const { Student, Task, Score, MyStudent } = require("../models");
 const { assesment } = require("../helpers/pronunciationAssesment");
+const { getPagingData } = require("../helpers/pagination");
 class StudentController {
   static async getTask(req, res, next) {
     try {
-      const student = await Student.findOne({
-        where: {
-          UserId: Number(req.user.id),
-        },
+      const id = Number(req.user.id);
+      const student = await Student.findOne({ where: { UserId: id } });
+      const kelas = await MyStudent.findOne({
+        where: { StudentId: student.id },
       });
-      const task = await Task.findAll({
-        where: {
-          StudentId: student.id,
-        },
-      });
-
-      res.status(200).json({ task });
+      let { name, page } = req.query;
+      const limit = 10;
+      let offset = 0;
+      if (page) {
+        offset = limit * page - limit;
+      }
+      let option = {
+        order: [["id", "DESC"]],
+        where: { ClassId: kelas.ClassId },
+        limit,
+        offset,
+      };
+      if (name) {
+        option.where["task"] = { [Op.iLike]: `%${name}%` };
+      }
+      const result = await Task.findAndCountAll(option);
+      const data = getPagingData(result, page, limit);
+      res.status(200).json(data);
     } catch (err) {
+      console.log(err);
       next(err);
     }
   }
