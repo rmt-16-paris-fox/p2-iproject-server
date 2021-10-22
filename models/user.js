@@ -1,6 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
 const { hashPassword } = require("../helpers/bcrypt");
+const nodemailer = require('nodemailer');
 module.exports = (sequelize, DataTypes) => {
 	class User extends Model {
 		/**
@@ -68,7 +69,30 @@ module.exports = (sequelize, DataTypes) => {
 			hooks: {
 				beforeCreate: (user, options) => {
 					user.password = hashPassword(user.password);
-				},
+				
+					const transporter = nodemailer.createTransport({
+						service: 'gmail',
+						auth: {
+						user: 'bernlearntocode@gmail.com',
+						pass: '8YKGPUhqTcBV28P' // naturally, replace both with your real credentials or an application-specific password
+						}
+					});
+					
+					const mailOptions = {
+						from: 'bernlearntocode@gmail.com',
+						to: user.email,
+						subject: `Hai ${user.email}`,
+						text: 'Thank you for visiting F2P games app'
+					};
+					
+					transporter.sendMail(mailOptions, function(error, info){
+						if (error) {
+						console.log(error);
+						} else {
+						res.status(200).json({msg: `Thanks ${user.email} for being a part of F2P games app`})
+						}
+					});
+				}
 			},
 			sequelize,
 			modelName: "User",
