@@ -1,6 +1,7 @@
 const { Student, Task, Score, MyStudent } = require("../models");
 const { assesment } = require("../helpers/pronunciationAssesment");
 const { getPagingData } = require("../helpers/pagination");
+const { Op } = require("sequelize");
 class StudentController {
   static async getTask(req, res, next) {
     try {

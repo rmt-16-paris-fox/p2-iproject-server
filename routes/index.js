@@ -11,7 +11,6 @@ const MentorRouter = require("./MentorRoute");
 
 router.post("/login", UserController.login);
 router.use(authentication);
-router.post("/assesment", UserController.assesment);
 router.get("/req_user", UserController.req_user);
 router.use("/admin", AdminRouter);
 router.use("/student", StudentRouter);
