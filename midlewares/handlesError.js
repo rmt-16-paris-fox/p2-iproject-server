@@ -25,17 +25,16 @@ const errors = (err, req, res, next) => {
       case "invalid access Token":
         res.status(401).json({ message: "auntentication invalid" });
         break;
+        case "not Authorized":
+          res.status(403).json({ message: "authorized invalid" });
+          break;
 
-      case "UserNotAuthorized":
-        res.status(403).json({ message: "authorized invalid" });
-        break;
+      
       case "PlantNotFound":
         res.status(404).json({ message: "Tanaman tidak ditemukan" });
         break;
   
-      case "NotFound":
-        res.status(404).json({ message: "Authorized not found" });
-        break;
+    
      
   
       default:
