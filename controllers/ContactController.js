@@ -2,6 +2,9 @@ const {
   Contact
 } = require("../models/index")
 
+const nodemailer = require('nodemailer');
+
+
 class ContactController {
 
   static async postContact(req, res, next) {
@@ -26,6 +29,35 @@ class ContactController {
 
       if (dataContact) {
         res.status(201).json(dataContact);
+
+        let transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: process.env.EMAIL,
+            pass: process.env.PASSWORD
+          },
+          tls: {
+            rejectUnauthorized: false
+          }
+        })
+
+        const mailOptions = {
+          from: dataContact.email,
+          to: process.env.EMAIL,
+          subject: `Email dari ${dataContact.email}`,
+          text: `${dataContact.pesan}`
+        };
+
+        transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+            console.log(error);
+          } else {
+            res.status(200).json({
+              msg: `Terima kasih ${user.name} sudah mengirim pesan ke pada kami, tunggu sebentar ya tim kami akan membalas pesan kamu!`
+            })
+          }
+        })
+
       } else {
         next({
           name: "SequelizeValidationError"
