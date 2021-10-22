@@ -125,41 +125,39 @@ class GameController {
 
 			res.status(200).json({url: `https://www.youtube.com/watch?v=${result.data.Data[0].video_id}`});
 		} catch (err) {
-			console.log(err)
 			next(err);
 		}
 	}
 	static async getBookmarks(req, res, next) {
-		try {
-			const UserId = req.user.id
-			const NewsId  = req.params.id
+		// try {
+		// 	const UserId = req.user.id
+		// 	const NewsId  = req.params.id
 	  
-			if (isNaN(NewsId)) {
-			  throw { name: 'IdNotNumber' }
-			}
-			const findNews = await News.findByPk(NewsId)
-			if (!findNews) {
-			  throw { name: 'IdNotFound' }
-			}
-			const alreadyBookmark = await Bookmark.findOne({
-			  where: {
-				UserId,
-				NewsId
-			  }
-			})
-			if (alreadyBookmark) {
-			  throw { name: 'hasBeenBookmark' }
-			}
-			const createdBookmark = await Bookmark.create({
-			  UserId,
-			  NewsId
-			})
-			res.status(201).json(createdBookmark)
-		  } catch (err) {
-			console.log(err)
-			next(err)
-		  }
-		}
+		// 	if (isNaN(NewsId)) {
+		// 	  throw { name: 'IdNotNumber' }
+		// 	}
+		// 	const findNews = await News.findByPk(NewsId)
+		// 	if (!findNews) {
+		// 	  throw { name: 'IdNotFound' }
+		// 	}
+		// 	const alreadyBookmark = await Bookmark.findOne({
+		// 	  where: {
+		// 		UserId,
+		// 		NewsId
+		// 	  }
+		// 	})
+		// 	if (alreadyBookmark) {
+		// 	  throw { name: 'hasBeenBookmark' }
+		// 	}
+		// 	const createdBookmark = await Bookmark.create({
+		// 	  UserId,
+		// 	  NewsId
+		// 	})
+		// 	res.status(201).json(createdBookmark)
+		//   } catch (err) {
+		// 	next(err)
+		//   }
+	}
 }
 
 module.exports = GameController;
