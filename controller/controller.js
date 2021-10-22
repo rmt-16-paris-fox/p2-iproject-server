@@ -4,7 +4,8 @@ class Controller {
   static async getAll(req, res, next) {
     try {
       let { city, state_code } = req.query;
-      // console.log(city, state_code);
+
+      console.log(city, state_code);
       let result = await axios({
         method: "GET",
         url: "https://realty-in-us.p.rapidapi.com/properties/v2/list-for-sale",
@@ -21,10 +22,10 @@ class Controller {
             "31d42290c9mshe198273a4db5dd4p18eff9jsnf01df8daf62e",
         },
       });
-      // console.log(result.data);
+      console.log(result.data);
       res.status(200).json(result.data);
     } catch (err) {
-      next(err);
+      res.status(500).json({ msg: "server error" });
     }
   }
   static async chat(req, res, next) {
@@ -50,7 +51,7 @@ class Controller {
       });
       res.status(200).json(cities);
     } catch (err) {
-      next(err);
+      res.status(500).json({ msg: "server error" });
     }
   }
 }
