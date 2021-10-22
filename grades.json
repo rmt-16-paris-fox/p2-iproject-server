@@ -1,0 +1,12 @@
+
+[
+	{
+		"name": "Basic"
+	},
+    {
+        "name" : "Intermediate"
+    },
+    {
+        "name" : "Expert"
+    }
+]
