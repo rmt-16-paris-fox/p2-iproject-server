@@ -44,13 +44,14 @@ module.exports = (sequelize, DataTypes) => {
       validate:{
         notEmpty:false
       },
-      imageUrl:{
-        allowNull:false,
-        type:DataTypes.STRING,
-        validate:{
-          notEmpty:false
-        }
-      },
+   
+    },
+    imageUrl:{
+      allowNull:false,
+      type:DataTypes.STRING,
+      validate:{
+        notEmpty:false
+      }
     },
     UserId :{
       allowNull:false,
@@ -58,8 +59,20 @@ module.exports = (sequelize, DataTypes) => {
       validate:{
         notEmpty:false
       }
+    },
+    status:{
+      allowNull:false,
+      type:DataTypes.STRING,
+      validate:{
+        notEmpty:false
+      }
     }
   }, {
+    hooks: {
+      beforeCreate: (user) => {
+        user.status = "active";
+      },
+    },
     sequelize,
     modelName: 'Plant',
   });

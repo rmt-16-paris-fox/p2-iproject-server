@@ -20,3 +20,4 @@ app.listen(port, () => {
 // sequelize model:generate --name Plant --attributes name:string,category:string,description:string,price:integer
 //sequelize seed:generate --name User
 //sequelize migration:generate name add-fk-to-plant
+//sequelize migration:generate --name add-status-to-plant

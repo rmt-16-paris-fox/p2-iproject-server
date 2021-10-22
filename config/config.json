@@ -2,7 +2,7 @@
   "development": {
     "username": "postgres",
     "password": "postgres",
-    "database": "i_project",
+    "database": "i_project_plant",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },

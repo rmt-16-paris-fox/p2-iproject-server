@@ -30,8 +30,8 @@ const midleUpload = async (req, res, next) => {
       if (!upload) {
         throw { name: "upload image error" };
       } else {
-        req.body.imgUrl = upload.data.url;
-        //   console.log("ini dari midleware");
+        req.body.imageUrl = upload.data.url;
+          // console.log("ini dari foto midleware");
         next();
       }
     } else {
