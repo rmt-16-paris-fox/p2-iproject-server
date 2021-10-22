@@ -47,6 +47,22 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {msg: "Description is required."},
       }
     },
+    category: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {msg: "Category is required."},
+        notEmpty: {msg: "Category is required."},
+      }
+    },
+    price: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notNull: {msg: "Price is required."},
+        notEmpty: {msg: "Price is required."},
+      }
+    },
   }, {
     sequelize,
     modelName: 'Class',

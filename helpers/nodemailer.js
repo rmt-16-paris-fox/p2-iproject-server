@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+const web = process.env.WEB
 
 let transporter = nodemailer.createTransport({
     service: "gmail",
@@ -8,26 +9,35 @@ let transporter = nodemailer.createTransport({
     },
 });
 
-function sendingEmail (email, name, addedClass) {
-    console.log(email);
+function sendEmail(mailOptions){
+    transporter.sendMail(mailOptions, (err, info) => {
+        if (err) {
+            console.log(err)
+        } else {
+            console.log("sukses");
+            console.log(info.response);
+        }
+    }) 
+}
+
+function sendingEmailSuccessAdd (email, name, addedClass) {
     let mailOptions = {
         from: 'learnwithdamar@gmail.com',
         to: email,
         subject: "Success Buying Class",
-        text: `Hallo ${name}, selamat anda telah berhasil membeli kelas ${addedClass}.\nUntuk kembali belajar, silahkan kembali ke https://news-portal-w3.web.app/login\nSelamat belajar! :)`
+        text: `Hallo ${name}, selamat anda telah berhasil membeli kelas ${addedClass}. Untuk kembali belajar, silahkan kembali ke ${web} belajar! :)`
     }
-    sendSend(mailOptions)
+    sendEmail(mailOptions)
 }
 
-function sendSend(mailOptions){
-    transporter.sendMail(mailOptions, (err, info) => {
-    if (err) {
-        console.log(err)
-    } else {
-        console.log("sukses");
-        console.log(info.response);
+function verifyEmailAccount (email, name, verifyCode) {
+    let mailOptions = {
+        from: 'learnwithdamar@gmail.com',
+        to: email,
+        subject: "Verify Email Account",
+        text: `Hallo ${name}, silahkan Log In ke link ${web}/verification/${verifyCode} untuk memverifikasi dan mengaktifkan akun anda. Terimakasih :)`
     }
-}) 
+    sendEmail(mailOptions)
 }
 
-module.exports = sendingEmail
+module.exports = { sendingEmailSuccessAdd, verifyEmailAccount }

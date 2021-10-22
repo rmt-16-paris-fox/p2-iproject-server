@@ -3,7 +3,10 @@ const { comparePassword } = require('../helpers/bcrypt')
 const generatePassword = require("password-generator");
 const { OAuth2Client } = require('google-auth-library')
 const { signToken } = require('../helpers/jwt')
-const sendingEmail = require('../helpers/nodemailer')
+const { sendingEmailSuccessAdd, verifyEmailAccount } = require('../helpers/nodemailer')
+const { Op } = require("sequelize");
+const midtransClient = require('midtrans-client');
+const fetchVideos = require('../helpers/youtube')
 class Controller {
     static async register (req, res) {
         try {
@@ -11,7 +14,8 @@ class Controller {
             if(!email) throw ({message: "Email is required"})
             if(!password) throw ({message: "Password is required"})
             if(!name) throw ({message: "Name is required"})
-            let newUser = await User.create({email: email, name: name, password: password})
+            let newUser = await User.create({email, name, password, status: 'non-active', verifyCode: generatePassword(50)})
+            await verifyEmailAccount(newUser.email, newUser.name, newUser.verifyCode)
             res.status(201).json({id: newUser.id, name: newUser.name, email: newUser.email})
         } catch (error) {
             if(error.name == "SequelizeUniqueConstraintError"){
@@ -24,6 +28,22 @@ class Controller {
         }
     }
 
+    static async verifyAccount (req, res) {
+      try {
+        let { verifyCode } = req.params
+        let verifiedUser = await User.findOne({ where: { verifyCode }})
+        if (!verifiedUser) throw ({message: "User not found"})
+        await User.update({ status: 'active' }, { where: { id: verifiedUser.id }})
+        res.status(200).json({message: 'Account verified'})
+      } catch (error) {
+      if(error.message == "User not found"){
+          res.status(404).json({message: error.message})
+      } else {
+        res.status(500).json({message: "Internal server error"})
+      }
+      }
+    }
+
     static async login (req, res) {
         try {
             const {email, password} = req.body
@@ -31,15 +51,17 @@ class Controller {
             if(!password) throw ({message: "Password is required"})
             const foundUser = await User.findOne({where: {email}})
             if(!foundUser) throw ({message:"Invalid email/password"})
+            if(foundUser.status !== 'active') throw ({message: 'Your Account is not active, please check your email.'})
             const checkPassword = comparePassword(password,foundUser.password)
             if(!checkPassword) throw ({message:"Invalid email/password"})
             let access_token = signToken({name: foundUser.name, id:foundUser.id})
             res.status(200).json({access_token})
         } catch (error) {
-          if (error.message == "Invalid email/password") {
+          if (error.message == "Invalid email/password" || error.message == "Your Account is not active, please check your email.") {
               res.status(401).json({message: error.message})
-          }
-          else if(error.message) {
+          } else if(error.name == "SequelizeValidationError"){
+            res.status(400).json({message: error.errors[0].message})
+          } else if(error.message) {
             res.status(400).json({message: error.message})
           } else {
               res.status(500).json({message: "Internal server error"})
@@ -65,6 +87,8 @@ class Controller {
             password: generatePassword(),
             name: payload.name,
             email: emailFromGoogle,
+            status: 'active',
+            verifyCode: generatePassword(50)
           },
         });
         const tokenFromServer = signToken({
@@ -85,18 +109,28 @@ class Controller {
             .json({ access_token: tokenFromServer });
         }
       } catch (error) {
-        console.log(error);
-        next(error);
+        res.status(500).json({message: "Internal server error"})
       }
     }
     
     static async getClass (req, res) {
         try {
-            let dataClass = await Class.findAll({
-                attributes: {
-                    exclude: ['createdAt', 'updatedAt'],
-                }
-            })
+          let offset = 0;
+          let limit = 4;
+          const { page, title, category } = req.query;
+          if (page) offset = page * limit - limit;
+          let condition = {}
+          if (title) condition.title = { [Op.iLike]: `%${title}%` };
+          if (category) condition.category = category;
+          let dataClass = await Class.findAndCountAll({
+            limit,
+            offset,
+            where: condition,
+            order: [["id", "ASC"]],
+            attributes: {
+                exclude: ['createdAt', 'updatedAt'],
+            }
+          })
             res.status(200).json(dataClass)
         } catch (error) {
           res.status(500).json({message: "Internal server error"})
@@ -117,6 +151,34 @@ class Controller {
         }
       }
 
+    static async payment (req, res) {
+      try {
+        let snap = new midtransClient.Snap({
+          isProduction: false,
+          serverKey: 'SB-Mid-server-rss-U0U38eOhfGDZoKrt7Mpi'
+        });
+        let parameter = {
+          "transaction_details": {
+              "order_id": generatePassword(10),
+              "gross_amount": 250000
+          },
+          "credit_card":{
+              "secure" : true
+          },
+          "customer_details": {
+              "email": req.user.email,
+              "id": req.user.id
+          }
+        };
+        let transaction = await snap.createTransaction(parameter)
+        console.log(transaction);
+        res.status(200).json({transaction})
+      } catch (error) {
+        console.log(error);
+        res.status(500).json({message: "Internal server error"})
+      }
+    }
+
     static async addClass (req, res) {
         try {
             const {classId} = req.params
@@ -126,15 +188,15 @@ class Controller {
             let added = await MyClass.findOne({where: {
                 UserId: req.user.id, ClassId: classId
             }})
-            if(added) throw ({message: "Has Been Added"})
+            if(added) throw ({message: "Anda sudah mempunyai kelas ini."})
             let successAdd = await MyClass.create({UserId: req.user.id, ClassId: classAdd.id, status: "Uncompleted"})
-            await sendingEmail(currentUser.email, currentUser.name, classAdd.title)
+            await sendingEmailSuccessAdd(currentUser.email, currentUser.name, classAdd.title)
             res.status(201).json({id: successAdd.id, ClassId:successAdd.ClassId, UserId: successAdd.UserId, status: successAdd.status})
         } catch (error) {
             if(error.message == "Course not found"){
                 res.status(404).json({message: error.message})
-            }else if(error.message == "Has Been Added"){
-              res.status(404).json({message: error.message})
+            }else if(error.message == "Anda sudah mempunyai kelas ini."){
+              res.status(400).json({message: error.message})
           } else {
                 res.status(500).json({message: "Internal server error"})
             }
@@ -174,9 +236,18 @@ class Controller {
             ) 
             res.status(200).json({message: "Class has been finished"})
         } catch (error) {
-            console.log(error.name);
             res.status(500).json({message: "Internal server error"})
         }
+    }
+
+    static async getVideos (req, res) {
+      try {
+        let {query} = req.params
+        const video = await fetchVideos(query)
+        res.status(200).json(video)
+      } catch (error) {
+        res.status(500).json({message: "Internal server error"})
+      }
     }
 }
 
