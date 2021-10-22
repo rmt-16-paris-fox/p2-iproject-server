@@ -7,6 +7,12 @@ router.post("/", gameController.createGame);
 router.get("/paginations", gameController.getPagination);
 router.get("/apis", gameController.findGameDatabase);
 router.get("/apis/:id", gameController.findGameDatabaseyId);
-router.delete("/:id", authorization, gameController.deleteGame);
+router.get("/youtube/:params", gameController.getYoutubeLink);
+
+//due to limited time the following endpoints hass
+// router.use(authentication)
+// router.delete("/bookmarks/:id", authorization, gameController.deleteBookmarks);
+// router.post("/bookmarks", authorization, gameController.getBookmarks);
 
 module.exports = router;
+

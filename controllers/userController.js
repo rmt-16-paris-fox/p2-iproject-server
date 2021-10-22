@@ -69,6 +69,7 @@ class UserController {
 				email: user.email,
 				username: user.username,
 			});
+			console.log(access_token);
 			res.status(201).json({
 				access_token,
 			});

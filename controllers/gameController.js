@@ -1,5 +1,7 @@
 const { User, Game } = require("../models");
 const axios = require("axios");
+const { Op } = require("sequelize");
+const API_GAME_KEY = process.env.API_GAME_KEY;
 
 class GameController {
 	static async createGame(req, res, next) {
@@ -24,7 +26,7 @@ class GameController {
 				params: { "sort-by": "id" },
 				headers: {
 					"x-rapidapi-host": "free-to-play-games-database.p.rapidapi.com",
-					"x-rapidapi-key": "51a2719ae4msh8b33cad0050133fp1df56ajsn308e081b9a18",
+					"x-rapidapi-key": API_GAME_KEY,
 				},
 			});
 			res.status(200).json(result.data);
@@ -41,7 +43,7 @@ class GameController {
 				params: { id },
 				headers: {
 					"x-rapidapi-host": "free-to-play-games-database.p.rapidapi.com",
-					"x-rapidapi-key": "51a2719ae4msh8b33cad0050133fp1df56ajsn308e081b9a18",
+					"x-rapidapi-key": API_GAME_KEY,
 				},
 			});
 
@@ -50,7 +52,7 @@ class GameController {
 			next(err);
 		}
 	}
-	static async deleteGame(req, res, next) {
+	static async deleteBookmarks(req, res, next) {
 		try {
 			const { id } = req.params;
 			const foundGame = await Game.findByPk(id);
@@ -106,6 +108,55 @@ class GameController {
 		} catch (err) {
 			next(err);
 		}
+	}
+
+	static async getYoutubeLink(req, res, next) {
+		try {
+			const { params } = req.params;
+			const result = await axios({
+				method: "GET",
+				url: `https://youtube-advanced-search.p.rapidapi.com/video/${params}}`,
+				params: { params },
+				headers: {
+					"x-rapidapi-host": 'youtube-advanced-search.p.rapidapi.com',
+					"x-rapidapi-key": API_GAME_KEY,
+				},
+			});
+
+			res.status(200).json({url: `https://www.youtube.com/watch?v=${result.data.Data[0].video_id}`});
+		} catch (err) {
+			next(err);
+		}
+	}
+	static async getBookmarks(req, res, next) {
+		// try {
+		// 	const UserId = req.user.id
+		// 	const NewsId  = req.params.id
+	  
+		// 	if (isNaN(NewsId)) {
+		// 	  throw { name: 'IdNotNumber' }
+		// 	}
+		// 	const findNews = await News.findByPk(NewsId)
+		// 	if (!findNews) {
+		// 	  throw { name: 'IdNotFound' }
+		// 	}
+		// 	const alreadyBookmark = await Bookmark.findOne({
+		// 	  where: {
+		// 		UserId,
+		// 		NewsId
+		// 	  }
+		// 	})
+		// 	if (alreadyBookmark) {
+		// 	  throw { name: 'hasBeenBookmark' }
+		// 	}
+		// 	const createdBookmark = await Bookmark.create({
+		// 	  UserId,
+		// 	  NewsId
+		// 	})
+		// 	res.status(201).json(createdBookmark)
+		//   } catch (err) {
+		// 	next(err)
+		//   }
 	}
 }
 
