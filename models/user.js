@@ -44,7 +44,23 @@ module.exports = (sequelize, DataTypes) => {
         notNull: {msg: "Name is required"},
         notEmpty: {msg: "Name is required"},
       }
-    }
+    },
+    status: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      validate: {
+        notNull: {msg: "Status is required"},
+        notEmpty: {msg: "Status is required"},
+      }
+    },
+    verifyCode: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      validate: {
+        notNull: {msg: "Verify Code is required"},
+        notEmpty: {msg: "Verify Code is required"},
+      }
+    },
   }, {
     hooks:{
       beforeCreate: (user, options) => {

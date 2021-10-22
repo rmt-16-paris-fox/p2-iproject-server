@@ -7,6 +7,8 @@ _User_
 - email : string, required, unique
 - name : string, required
 - password : string, required
+- status: string, required
+- verifyCode: string, required
 ```
 
 _Class_
@@ -16,6 +18,8 @@ _Class_
 - instructor : string, required
 - description : string, required
 - imageUrl : string, required
+- category : string, required
+- price : string, required
 ```
 
 _MyClass_
@@ -31,10 +35,13 @@ List of available endpoints:
 
 - `POST /register`
 - `POST /login`
+- `PATCH /verification/:verifyCode`
+- `POST /login-google`
+- `GET /class`
+- `GET /class/:id`
 
 Routes below need authentication:
 
-- `GET /class`
 - `POST /myclass/:classId`
 - `GET /myclass`
 
@@ -139,20 +146,91 @@ _Response (401 - Unauthorized)_
 }
 ```
 
+## POST /login-google
+
+Description:
+- Login with google account
+
+Request:
+
+- body:
+
+```json
+{
+  "token": "string"
+}
+```
+
+_Response (200 - OK)_
+
+```json
+{
+  "access_token": "string"
+}
+```
+
+_Response (201 - CREATED)_
+
+```json
+{
+  "id": "integer",
+  "email": "string",
+  "name": "string",
+  "access_token": "string"
+}
+```
+
 &nbsp;
 
 ## 3. GET /class
 
 Description:
-- Get all course from database
+- Get all class from database
+
+_Response (200 - OK)_
+
+```json
+[
+  {
+    "title": "Intro Vue",
+    "instructor": "Arnold Therigan",
+    "imageUrl": "https://docs.vuejs.id/images/logo.png",
+    "description": "Mempelajari React JS dengan Instructor berpengalaman",
+    "price": 550000,
+    "category": "Front End"
+  },
+  {
+    "title": "REST API",
+    "instructor": "Edison",
+    "imageUrl": "https://billwerk.io/wp-content/uploads/sites/2/2019/05/icons-restapi-350x350.png",
+    "description": "Mempelajari React JS dengan Instructor berpengalaman",
+    "price": 550000,
+    "category": "Front End"
+  },
+  {
+    "title": "JQuery & Bootstrap",
+    "instructor": "Rifki Fauzi",
+    "imageUrl": "https://www.kindpng.com/picc/m/445-4450455_css-logo-jquery-html-css-and-jquery-hd.png",
+    "description": "Mempelajari React JS dengan Instructor berpengalaman",
+    "price": 550000,
+    "category": "Front End"
+  },
+  ...,
+]
+```
+
+## GET /class/:id
+
+Description:
+- Get class by id
 
 Request:
 
-- headers: 
+- params:
 
 ```json
 {
-  "access_token": "string"
+  "id": "integer"
 }
 ```
 
@@ -161,24 +239,13 @@ _Response (200 - OK)_
 ```json
 [
   {
-    "id": 1,
     "title": "Intro Vue",
     "instructor": "Arnold Therigan",
-    "imageUrl": "https://docs.vuejs.id/images/logo.png"
-  },
-  {
-    "id": 2,
-    "title": "REST API",
-    "instructor": "Edison",
-    "imageUrl": "https://billwerk.io/wp-content/uploads/sites/2/2019/05/icons-restapi-350x350.png"
-  },
-  {
-    "id": 3,
-    "title": "JQuery & Bootstrap",
-    "instructor": "Rifki Fauzi",
-    "imageUrl": "https://www.kindpng.com/picc/m/445-4450455_css-logo-jquery-html-css-and-jquery-hd.png"
-  },
-  ...,
+    "imageUrl": "https://docs.vuejs.id/images/logo.png",
+    "description": "Mempelajari React JS dengan Instructor berpengalaman",
+    "price": 550000,
+    "category": "Front End"
+  }
 ]
 ```
 
@@ -187,7 +254,7 @@ _Response (200 - OK)_
 ## 4. POST /myclass/:classId
 
 Description:
-- Add course to my course
+- Add class to myclass
 
 Request:
 
@@ -231,7 +298,7 @@ _Response (404 - Not Found)_
 ## 5. GET /myclass
 
 Description:
-- Get all my course from user
+- Get all my class from user
 
 Request:
 
@@ -250,26 +317,30 @@ _Response (200 - OK)_
   {
     "id": 2,
     "UserId": 1,
-    "CourseId": 2,
+    "ClassId": 2,
     "status": "Uncompleted",
-    "Course": {
-      "title": "REST API",
-      "instructor": "Edison",
-      "day": "Wednesday,Friday",
-      "imageUrl": "https://billwerk.io/wp-content/uploads/sites/2/2019/05/icons-restapi-350x350.png"
-    }
+    "Class": {
+       "title": "Intro Vue",
+       "instructor": "Arnold Therigan",
+       "imageUrl": "https://docs.vuejs.id/images/logo.png",
+       "description": "Mempelajari React JS dengan Instructor  berpengalaman",
+       "price": 550000,
+       "category": "Front End"
+     }
   },
   {
     "id": 1,
     "UserId": 1,
     "CourseId": 1,
     "status": "Completed",
-    "Course": {
-      "title": "Intro Vue",
-      "instructor": "Arnold Therigan",
-      "day": "Monday,Thursday,Saturday",
-      "imageUrl": "https://docs.vuejs.id/images/logo.png"
-    }
+    "Class": {
+       "title": "Intro Vue",
+       "instructor": "Arnold Therigan",
+       "imageUrl": "https://docs.vuejs.id/images/logo.png",
+       "description": "Mempelajari React JS dengan Instructor  berpengalaman",
+       "price": 550000,
+       "category": "Front End"
+     }
   }
   ...,
 ]

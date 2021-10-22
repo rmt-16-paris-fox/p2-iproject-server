@@ -15,6 +15,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.post('/register', Controller.register)
+
+app.patch('/verification/:verifyCode', Controller.verifyAccount)
   
 app.post('/login', Controller.login)
 
@@ -24,9 +26,13 @@ app.get('/class', Controller.getClass)
 
 app.get('/class/:id', Controller.getClassById)
 
+app.get('/getVideos/:query', Controller.getVideos)
+
 app.use(authentication)
   
 app.post('/myclass/:classId', Controller.addClass)
+
+app.get('/payment', Controller.payment)
   
 app.get('/myclass', Controller.getMyClass)
   
