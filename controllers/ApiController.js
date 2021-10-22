@@ -88,7 +88,7 @@ class ApiController {
   static async memeGenerator(req, res, next) {
     axios({
         method: "GET",
-        url: "https://meme-api.herokuapp.com/gimme/50",
+        url: "https://meme-api.herokuapp.com/gimme/40",
       })
       .then((responseAxios) => {
         res.status(200).json({

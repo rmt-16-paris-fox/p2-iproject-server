@@ -92,7 +92,7 @@ _Response (500 - Server Error)_
 
 ### GET /api/partner
 
-> GET instagram data
+> GET partner instagram data
 
 _Request Headers_
 
@@ -353,7 +353,7 @@ _Response (500 - Server Error)_
 
 ### GET /api/celebBirth
 
-> GET instagram data
+> GET celebrity birth data
 
 _Request Headers_
 
@@ -619,7 +619,7 @@ _Response (500 - Server Error)_
 
 ### GET /api/celebPrice
 
-> GET instagram data
+> GET celebrity price data
 
 _Request Headers_
 
@@ -771,7 +771,7 @@ _Response (500 - Server Error)_
 
 ### GET /api/meme
 
-> GET instagram data
+> GET meme data
 
 _Request Headers_
 
@@ -869,6 +869,60 @@ _Response (200 - Created)_
             }
         ]
     }
+}
+```
+
+_Response (500 - Server Error)_
+
+```
+{
+    "message": "Internal Server Error"
+}
+```
+
+### POST /contact
+
+> POST contact
+
+_Request Headers_
+
+```
+not needed
+```
+
+_Request Params_
+
+```
+{
+    UserId
+}
+```
+
+_Request Body_
+
+```
+{
+    name,
+    email,
+    perusahaan,
+    topik,
+    pesan
+}
+```
+
+_Response (200 - Created)_
+
+```
+{
+    "id": 28,
+    "name": "dandy",
+    "email": "dandyraspudi@gmail.com",
+    "perusahaan": "Freelance",
+    "topik": "kerjasama iklan",
+    "pesan": "saya berniat kerjasama iklan bersama tim dagelan",
+    "UserId": 1,
+    "updatedAt": "2021-10-21T23:25:56.655Z",
+    "createdAt": "2021-10-21T23:25:56.655Z"
 }
 ```
 
