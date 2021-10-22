@@ -7,6 +7,7 @@ const {
 const {
   OAuth2Client
 } = require('google-auth-library');
+const FacebookStrategy = require('passport-facebook').Strategy;
 
 class UserController {
   static async postRegister(req, res, next) {
@@ -94,8 +95,7 @@ class UserController {
   }
 
   static async postOAuth(req, res, next) {
-    const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
-    const client = new OAuth2Client(CLIENT_ID);
+    const CLIENT_ID = process.env.CLIENT_ID_FB;
     const idToken = req.body.idTokenClient;
 
     try {
@@ -139,6 +139,7 @@ class UserController {
       next(error)
     }
   }
+
 }
 
 module.exports = UserController
