@@ -1,10 +1,32 @@
-admin login
+admin login for test
 
 ```
 {
 
   "email": "diondpkp@gmail.com",
   "password" : "laripagi"
+
+}
+```
+
+mentor login for test
+
+```
+{
+
+  "email": "diondpkp97@gmail.com",
+  "password" : "diondpkp97@gmail.com"
+
+}
+```
+
+Student login for test
+
+```
+{
+
+  "email": "student@gmail.com,
+  "password" : "student@gmail.com"
 
 }
 ```
