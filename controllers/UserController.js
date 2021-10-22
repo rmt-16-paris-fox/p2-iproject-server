@@ -20,7 +20,7 @@ class UserController {
         };
 
         const token = createToken(payload);
-        res.status(200).json({ access_token: token });
+        res.status(200).json({ access_token: token, role: cek_login.role });
       }
     } catch (err) {
       next(err);
