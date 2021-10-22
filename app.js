@@ -57,6 +57,11 @@ io.on("connection", (socket) => {
         id: socket.id,
       });
 
+      if (userFound.dataValues !== "admin") {
+        io.to(1).emit("sendDataAdmin", {
+          users: users,
+        });
+      }
       // io.to(id).emit("logMessage", JSON.parse(userFound.dataValues.chatLog));
     } catch (err) {
       console.log(err);
