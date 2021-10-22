@@ -1,6 +1,5 @@
 require("dotenv").config();
 const express = require("express");
-const { createServer } = require("http");
 
 const port = process.env.PORT || 3000;
 
@@ -8,8 +7,16 @@ const app = express();
 const cors = require("cors");
 const router = require("./routes");
 
-const server = require("http").Server(app);
-const io = require("socket.io")(server);
+const { createServer } = require("http");
+const { Server } = require("socket.io");
+
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: "http://localhost:8080",
+    methods: ["GET", "POST"],
+  },
+});
 
 app.use(cors());
 app.use(express.json());
@@ -22,25 +29,42 @@ const { User } = require("./models");
 let users = [];
 
 io.on("connection", (socket) => {
-  console.log("user connected", socket.id);
+  // console.log("user connected", socket.id);
 
-  socket.on("log", async (msg) => {
-    // socket.emit("get-rooms", rooms);
+  socket.on("loginUser", async (user) => {
     try {
-      // console.log(msg);
-      const foundItem = await User.findOne({
+      const [userFound, created] = await User.findOrCreate({
         where: {
-          name: msg.name,
+          name: user,
+        },
+        defaults: {
+          role: user === "Colin" ? "admin" : "customer",
         },
       });
-      if (!foundItem) {
-        // Item not found, create a new one
-        const item = await User.create({
-          name: msg.name,
-          chatLog: JSON.stringify(msg.log),
-        });
-        return { item, created: true };
-      }
+
+      let id = userFound.dataValues.id;
+
+      socket.join(id);
+
+      users.push({
+        name: userFound.dataValues.name,
+        id: id,
+      });
+
+      io.to(id).emit("sendMessage", {
+        message: { message: user + " is logged in", name: user },
+        user: socket.username,
+        id: socket.id,
+      });
+
+      // io.to(id).emit("logMessage", JSON.parse(userFound.dataValues.chatLog));
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
+  socket.on("log", async (msg) => {
+    try {
       // Found an item, update it
       const item = await User.update(
         { name: msg.name, chatLog: JSON.stringify(msg.log) },
@@ -50,7 +74,6 @@ io.on("connection", (socket) => {
           },
         }
       );
-      // console.log({ item, created: false });
       return { item, created: false };
     } catch (err) {
       console.log(err);
@@ -59,35 +82,18 @@ io.on("connection", (socket) => {
 
   socket.on("newMessage", (msg) => {
     // console.log(msg);
+    // if(msg.name !== 'Colin') {
 
+    // }
+    // else{
+
+    // }
     io.emit("sendMessage", {
       message: msg,
       user: socket.username,
       id: socket.id,
     });
   });
-
-  socket.on("new user", (usr) => {
-    socket.username = usr;
-    console.log("User connected - Username: " + socket.username);
-  });
-
-  socket.on("loginUser", async (user) => {
-    users.push(user);
-    console.log(users);
-    try {
-      const foundItem = await User.findOne({
-        where: {
-          name: user,
-        },
-      });
-      io.emit("logMessage", JSON.parse(foundItem.dataValues.chatLog));
-    } catch (err) {
-      console.log(err);
-    }
-  });
 });
 
-io.engine.on("initial_headers", (headers, req) => {});
-
-server.listen(port, () => console.log("is running on", port));
+httpServer.listen(port, () => console.log("is running on", port));

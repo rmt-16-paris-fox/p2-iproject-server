@@ -4,7 +4,7 @@ class Controller {
   static async getAll(req, res, next) {
     try {
       let { city, state_code } = req.query;
-      console.log(city, state_code);
+      // console.log(city, state_code);
       let result = await axios({
         method: "GET",
         url: "https://realty-in-us.p.rapidapi.com/properties/v2/list-for-sale",
@@ -18,7 +18,7 @@ class Controller {
         headers: {
           "x-rapidapi-host": "realty-in-us.p.rapidapi.com",
           "x-rapidapi-key":
-            "8c1a98ca86msh414575b59aef520p1d0266jsnbb0eda989a48",
+            "31d42290c9mshe198273a4db5dd4p18eff9jsnf01df8daf62e",
         },
       });
       // console.log(result.data);
@@ -33,21 +33,20 @@ class Controller {
   }
   static async getCity(req, res, next) {
     try {
-      let { state_code } = req.query;
+      let { searchInput } = req.query;
       let result = await axios({
         method: "GET",
         url: "https://realty-in-us.p.rapidapi.com/locations/auto-complete",
-        params: { input: state_code },
+        params: { input: searchInput },
         headers: {
           "x-rapidapi-host": "realty-in-us.p.rapidapi.com",
           "x-rapidapi-key":
-            "8c1a98ca86msh414575b59aef520p1d0266jsnbb0eda989a48",
+            "31d42290c9mshe198273a4db5dd4p18eff9jsnf01df8daf62e",
         },
       });
-
       let cities = [];
       result.data.autocomplete.forEach((el) => {
-        cities.push(el.city);
+        cities.push({ city: el.city, state_code: el.state_code });
       });
       res.status(200).json(cities);
     } catch (err) {
